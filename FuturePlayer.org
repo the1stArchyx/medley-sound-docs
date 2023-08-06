@@ -1,0 +1,290 @@
+#+TITLE:Future Player data structures and stuff
+
+Future Player is Paul van der Valk's music player routine
+from around 1988.
+
+Data (instrument, wave, track, etc.) names at working stage were 8
+bytes, so it's a common requirement to add 8 to many data pointers
+when the names have been stripped from the song data. This same
+convention is used in Medley Sound as well, which can make reverse
+engineering confusing.
+
+The scrap of source code of Medley Sound player routine provided some
+help in reverse-engineering the player and song data. There are likely
+some inaccuracies in the data presented here and as a work-in-progress
+document it is not polished.
+
+The source data used to reverse engineer the player is a copy of the
+game Hybris. Some references here may be to hardcoded memory
+addresses.
+
+
+* Track data
+
+** Header
+
+| offset | length | description                                          |
+|--------+--------+------------------------------------------------------|
+|   0x00 | .b ×8  | track name (may be stripped from embedded song data) |
+|   0x08 | .l     | pointer to track data, typically the next byte after |
+
+When digging a Future Player song out of random data, it'll be helpful
+to search for occurrences of two-byte sequence 8000, typically aligned
+to even addresses. In case of multiple tracks with stripped names,
+many of the track data pointers mentioned above are followed right
+after the track end code of the previous track.
+
+Once locations of track data are identified, locations of other data
+can be traced by decoding the track data, especially SCODEs 8100
+(instruments) and 8200 (arpeggiator tracks).
+
+Score data preceding the instrument can be identified by four
+long-word pointers to initial tracks.
+
+
+** Notes
+
+A single line of track data typically consists of two bytes, a
+note/SCODE byte and an operand byte.
+
+0x00 = rest
+
+|    |    0 |    1 |    2 |    3 |    4 |    5 |    6 |    7 |
+|----+------+------+------+------+------+------+------+------|
+| C  | 0x02 | 0x0e | 0x1a | 0x26 | 0x32 | 0x3e | 0x4a | 0x56 |
+| C# | 0x03 | 0x0f | 0x1b | 0x27 | 0x33 | 0x3f | 0x4b | 0x57 |
+| D  | 0x04 | 0x10 | 0x1c | 0x28 | 0x34 | 0x40 | 0x4c | 0x58 |
+| D# | 0x05 | 0x11 | 0x1d | 0x29 | 0x35 | 0x41 | 0x4d | 0x59 |
+| E  | 0x06 | 0x12 | 0x1e | 0x2a | 0x36 | 0x42 | 0x4e | 0x5a |
+| F  | 0x07 | 0x13 | 0x1f | 0x2b | 0x37 | 0x43 | 0x4f | 0x5b |
+| F# | 0x08 | 0x14 | 0x20 | 0x2c | 0x38 | 0x44 | 0x50 | 0x5c |
+| G  | 0x09 | 0x15 | 0x21 | 0x2d | 0x39 | 0x45 | 0x51 | 0x5d |
+| G# | 0x0a | 0x16 | 0x22 | 0x2e | 0x3a | 0x46 | 0x52 | 0x5e |
+| A  | 0x0b | 0x17 | 0x23 | 0x2f | 0x3b | 0x47 | 0x53 | 0x5f |
+| Bb | 0x0c | 0x18 | 0x24 | 0x30 | 0x3c | 0x48 | 0x54 | 0x60 |
+| B  | 0x0d | 0x19 | 0x25 | 0x31 | 0x3d | 0x49 | 0x55 | 0x61 |
+
+For notes the operand byte is the length of the note up to 0x7f. If
+bit 7 is set, the note is tied, ie. not retriggered. This allows
+portamento by setting portamento speed (84 00 xxxx) between the notes.
+
+
+** SCODEs
+
+SCODEs may use a longer parameter in the form of a 16-bit word or a
+32-bit longword. Longwords are typically used to point to other song
+data, ie. other tracks, instruments, and arp tables.
+
+Medley Sound did away with these fixed pointers and used the operand
+byte to reduce track data size and make the data more easily
+relocatable.
+
+| scode            | description                     | notes                                                      |
+|------------------+---------------------------------+------------------------------------------------------------|
+| 80 00            | track end                       | operand is ignored, but should be 00                       |
+| 81 00 + longword | set instrument                  | operand is ignored, followed by a pointer to an instrument |
+| 82 00 + longword | set arpeggiator                 | operand is ignored, followed by a pointer to an arp table  |
+| 83 00            | arp off                         | operand is ignored, but should be 00                       |
+| 84 00 + word     | portamento speed (0x0000 = off) | operand is ignored, followed by an unsigned word           |
+| 85 00            | [not used => rts]               |                                                            |
+| 86 00 + longword | go to subtrack                  | stores current NotePtr before jump                         |
+| 87 00 + longword | go to track                     | pointer points 8 bytes before start of track data pointer  |
+| 88 xx            | repeat xx times                 | operand is repeat count, clears (0xaf,SCH)                 |
+| 89 00            | loop                            |                                                            |
+| 8a 00            | loop                            | test (0xaf,SCH), no countdown                              |
+| 8b xx            | set transpose 1                 | operand is signed                                          |
+| 8c xx            | set transpose 2                 | operand is signed                                          |
+| 8d 00            | stop track                      | stop track, turn audio channel DMA off                     |
+| 8e 00            | reset track update counter      | clears longword at 0x3f720                                 |
+
+
+* Structures
+
+** (A4) – Instrument parameters
+
+| offset | (w/out name) | size  | name                | description                       |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x00 |              | .b ×8 | ~iPar_Name~         | name                              |
+|   0x08 |         0x00 | .b    | ~iPar_Volume~       | volume                            |
+|   0x09 |         0x01 | .b    |                     |                                   |
+|   0x0a |         0x02 | .l    |                     | pointer ?                         |
+|   0x0e |         0x06 | .b    | ~iPar_Detune0~      | detune, ch 0                      |
+|   0x0f |         0x07 | .b    | ~iPar_Detune1~      | detune, ch 1                      |
+|   0x10 |         0x08 | .b    | ~iPar_Detune2~      | detune, ch 2                      |
+|   0x11 |         0x09 | .b    | ~iPar_Detune3~      | detune, ch 3                      |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x12 |         0x0a | .b    | ~iPar_AttackRate~   | ADSR, attack rate                 |
+|   0x13 |         0x0b | .b    | ~iPar_PeakLevel~    | ADSR, peak level                  |
+|   0x14 |         0x0c | .b    | ~iPar_Decay1Rate~   | ADSR, decay 1 rate                |
+|   0x15 |         0x0d | .b    | ~iPar_Decay1Level~  | ADSR, decay 1 target level        |
+|   0x16 |         0x0e | .b    | ~iPar_Decay2Rate~   | ADSR, decay 2 rate                |
+|   0x17 |         0x0f | .b    | ~iPar_SustainLevel~ | ADSR, sustain level               |
+|   0x18 |         0x10 | .b    | ~iPar_ReleaseRate~  | ADSR, release rate                |
+|   0x19 |         0x11 | .b    |                     | ADSR, some sort of behaviour flag |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x1a |         0x12 | .l    | ~iPar_ModWave1~     | * modulating wave 1 (FreqMod1)    |
+|   0x1e |         0x16 | .b    | ~iPar_Mod1Exp~      | Modulation exponent               |
+|   0x1f |         0x17 | .b    | ~iPar_Mod1Delay~    | Delay before start of modulation  |
+|   0x20 |         0x18 | .b    | ~iPar_Mod1Flags~    | (see table below)                 |
+|   0x21 |         0x19 | .b    | ~iPar_Mod1Inv~      |                                   |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x22 |         0x1a | .l    | ~iPar_ModWave2~     | * modulating wave 2 (FreqMod2)    |
+|   0x26 |         0x1e | .b    | ~iPar_Mod2Exp~      | Modulation exponent               |
+|   0x27 |         0x1f | .b    | ~iPar_Mod2Delay~    | Delay before start of modulation  |
+|   0x28 |         0x20 | .b    | ~iPar_Mod2Flags~    | (see table below)                 |
+|   0x29 |         0x21 | .b    | ~iPar_Mod2Inv~      |                                   |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x2a |         0x22 | .l    | ~iPar_ModWave3~     | * modulating wave 3 (BaseShift)   |
+|   0x2e |         0x23 | .b    | ~iPar_Mod3Exp~      | Modulation exponent               |
+|   0x2f |         0x27 | .b    | ~iPar_Mod3Delay~    | Delay before start of modulation  |
+|   0x30 |         0x28 | .b    | ~iPar_Mod3Flags~    | (see table below)                 |
+|   0x31 |         0x29 | .b    |                     |                                   |
+|--------+--------------+-------+---------------------+-----------------------------------|
+|   0x32 |         0x2a | .l    | ~iPar_ModWave4~     | * modulating wave 4 (BaseShift)   |
+|   0x36 |         0x2e | .b    | ~iPar_Mod4Exp~      | Modulation exponent               |
+|   0x37 |         0x2f | .b    | ~iPar_Mod4Delay~    | Delay before start of modulation  |
+|   0x38 |         0x30 | .b    | ~iPar_Mod4Flags~    | (see table below)                 |
+|   0x39 |         0x31 | .b    |                     |                                   |
+
+
+*** ~iPar_Mod#Flags~
+
+| bit | flag        |
+|-----+-------------|
+|   7 | single-shot |
+
+
+
+** wave / actual table
+
+| offset |      | size  | name           | description       |
+|--------+------+-------+----------------+-------------------|
+|   0x00 |      | .b ×8 | ~ww_Name~      | wave name         |
+|   0x08 | 0x00 | .l    | ~ww_DataPtr~   | * wave data       |
+|   0x0c | 0x04 | .w    | ~ww_SizeOf~    | wave data length  |
+|   0x0e | 0x06 |       |                |                   |
+|   0x0f | 0x07 |       |                |                   |
+|   0x10 | 0x08 | .b    | ~ww_Flags~     | (see table below) |
+|   0x11 | 0x09 | .b    | ~ww_Transpose~ |                   |
+
+
+*** ~ww_Flags~
+
+| bit | flag                                       |
+|-----+--------------------------------------------|
+|   0 | Double-buffered (for BaseShift modulation) |
+|   1 | Single-shot (not looped)                   |
+
+
+
+** (A3) - wave parameters
+
+| offset | size  | name          | description                                                                                            |
+|--------+-------+---------------+--------------------------------------------------------------------------------------------------------|
+|   0x00 | .b ×8 |               | name                                                                                                   |
+|   0x08 | .b    |               | If 0, wavPar_Wave is a pointer to a wave structure (This is tested many times, but what it really is?) |
+|   0x09 | .b    |               |                                                                                                        |
+|   0x0a | .l    | ~wavPar_Wave~ | * wave                                                                                                 |
+
+
+** SCO - score
+
+This was a bit annoying to reverse engineer as the song data was
+inlined in the replay routine with names stripped and there was a
+six-byte jump operation in place of the score name.
+
+| offset | (w/o name) | size  | name           | description                                                                             |
+|--------+------------+-------+----------------+-----------------------------------------------------------------------------------------|
+|   0x00 |            | .b ×8 | ~sco_Name~     | name                                                                                    |
+|   0x08 |       0x00 | .l    | ~sco_Track0~   | Initial track for channel 0                                                             |
+|   0x0c |       0x04 | .l    | ~sco_Track1~   | Initial track for channel 1                                                             |
+|   0x10 |       0x08 | .l    | ~sco_Track2~   | Initial track for channel 2                                                             |
+|   0x14 |       0x0c | .l    | ~sco_Track3~   | Initial track for channel 3                                                             |
+|   0x18 |       0x10 | .b    | ~sco_UpdReduc~ | 1..8 (tested 1..7, any other value sets to 8), higher value slows down song update rate |
+|   0x19 |       0x11 | .b    | ~sco_Tempo~    | "TAHI" for CIA timer                                                                    |
+
+
+** INS - instrument table (typically A2, this is "the instrument")
+
+| offset | size  | name | description             |
+|--------+-------+------+-------------------------|
+|   0x00 | .b ×8 |      | name                    |
+|   0x08 | .l    |      | * wave parameters       |
+|   0x0c | .l    |      | * instrument parameters |
+
+
+** ARP - arpeggiator table
+
+Arpeggiator tables are short 10-byte tracks where each byte is
+analoguous to ProTracker's 0xy command's x and y. An arpeggiator track
+always ends with 0x80.
+
+| offset | size   | description                                                |
+|--------+--------+------------------------------------------------------------|
+|   0x00 | .b ×8  | name                                                       |
+|   0x08 | .b ×10 | arpeggiator data, one signed byte per step, ends with 0x80 |
+
+
+** SCH - sound channel tructure (typically A0, not in song data)
+
+| offset | size   | name                     | init value | description                                                                            |
+|--------+--------+--------------------------+------------+----------------------------------------------------------------------------------------|
+|   0x00 | .b     | ~sch_IsActive~           |      -0x80 | <0 = DMA off ; 0 = note off ; >0 = note on                                             |
+|   0x01 | .b     | ~sch_Trig~               |      -0x80 | <0 =? off ; 0 =? sustain reached ; >0 =? attack/decay                                  |
+|   0x04 | .w     | ~sch_LoopIndex~          |            | indexes ~sch_ReturnPtr~, ~sch_LoopCount~, and ~sch_LoopRepPtr~; always a multiple of 4 |
+|   0x06 | .l ×8  | ~sch_ReturnPtr~          |            | stored NotePtr for gosub, first element points to start of the initial track           |
+|   0x26 | .l ×8  | ~sch_LoopCount~          |            | loopcount is stored in MSB, other bytes are not used                                   |
+|   0x46 | .l ×8  | ~sch_LoopRepPtr~         |            | stored NotePtr for loop                                                                |
+|   0x68 | .l     | ~sch_Instrument~         |            | * instrument                                                                           |
+|   0x6c | .l     | ~sch_DefInstrument~      |            | * default instrument                                                                   |
+|   0x70 | .l     | ~sch_ArpTable~           |            | * arpeggiator table                                                                    |
+|   0x74 | .w     | ~sch_ArpIndex~           |            | Arpeggiator index counter, resets to 0 when 0x80 is encountered                        |
+|   0x76 | .w     | ~sch_PortaSpeed~         |            | portamento speed, 0 = off                                                              |
+|   0x78 | .l     | ~sch_PaulaPtr~           |            | * Paula hardware register                                                              |
+|   0x7c | .w     | ~sch_DmaMask0~           |            | bitmask to turn off DMA                                                                |
+|   0x7e | .w     | ~sch_DmaMask1~           |            | bitmask to turn on DMA                                                                 |
+|   0x80 | .w     | ~sch_Volume1~            |            | Global volume                                                                          |
+|   0x82 | .b     | ~sch_Volume2h~           |       0x00 |                                                                                        |
+|   0x83 | .b     | ~sch_Volume2l~           |            | volume (ADSR target)                                                                   |
+|   0x84 | .b     | ~sch_ADSR~               |            | ADSR mode (0 = attack; 1 = decay1; 2 = decay2; 3 = sustain)                            |
+|   0x86 | .w     | ~sch_Detune~             |     0x0000 | channel detune                                                                         |
+|   0x88 | .w     | ~sch_ModWave1Index~      |            | Frequency Modulation 1 index/wave pointer                                              |
+|   0x8a | .w     | ~sch_ModWave2Index~      |            | Frequency Modulation 2 index/wave pointer                                              |
+|   0x8c | .w     | ~sch_ModWave3Index~      |            | Baseshift Modulation 1 index/wave pointer                                              |
+|   0x8e | .w     | ~sch_ModWave4Index~      |            | Baseshift Modulation 2 index/wave pointer                                              |
+|   0x90 | .b     | ~sch_Mod1DelayCountdown~ |            | FM 1                                                                                   |
+|   0x91 | .b     | ~sch_Mod2DelayCountdown~ |            | FM 2                                                                                   |
+|   0x92 | .b     | ~sch_Mod3DelayCountdown~ |            | BSM 1                                                                                  |
+|   0x93 | .b     | ~sch_Mod4DelayCountdown~ |            | BSM 2                                                                                  |
+|   0x94 | .b     | ~sch_Transpose1~         |       0x00 |                                                                                        |
+|   0x95 | .b     | ~sch_Transpose2~         |       0x00 |                                                                                        |
+|   0x96 | .b     |                          |       0x00 |                                                                                        |
+|   0x9c | .w     |                          |            | ?? countdown ??                                                                        |
+|   0x9e | .b     | ~sch_LogNote~            |            |                                                                                        |
+|   0x9f | .b     | ~sch_Duration~           |            |                                                                                        |
+|   0xa0 | .w     | ~sch_Period~             |            | Transposed, arp'd, and portamento'd period, no FM or detune                            |
+|   0xa2 | .w     | ~sch_Period2~            |            | The actual FM'd and detuned output period                                              |
+|   0xa4 | .b     | ~sch_LogNote2~           |            | Set when note is on, zeroed when note is off.                                          |
+|   0xa5 | .b     | ~sch_LogNote3~           |            | Set to turn audio DMA on.                                                              |
+|   0xa6 | .l     | ~sch_NotePtr~            |            | Pointer to track data, used to read memory with post-increment                         |
+|   0xaf | .b     |                          |            |                                                                                        |
+|   0xb0 | .b     | ~sch_WaveValid~          |            | 0xff = True; 0x00 = False, get wave parameters                                         |
+|   0xb1 | .b     | ~sch_WaveLenH~           |            | High byte of wave data length                                                          |
+|   0xb2 | .l     | ~sch_WavePtr~            |            | * wave data                                                                            |
+|   0xb6 | .b (l) |                          |            | (more wave stuff)                                                                      |
+|   0xb7 | .b     |                          |            | (even more wave stuff)                                                                 |
+|   0xb8 | .b     | ~sch_WaveFlags~          |            |                                                                                        |
+|   0xb9 | .b     | ~sch_WaveTranspose~      |            |                                                                                        |
+|   0xba | .l     | ~sch_WaveStruc~          |            | * wave structure                                                                       |
+
+length : 0xbe
+
+
+* DMA masks
+
+| channel | DmaMask0 | DmaMask1                   |
+|---------+----------+----------------------------|
+|       0 | 0001 = 1 | 1000 0000 0000 0001 = 8001 |
+|       1 | 0010 = 2 | 1000 0000 0000 0010 = 8002 |
+|       2 | 0100 = 4 | 1000 0000 0000 0100 = 8004 |
+|       3 | 1000 = 8 | 1000 0000 0000 1000 = 8008 |

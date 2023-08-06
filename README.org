@@ -1,0 +1,15 @@
+* Medley Sound documentation project
+
+This is an attempt to document Paul van der Valk's Medley Sound.
+
+Medley Sound is the successor of Future Player and probably the most
+known application it was used for was the background music of Imploder
+V4.0.
+
+In addition to plain documentation, some programs are supplied:
+
+- tools/msodecode.py – a program to display MSOB flags, scores,
+  tracks, instruments, and waves.
+- tools/mso2pvms.py – a program to convert a Medley Sound Object
+  (MSOB) back to the "PVMS" format readable by Medley Sound Editor
+  (msed).

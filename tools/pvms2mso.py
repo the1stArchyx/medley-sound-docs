@@ -13,7 +13,10 @@ def main():
 
     # check magic bytes
     if pvms_bytes[0:4] == b"PVMS":
-        # continue
+        # 1. Read PVMS into an object and sanity check it.
+        # 2. Start interactive mode to choose scores to export.
+        # 3. Create substitution tables to skip unused tracks, instruments, and waves.
+        # 4. Export data, trim track lines not used by the player routine.
         pass
     else:
         print("\nError: file type unknown.\n")

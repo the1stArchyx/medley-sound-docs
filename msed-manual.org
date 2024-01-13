@@ -832,20 +832,20 @@ four waveform displays on top: current sample buffer (Source A),
 Source B, Result, and Undo Buffer.  Source B can be used to copy
 sample data to other waves/samples.
 
-|-----+-------------------------------------------|
-| ~/~ | Swap sources A and B                      |
-| ~,~ | Copy Result to Source A                   |
-| ~.~ | Copy Source A to Source B                 |
-| ~u~ | Copy Undo buffer to Source A, "undo"      |
-| ~k~ | Copy Source A to Undo Buffer, "kill"      |
-| ~r~ | Rename wave                               |
-| ~c~ | Change wave ie. choose another wave       |
-| ~N~ | Allocate a new wave (into an unused slot) |
-| ~S~ | Set wave buffer "single"                  |
-| ~D~ | Set wave buffer "double"                  |
-| ~o~ | Perform [[we_ops][operations]]                        |
-| ~p~ | Generate a [[we_preset][preset]] waveform                |
-|-----+-------------------------------------------|
+|--------------+-------------------------------------------|
+| ~/~          | Swap sources A and B                      |
+| ~,~ (comma)  | Copy Result to Source A                   |
+| ~.~ (period) | Copy Source A to Source B                 |
+| ~u~          | Copy Undo buffer to Source A, "undo"      |
+| ~k~          | Copy Source A to Undo Buffer, "kill"      |
+| ~r~          | Rename wave                               |
+| ~c~          | Change wave ie. choose another wave       |
+| ~N~          | Allocate a new wave (into an unused slot) |
+| ~S~          | Set wave buffer "single"                  |
+| ~D~          | Set wave buffer "double"                  |
+| ~o~          | Perform [[we_ops][operations]]                        |
+| ~p~          | Generate a [[we_preset][preset]] waveform                |
+|--------------+-------------------------------------------|
 
 
 ** Frags

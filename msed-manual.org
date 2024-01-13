@@ -7,28 +7,28 @@
 
 * Medley Sound editor V1.0 manual
 
-Medley Sound is the legendary software that was used to make the
-background music for the Imploder 4.0. The two songs used in it were
-called "Plodemusic" and "requester deun", the first one being the main
+Medley Sound is the software that was used to make the background
+music for the Imploder 4.0.  The two songs used in it were called
+"Plodemusic" and "requester deun", the first one being the main theme
 tune and latter was the tune that played after the file implosion was
 done and the save requester was shown.
 
 This manual is a creation based on a lot of experimentation and some
-reverse engineering of the player routine and the editor. All of this
-was written because the original complete source code and whatever
-documentation there had been was partially lost prior to Paul
+reverse engineering of the Medley Sound player routine and the editor.
+All of this was written because the original complete source code and
+whatever documentation there had been was partially lost prior to Paul
 releasing what little was left of this legendary software.
 
 The editor doesn't have a very polished interface and plenty of the
 values for various parameters just have to be known, so this manual is
-an attempt document these various parameters and their functional
+an attempt to document these various parameters and their functional
 values to make the editor useful once again.
 
 
-** Some common commands and input methods
+** Some common commands and data input schemes
 
-Since the editor has certain common control methods, some of the
-commands and input methods are shared between different editors:
+The different parts of the editor share certain common commands and
+data input schemes.  The typical commands are as follows:
 
 |-------------+------------------------------------|
 | ~c~         | Change instrument/score/track/wave |
@@ -49,10 +49,10 @@ with the default ~us~ keymap.
 *** Number entry
 
 A typical single-byte number entry uses the typewriter keyboard to
-input individual hexadecimal numbers. The current number in the single
-digit position is pushed into tens and the number in tens is
-discarded. The numpad is used in a special way to modify the existing
-number:
+input individual hexadecimal numbers.  The current number in the
+single digit position is pushed into tens and the number in tens is
+discarded.  The ~1~ to ~9~ on the numpad is used in a special way to
+modify the existing number:
 
 +-----+-----+-----+-----+
 |  [  |  ]  |  /  |  *  |
@@ -70,7 +70,7 @@ number:
 ** Supervisor
 
 The editor features a "Supervisor" console from which certain
-statistics can be viewed. It also features optimising tools to delete
+statistics can be viewed.  It also features optimising tools to delete
 unused tracks, instruments, and waves to reduce memory footprint.
 
 However, at least some of these optimising tools have logic flaws
@@ -89,15 +89,15 @@ Shows basic information about the current song in memory.
 *** ~l~ – list
 
 This command is used to list allocated instruments, scores, tracks, or
-waves in the Supervisor console. ~l~ alone does nothing. See table
+waves in the Supervisor console.  ~l~ alone does nothing.  See table
 below.
 
-|------+--------------------|
-| ~li~ | List instruments   |
-| ~ls~ | List scores        |
-| ~lt~ | List tracks        |
-| ~lw~ | List waves/samples |
-|------+--------------------|
+|------+----------------------|
+| ~li~ | List instruments     |
+| ~ls~ | List scores          |
+| ~lt~ | List tracks          |
+| ~lw~ | List waves (samples) |
+|------+----------------------|
 
 
 *** TODO ~m~ and ~v~ – monitor and view
@@ -108,8 +108,9 @@ These commmands are used to clean up unused song parts before
 exporting the song into assembly source.
 
 Since these functions can be very unreliable, it's preferred to use an
-external tool to convert a PVMS project selectively into an MSOB. This
-document contains all the information needed to create such a tool.
+external tool to convert a PVMS project selectively into an MSOB.
+This document contains all the information needed to create such a
+tool.
 
 
 **** ~os~ – Optimise scores
@@ -118,7 +119,7 @@ document contains all the information needed to create such a tool.
 corruption!
 
 The intention of score optimisation is to move all allocated scores
-one after another into a contiguous list. Due to a partial buggy
+one after another into a contiguous list.  Due to a partial buggy
 implementation it may write outside the intended memory space and
 corrupt memory.
 
@@ -143,6 +144,7 @@ used in scores and deletes all the tracks not referenced to.
 Scans through all scores and tracks for any used instruments and
 deletes any instruments not used.
 
+
 **** ~ow~ – Optimise waves
 
 Scans through all instruments and deletes all unused waves.
@@ -164,24 +166,24 @@ parameters that make each of 255 possible songs, $1..$ff.
 ** (t) Track Editor
 
 The Track Editor is used to create and edit tracks, the maximum number
-of them being 255, $1..$ff. Tracks are pieces of single channel note
-and control data and run independently from each other. Proper timing
+of them being 255, $1..$ff.  Tracks are pieces of single channel note
+and control data and run independently from each other.  Proper timing
 of tracks between channels is solely left to the song programmer,
 which allows great flexibility to reuse tracks efficiently.
 
 
 ** (i) Instrument Editor
 
-The Instrument Editor is used to define instrument parameters. There
+The Instrument Editor is used to define instrument parameters.  There
 can be a maximum number of 255 instruments, $1..$ff, each using 1 to 8
 waves defined by an octave table, a single volume envelope generator,
-and four modulation generators. Three operating modes are available to
-produce complex synthesis.
+and four modulation generators.  Three operating modes are available
+to produce complex synthesis.
 
 
 ** (w) Wave Editor
 
-The Wave Editor is also known as the Sample Editor. The Wave Editor
+The Wave Editor is also known as the Sample Editor.  The Wave Editor
 has facilities to generate pulse and trinagle/saw waves, or a
 precalculated sine wave, and an operation mode to edit and mix waves
 together.
@@ -189,7 +191,9 @@ together.
 
 ** (c) Chord Editor
 
-The Chord Editor is not implemented.
+The Chord Editor is not implemented.  It could be speculated that the
+intention was to create an arpeggiator similar to the Future Player
+implementation.
 
 
 ** (f) File Menu
@@ -200,7 +204,7 @@ special option to export the song as an assembly language source code.
 
 ** (Q) Quit
 
-To quit Medley Sound Editor you must press Shift + ~Q~. If you press
+To quit Medley Sound Editor you must press Shift + ~Q~.  If you press
 just ~q~, the editor will instruct "Shift-Q to Quit" in the title bar
 of the window.
 
@@ -208,7 +212,7 @@ of the window.
 * TODO Score Editor
 
 The Score Editor defines the starting tracks of the song played on the
-four channels. See Track Editor and the TRACK command to figure out
+four channels.  See Track Editor and the TRACK command to figure out
 how to nest tracks to make a song out of multiple tracks.
 
 
@@ -246,14 +250,16 @@ how to nest tracks to make a song out of multiple tracks.
 | Shift + ~X~ | Exchange tracks with secondary track set[fn:shiftX]              |
 |-------------+------------------------------------------------------------------|
 
-[fn:shiftX]Editor feature. Secondary tracks are not used by the player!
+[fn:shiftX]Editor feature. Secondary tracks are not used by the
+player! (Or something for the "Medley" feature that was never
+implemented.)
 
 
 ** Flanger
 
-The flanger effect is implemented as changing channel detunes. To
+The flanger effect is implemented as changing channel detunes.  To
 enable the flanger effect the Flang Speed and Flang Algorithm must be
-set non-zero. The Flang Speed is defined as an initial countdown
+set non-zero.  The Flang Speed is defined as an initial countdown
 value, ie. higher values deliver a slower effect.
 
 The flanger update is performed in the player interrupt code which
@@ -263,7 +269,8 @@ trigger".
 
 *** <<se_flalgo>>Flanger algorithms
 
-The five flanger algorithms are defined as follows:
+The five flanger algorithms are defined in the player routine as
+follows:
 
 |------+------+------+------+------|
 | alg# | ch 0 | ch 1 | ch 2 | ch 3 |
@@ -291,19 +298,20 @@ The five flanger algorithms are defined as follows:
 |------+------+------+------+------|
 
 The algorithms are always defined as a multiple of four bytes, one for
-each channel. Setting the algorithm 0 or beyond 5 will disable the
+each channel.  Setting the algorithm 0 or beyond 5 will disable the
 effect.
 
 
 ** TODO <<se_fx>>Sound effects
 
 Medley Sound was designed for game music and sound effects, so there
-naturally is support for the fx in the music player. FxBase (effect
-time base) and FxRnd (effect randomisation) are used to select sound
+naturally is support for the fx in the music player.  FxBase ("effect
+time base") and FxRnd (effect randomisation) are used to select sound
 channels for sound effects as well as randomising the "channel
 stealing" and how long a channel is kept "stolen".
 
-This feature requires more research.
+This feature requires more research.  For plain music playing the Fx
+parameters should be set to 0.
 
 
 * TODO Track Editor
@@ -329,14 +337,14 @@ This feature requires more research.
 | ~a~ .. ~g~       | set note                                               |
 | ~1~ .. ~9~       | set octave for note                                    |
 | ~`~ (back-quote) | tie note (an asterisk shown before the note)           |
-| ~!~              | [[te_TSIGN][TSIGN]]                                                  |
-| ~@~              | [[te_DYNLV][DYNLV]]                                                  |
-| ~#~              | [[te_INSTR][INSTR]]                                                  |
-| ~$~              | [[te_UDATA][UDATA]]                                                  |
-| ~%~              | [[te_TRACK][TRACK]]                                                  |
-| ~^~              | [[te_RPEAT][RPEAT]]                                                  |
-| ~&~              | [[te_LOOP][LOOP]]                                                   |
-| ~*~              | [[te_TRANSP][TRANSP]]                                                 |
+| ~!~              | [[te_TSIGN][TSIGN]] – set time signature (editor feature)            |
+| ~@~              | [[te_DYNLV][DYNLV]] – set volume                                     |
+| ~#~              | [[te_INSTR][INSTR]] – set instrument                                 |
+| ~$~              | [[te_UDATA][UDATA]] – jump to a random track                         |
+| ~%~              | [[te_TRACK][TRACK]] – "gosub" to a track                             |
+| ~^~              | [[te_RPEAT][RPEAT]] – set start of a loop and loop count             |
+| ~&~              | [[te_LOOP][LOOP]] – jump back to a loop start                       |
+| ~*~              | [[te_TRANSP][TRANSP]] – transpose up or down in semitones             |
 | ~+~              | ~++++~                                                 |
 | ~_~ (underscore) | rest ~----~                                            |
 | ~-~              | semitone down                                          |
@@ -360,20 +368,29 @@ Track navigation is performed using the numpad instead of cursor keys.
 ** Note editing and SCODEs
 
 Each line of a track represents a note and its length or a command and
-its operand. When using the beat and bar signs of the track editor,
-note length of 60 will match a whole note. See [[te_TSIGN][TSIGN]] to adjust time
+its operand.  When using the beat and bar signs of the track editor,
+note length of $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time
 signature.
+
+|         | length | dotted |
+|---------+--------+--------|
+| whole   | $60    |        |
+| half    | $30    | $48    |
+| quarter | $18    | $24    |
+| eight   | $0c    | $12    |
+| 1/16    | $06    | $09    |
+| 1/32    | $03    |        |
 
 
 *** Notes ($00..$7f)
 
 Notes are defined starting from ~C-0~ ($02 in track data) up to ~B-9~
-($79). ~----~ ($00) is a rest and ~++++~ ($01) is a non-implemented
-feature.
+($79).  ~----~ ($00) is a rest that triggers ADSR release phase and
+~++++~ ($01) is a non-implemented feature.
 
-The operand for a note or a rest is its length, up to $7f. Bit 7 of
+The operand for a note or a rest is its length, up to $7f.  Bit 7 of
 the operand specifies a tied note, ie. inhibit retriggering of the
-envelopes or modulation generator(s). Tying notes together allows a
+envelopes or modulation generator(s).  Tying notes together allows a
 theoretical infinite note length.
 
 
@@ -385,24 +402,23 @@ The commands are internally known as SCODEs.
 **** $80 [end]
 
 The unmodifyable SCODE is $80 and it's strictly reserved to end a
-track. The operand is discarded and for compatibility reasons should
-be $00.
+track.  The operand (always $00) is discarded.
 
 Track nesting table is checked at the track end and replay is resumed
-from the calling track, if any. If there is no track to return to,
+from the calling track, if any.  If there is no track to return to,
 song repeat flag is checked and if true, the track restarts.
 
 
 **** <<te_TSIGN>>$81 TSIGN
 
-This SCODE is ignored by the player. It exists solely to make the beat
-and bar indicators in the track editor functional. The beat/bar
+This SCODE is ignored by the player.  It exists solely to make the
+beat and bar indicators in the track editor functional.  The beat/bar
 indicators don't handle TRACK commands which may break the beat count
 when other tracks are called within the track.
 
-The operand is 5/3 bit designation for the time signature. The lower
+The operand is 5/3 bit designation for the time signature.  The lower
 three bits designate the length of the beat and the upper five bits
-the count. See table below.
+the count.  See table below.
 
 +-----+-------+---+------+-----+
 | $00 | x/1   |   | $00  | 1/x |
@@ -425,8 +441,8 @@ For 6/8 the numbers would be $28 + $03 = $2b.
 
 **** <<te_DYNLV>>$82 DYNLV
 
-This sets the channel volume ("dynamic level"). The operand is
-specified between $00 and $7f. The replay routine will divide this by
+This sets the channel volume ("dynamic level").  The operand is
+specified between $00 and $7f.  The replay routine will divide this by
 two (with logical bitwise shift to right) and discard the least
 significant bit.
 
@@ -439,42 +455,41 @@ self-explanatory.
 
 **** <<te_UDATA>>$84 UDATA
 
-The name of this SCODE isn't very clear regarding its function. This
+The name of this SCODE isn't very clear regarding its function.  This
 one is used to pick a random track from a specified number of
-following TRACK lines. Use of this SCODE must be carefully considered
+following TRACK lines.  Use of this SCODE must be carefully considered
 because the replay routine doesn't sanity check the following track
 data.
 
 The operand should be a power of two, ie. $02, $04, $08, $10, $20,
-$40, or $80. Using any other value is not of use due to how the SCODE
+$40, or $80.  Using any other value is not of use due to how the SCODE
 handler is written.
 
 This is how to use UDATA:
 
-|------+----------------------+----------------------------|
-| data | track data in editor | description                |
-|------+----------------------+----------------------------|
-| 8404 | UDATA  04            | line count following UDATA |
-| 8511 | TRACK  11            | first line                 |
-| 8512 | TRACK  12            | second line                |
-| 8513 | TRACK  13            | third line                 |
-| 8514 | TRACK  14            | fourth line                |
-|------+----------------------+----------------------------|
+|------+-----------------+----------------------------|
+| data | in track editor | description                |
+|------+-----------------+----------------------------|
+| 8404 | UDATA  04       | line count following UDATA |
+| 8511 | TRACK  11       | first line                 |
+| 8512 | TRACK  12       | second line                |
+| 8513 | TRACK  13       | third line                 |
+| 8514 | TRACK  14       | fourth line                |
+|------+-----------------+----------------------------|
 
-UDATA doesn't affect track nesting the way ordinary use of TRACK
-does. This is because the actual SCODE of the lines following UDATA is
+UDATA doesn't affect track nesting the way ordinary use of TRACK does.
+This is because the actual SCODE of the lines following UDATA is
 ignored, only the operand is used, and when valid the player continues
-from the selected track without modification to the nesting
-tables.
+from the selected track without modification to the nesting tables.
 
 This also means that any lines beyond will be ignored unless an
-undefined track is specified. In case of an undefined track, UDATA
+undefined track is specified.  In case of an undefined track, UDATA
 returns as if the operand was $00 and the player continues processing
 the following lines in order.
 
 Using UDATA within RPEAT/LOOP can also provide unexpected behaviour as
 LOOP will return to playing from the track where the RPEAT originally
-was! However, with careful design this feature can also be used to
+was!  However, with careful design this feature can also be used to
 create eg. drum tracks with pseudo-randomised fills at the ends.
 
 Since Medley Sound no longer has Future Player's dedicated "jump to
@@ -491,10 +506,10 @@ with operand $01:
 
 **** <<te_TRACK>>$85 TRACK
 
-Go to track specified by the operand. This command is used to nest
-tracks to make a complex song. Up to eight nested track calls can be
-made per channel. At full nesting any following TRACK commands will be
-ignored.
+Go to track specified by the operand.  This command is used to nest
+tracks to make a complex song.  Up to eight nested track calls can be
+made per channel.  At full nesting any following TRACK commands will
+be ignored.
 
 The player routine will simply skip undefined tracks.
 
@@ -504,20 +519,20 @@ code.
 
 **** <<te_RPEAT>>$86 RPEAT and <<te_LOOP>>$87 LOOP
 
-These two are used to create loops within tracks. Up to eight nested
+These two are used to create loops within tracks.  Up to eight nested
 loops can be used per channel.
 
 The loop is initiated by RPEAT command with the loop count as its
-operand. The loop starting point is the next line of the track from
-which the player will keep playing until LOOP command is
-encountered. LOOP will decrease the loop counter by one and jump back
-to the loop starting point until the loop counter reaches zero. The
-operand of LOOP is ignored.
+operand.  The loop starting point is the next line of the track from
+which the player will keep playing until LOOP command is encountered.
+LOOP will decrease the loop counter by one and jump back to the loop
+starting point until the loop counter reaches zero.  The operand of
+LOOP is ignored.
 
 
 **** <<te_TRANSP>>$88 TRNSP
 
-This is used to set the transposition byte of the channel. It's a
+This is used to set the transposition byte of the channel.  It's a
 signed value, so anything from $80 to $ff is considered a two's
 complement, ie. $ff = -1, $fe = -2, etc.
 
@@ -526,12 +541,12 @@ The transposition is defined in semitones.
 
 ** Important DO NOTs:
 
-- Do not set the time signature to 1/128 ($07). The editor will freeze
-  if you do so and there are any notes on following lines.
+- Do not set the time signature to 1/128 ($07).  The editor will
+  freeze if you do so and there are any notes on following lines.
 
-- Do no use the "halftone up" command ('=') to set notes beyond
-  B-9. You'll eventually reach the end code after 'F-;' and the editor
-  will freeze if the track is playing while editing.
+- Do no use the "halftone up" command ('=') to set notes beyond B-9.
+  You'll eventually reach the end code after 'F-;' and the editor will
+  freeze if the track is playing while editing.
 
 
 * Instrument Editor
@@ -569,16 +584,16 @@ Any other value for this parameter defaults to single-shot std mode.
 
 **** <std> and <???>
 
-This is the simplest sample player mode and will play samples as
-is. The <???> is the single-shot variant of standard mode and is
-suitable for drum samples.
+This is the simplest sample player mode and will play samples as is.
+The <???> is the single-shot variant of standard mode and is suitable
+for drum samples and effect sounds.
 
 
 **** <bsm>
 
-This is the "base shift mode". The base shift mode uses an offsetting
-method to select a "window" of a wave to be played. This window can be
-shifted on the fly with a [[ie_mg][MG]] to make a pulse-width modulation style
+This is the "base shift mode".  The base shift mode uses an offsetting
+method to select a "window" of a wave to be played.  This window can
+be shifted on the fly with a [[ie_mg][MG]] to make a pulse-width modulation style
 effect with an appropriately crafted wave.
 
 Parameters specific to this mode are tagged with ~<bsm>~.
@@ -588,25 +603,25 @@ Parameters specific to this mode are tagged with ~<bsm>~.
 
 This is the "dynamic mode". The dynamic mode creates the final
 waveform on the fly by mixing together two copies of the selected
-wave. These copies can be shifted in relation to each other and their
-frequencies can be altered to create complex sounds. The dynamic
+wave.  These copies can be shifted in relation to each other and their
+frequencies can be altered to create complex sounds.  The dynamic
 nature of this mode allows seamless on-the-fly generation of higher
 frequency waveforms for higher octaves without creating separate
 waves.
 
-Shifting and frequencies can be modulated with [[ie_mg][MG]]s. Parameters
+Shifting and frequencies can be modulated with [[ie_mg][MG]]s.  Parameters
 specific to this mode are tagged with ~<dyn>~.
 
 
 *** b:Wa - wave
 
-This sets the wave used by this instrument. For standard and base
+This sets the wave used by this instrument.  For standard and base
 shifted modes a wave table of eight can be set up for higher octaves.
 
 
 *** c:Bs - Base shift ~<bsm>~
 
-This value offsets the waveform from its starting point. For this to
+This value offsets the waveform from its starting point.  For this to
 create audible sound difference, an appropriately crafted wave is
 required.
 
@@ -614,7 +629,7 @@ required.
 *** d:Ds - Dynamic shift ~<dyn>~
 
 This value offsets the first copy of the waveform that the other copy
-is mixed on top.
+is mixed on top of.
 
 
 *** e:Tr - transpose
@@ -625,10 +640,10 @@ as a signed byte, ie. $ff = -1, $fe = -2, etc.
 
 *** f:Fq - Dynamic frequency ~<dyn>~
 
-This parameter is only functional in sound mode 02. Each of the
+This parameter is only functional in sound mode 02.  Each of the
 nybbles (individual hexadeciaml digits) represent a frequency
-multiplier from ~$1~ to ~$10~ for the two waves to be mixed. A ~$0~ is
-interpreted as ~$10~.
+multiplier from ~$1~ to ~$10~ for the two waves to be mixed.  A ~$0~
+is interpreted as ~$10~.
 
 The base value to start with is ~$11~ instead of ~$00~.
 
@@ -652,8 +667,9 @@ This parameter appears not to be used.
 *** b:At - Attack time
 
 This parameter specifies the attack time from start of note to Peak
-level. This value together with Peak level is used to calculate ASlope
-(Attack Slope), which is the value used by the player internally.
+level.  This value together with Peak level is used to calculate
+ASlope (Attack Slope), which is the value used by the player
+internally.
 
 
 *** c:Tl - Peak level (Top level)
@@ -664,59 +680,59 @@ This parameter specifies the Peak level between attack and decay.
 *** d:Dt - Decay time
 
 This parameter specifies the decay time from Peak level to Sustain
-level. This value together with Peak and Sustain levels is used to
+level.  This value together with Peak and Sustain levels is used to
 calculate DSlope (Decay Slope), which is the value used by the player
 internally.
 
 
 *** e:Sl - Sustain level
 
-This parameter specifies the Sustain level. The note volume will stay
+This parameter specifies the Sustain level.  The note volume will stay
 at this level until a note off command.
 
 
 *** f:Rt - Release Time
 
 This parameter specifies the time it take from the note off command to
-silence. This value together with Sustain Level is used to calculate
+silence.  This value together with Sustain Level is used to calculate
 RSlope (Release Slope), which is the value used by the player
 internally.
 
 
 ** <<ie_mg>>MG - Modulation Generator
 
-Each instrument features four identical modulation
-generators. Depending on the [[ie_mgBl][Block wave]] flag the oscillator generates
-a triangle/saw or a square wave with time constants S1 and S2.
+Each instrument features four identical modulation generators.
+Depending on the [[ie_mgBl][Block wave]] flag the oscillator generates a
+triangle/saw or a square wave with time constants S1 and S2.
 
 
 *** a:De - Destination
 
 The modulation destination is a hexadecimal number between $00 and
-$07. Any numbers past $07 are interpreted as $07.
+$07.  Any numbers past $07 are interpreted as $07.
 
 
 **** $00 : off
 
-The replayer will bypass any MG that is set off. The other parameters
+The replayer will bypass any MG that is set off.  The other parameters
 will be ignored.
 
 
 **** $01 : FM - Frequency Modulation
 
 Frequency modulation modulates the playback frequency of the sound,
-just like it says on the tin. This produces a vibrato effect.
+just like it says on the tin.  This produces a vibrato effect.
 
 
 **** $02 : AM - Amplitude Modulation
 
-This is the same for the amplitude, or volume of the sound,
-ie. tremolo effect.
+This is the same for the amplitude, or volume of the sound, ie. a
+tremolo effect.
 
 
 **** $03 : BShift - Base shift modulation ~<bsm>~
 
-This modulates the base shift of the instrument. With a specially
+This modulates the base shift of the instrument.  With a specially
 crafted waveform this can be used to create eg. a pulse-width
 modulated square wave sound.
 
@@ -734,7 +750,7 @@ modulate the frequency either up or down from the note frequency.
 
 **** $07 : DynFreq - Dynamic frequency modulation ~<dyn>~
 
-This modulates the dynamic frequency of the instrument. Do keep in
+This modulates the dynamic frequency of the instrument.  Do keep in
 mind that the modulation affects the whole byte, not just for one or
 the other nybble.
 
@@ -749,7 +765,7 @@ of the default triangle/saw wave.
 *** c:Tr - Trigger mode (boolean, $00 = trigger at every note-on)
 
 When trigger mode is set non-zero, the MG is not retriggered as long
-as a note is being played. This is useful to create a slowly changing
+as a note is being played.  This is useful to create a slowly changing
 modulation over several notes.
 
 
@@ -786,9 +802,9 @@ modulation waveform.
 
 *** k:Hs / l:Qs - Half-shift / Quarter-shift
 
-The function of these two parameters require more research. At present
-knowledge they may affect the initial offsetting of modulation
-depending on channel flags. The value affects which flag is used:
+The function of these two parameters requires more research.  At
+present knowledge they may affect the initial offsetting of modulation
+depending on channel flags.  The value affects which flag is used:
 
 |-----+-------------------------------------------------------------------------|
 | $00 | off                                                                     |
@@ -852,20 +868,20 @@ which makes waveform move down in the visual preview.
 *** c:AM – amplitude (10 = no change)
 
 This operation adjusts the amplitude of the Result waveform after
-mixing. The default is $10 and doesn't affect the aplitude, $08 is
+mixing.  The default is $10 and doesn't affect the aplitude, $08 is
 half the amplitude and $20 is twice the amplitude.
 
 
 *** d:FQ – frequency of source A (10 = no change)
 
 This operation shrinks or expands the wave data of Source A to alter
-its playback frequency. It will not affect the mixed in Source B.
+its playback frequency.  It will not affect the mixed in Source B.
 
 
 *** e:MX – mix sources (00 = A; ff = B; 80 will mix 50/50)
 
-This operation mixes sources A and B. Value of $00 will bypass the
-mixing and use only Source A. Value of $ff will use only Source B and
+This operation mixes sources A and B.  Value of $00 will bypass the
+mixing and use only Source A.  Value of $ff will use only Source B and
 $80 will mix both evenly together.
 
 The thing to keep in mind is that in case the Source B is shorter than
@@ -874,8 +890,8 @@ the Result buffer, it will not be looped.
 
 *** f:RE - Adjust Result buffer length
 
-This operation adjusts the Result buffer length. This value defaults
-to $10 which matches the length of Source A. $08 will mean half the
+This operation adjusts the Result buffer length.  This value defaults
+to $10 which matches the length of Source A.  $08 will mean half the
 length of Source A and $20 is double the length.
 
 Values below $02 are most likely practically useless.
@@ -894,13 +910,13 @@ not the buffer itself.
 
 ** <<we_preset>>Preset - generate waveforms
 
-This operation is used to generate waveforms. The operation will
+This operation is used to generate waveforms.  The operation will
 replace any waveform data in Source A.
 
 
 *** a:RA - generate a saw/triangle wave
 
-The operand is used to adjust duty cycle of the triangle wave. $80 is
+The operand is used to adjust duty cycle of the triangle wave.  $80 is
 pure triangle.
 
 
@@ -971,8 +987,8 @@ PVMS is the project file format of Medley Sound.
 
 ** TODO MSOB
 
-MSOB is the export file format of Medley Sound, "Medley Sound
-OBject". This is the format msplay loads and plays.
+MSOB is the export file format of Medley Sound, "Medley Sound OBject".
+This is the format msplay loads and plays.
 
 
 *** Header
@@ -993,7 +1009,7 @@ OBject". This is the format msplay loads and plays.
 *** Tables
 
 The score, track, instrument, and wave tables are displacement tables
-to data entries. Two formats of these tables exist depending on the
+to data entries.  Two formats of these tables exist depending on the
 flag in the header at offset 0x25.
 
 A full table (0x00 at 0x25) is always 0x100 longwords, or 1 kB long:
@@ -1028,10 +1044,10 @@ memory.
 * msed internals
 
 This section describes various internal data structures of the Medley
-Sound editor. It's useful only for those who intend to reverse
+Sound editor.  It's useful only for those who intend to reverse
 engineer and learn to understand how the editor works internally, or
-maybe to even extend its functionality. See [[* File formats][File formats]] if you only
-need the file format descriptions. These tables were created during
+maybe to even extend its functionality.  See [[* File formats][File formats]] if you only
+need the file format descriptions.  These tables were created during
 the reverse engineering and redocumenting of the editor and may be
 partially inaccurate or incomplete.
 
@@ -1039,17 +1055,17 @@ partially inaccurate or incomplete.
 ** Memory map
 
 This section describes the mapping of the memory block reserved during
-startup of the program. The base address of the memory block is kept
-in register A5 during the execution of the program. This memory is
+startup of the program.  The base address of the memory block is kept
+in register A5 during the execution of the program.  This memory is
 only used for the user interface and editor function parts of the
 program.
 
 Dynamic memory allocation is done with the convention of reserving
-four extra bytes to store the memory block size at the start of
+four extra bytes to store the memory block size at the start of the
 reserved block to free the correct amount of memory as the old
-AllocMem()/FreeMem() doesn't keep track of memoryblock sizes
-reserved. The only exception is the working memory size described
-below as it's hard-coded into the program.
+AllocMem()/FreeMem() doesn't keep track of memoryblock sizes reserved.
+The only exception is the working memory size described below as it's
+hard-coded into the program.
 
 ~mem_SizeOf~ = 0x2288
 
@@ -1370,7 +1386,7 @@ This is also the data structure used in MSOB and PVMS files.
 
 ** Wave structure
 
-There's two flavours of wave data structures used. This first one
+There's two flavours of wave data structures used.  This first one
 below is the "xplay" variety used in MSOBs.
 
 ~ww_SizeOfHeader~ = 0x18
@@ -1500,8 +1516,8 @@ msed memory and PVMS project files.
 \n
 \z
 
-This function is a complex oddball and called via a function
-pointer. At this point in the reverse enginerding it appears to be a
+This function is a complex oddball and called via a function pointer.
+At this point in the reverse enginerding it appears to be a
 printf()-like string formatting function.
 
 The following table lists offsets of stack space used via linked A4
@@ -1542,6 +1558,7 @@ register.
 |   0x10 | .l   |        | * return buffer, moved to A2, byte at this address cleared before rts                                           |
 |   0x14 | .l   |        | return buffer length, moved to D2, countdown register, subsequently handled as word, function returns when zero |
 |   0x16 | .w   |        | lower word of return buffer length, used as addressing offset relative to (0x10)                                |
+
 
 *** stack
 

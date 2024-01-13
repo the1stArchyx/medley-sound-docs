@@ -826,6 +826,12 @@ destination 01) when a delay time is set.
 
 * TODO Wave Editor
 
+The Medley Sound Wave Editor is a simple yet powerful tool to make
+short samples for use with Base Shift and Dynamic modes.  There are
+four waveform displays on top: current sample buffer (Source A),
+Source B, Result, and Undo Buffer.  Source B can be used to copy
+sample data to other waves/samples.
+
 |-----+-------------------------------------------|
 | ~/~ | Swap sources A and B                      |
 | ~,~ | Copy Result to Source A                   |

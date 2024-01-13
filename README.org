@@ -8,8 +8,12 @@ V4.0.
 
 In addition to plain documentation, some programs are supplied:
 
-- tools/msodecode.py – a program to display MSOB flags, scores,
-  tracks, instruments, and waves.
+- tools/msodecode.py – a program to display Medley Sound Object flags
+  and names of scores, tracks, instruments, and waves.
+
 - tools/mso2pvms.py – a program to convert a Medley Sound Object
   (MSOB) back to the "PVMS" format readable by Medley Sound Editor
   (msed).
+
+- tools/pvms2mso.py – a program to convert a "PVMS" file into an
+  optimised Medley Sound Object.  This is currently work-in-progress.

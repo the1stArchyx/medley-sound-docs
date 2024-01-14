@@ -1338,6 +1338,8 @@ pre-calculated to simplify the player routine.
 
 This is also the data structure used in MSOB and PVMS files.
 
+~ins_SizeOf~ = 0x7a
+
 |--------+-----------+-----------------+--------------------------|
 | offset | size      | name            | description              |
 |--------+-----------+-----------------+--------------------------|

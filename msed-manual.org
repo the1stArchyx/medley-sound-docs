@@ -368,30 +368,31 @@ Track navigation is performed using the numpad instead of cursor keys.
 ** Note editing and SCODEs
 
 Each line of a track represents a note and its length or a command and
-its operand.  When using the beat and bar signs of the track editor,
-note length of $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time
-signature.
-
-|         | length | dotted |
-|---------+--------+--------|
-| whole   | $60    |        |
-| half    | $30    | $48    |
-| quarter | $18    | $24    |
-| eight   | $0c    | $12    |
-| 1/16    | $06    | $09    |
-| 1/32    | $03    |        |
+its operand.
 
 
 *** Notes ($00..$7f)
 
-Notes are defined starting from ~C-0~ ($02 in track data) up to ~B-9~
-($79).  ~----~ ($00) is a rest that triggers ADSR release phase and
+Notes are defined starting from ~C-1~ ($02 in track data) up to ~B-9~
+($6d).  ~----~ ($00) is a rest that triggers ADSR release phase and
 ~++++~ ($01) is a non-implemented feature.
 
 The operand for a note or a rest is its length, up to $7f.  Bit 7 of
 the operand specifies a tied note, ie. inhibit retriggering of the
 envelopes or modulation generator(s).  Tying notes together allows a
 theoretical infinite note length.
+
+When using the beat and bar signs of the track editor, note length of
+$60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time signature.
+
+|         | length | dotted | triplet |
+|---------+--------+--------+---------|
+| whole   | $60    |        |         |
+| half    | $30    | $48    | $20     |
+| quarter | $18    | $24    | $10     |
+| eight   | $0c    | $12    | $08     |
+| 1/16    | $06    | $09    | $04     |
+| 1/32    | $03    |        | $02     |
 
 
 *** SCODEs ($80..$ff)
@@ -1467,22 +1468,26 @@ msed memory and PVMS project files.
 
 *** Notes
 
-|-------------+------+------+------+------+------+------+------+------+------+------|
-| note/octave |    0 |    1 |    2 |    3 |    4 |    5 |    6 |    7 |    8 |    9 |
-|-------------+------+------+------+------+------+------+------+------+------+------|
-| C           | 0x02 | 0x0e | 0x1a | 0x26 | 0x32 | 0x3e | 0x4a | 0x56 | 0x62 | 0x6e |
-| C#          | 0x03 | 0x0f | 0x1b | 0x27 | 0x33 | 0x3f | 0x4b | 0x57 | 0x63 | 0x6f |
-| D           | 0x04 | 0x10 | 0x1c | 0x28 | 0x34 | 0x40 | 0x4c | 0x58 | 0x64 | 0x70 |
-| Eb          | 0x05 | 0x11 | 0x1d | 0x29 | 0x35 | 0x41 | 0x4d | 0x59 | 0x65 | 0x71 |
-| E           | 0x06 | 0x12 | 0x1e | 0x2a | 0x36 | 0x42 | 0x4e | 0x5a | 0x66 | 0x72 |
-| F           | 0x07 | 0x13 | 0x1f | 0x2b | 0x37 | 0x43 | 0x4f | 0x5b | 0x67 | 0x73 |
-| F#          | 0x08 | 0x14 | 0x20 | 0x2c | 0x38 | 0x44 | 0x50 | 0x5c | 0x68 | 0x74 |
-| G           | 0x09 | 0x15 | 0x21 | 0x2d | 0x39 | 0x45 | 0x51 | 0x5d | 0x69 | 0x75 |
-| Ab          | 0x0a | 0x16 | 0x22 | 0x2e | 0x3a | 0x46 | 0x52 | 0x5e | 0x6a | 0x76 |
-| A           | 0x0b | 0x17 | 0x23 | 0x2f | 0x3b | 0x47 | 0x53 | 0x5f | 0x6b | 0x77 |
-| Bb          | 0x0c | 0x18 | 0x24 | 0x30 | 0x3c | 0x48 | 0x54 | 0x60 | 0x6c | 0x78 |
-| B           | 0x0d | 0x19 | 0x25 | 0x31 | 0x3d | 0x49 | 0x55 | 0x61 | 0x6d | 0x79 |
-|-------------+------+------+------+------+------+------+------+------+------+------|
+Notes range from 0x02 (C-1) to 0x6d (B-9). In theory the notes can
+range up to 0x7f ("F-;") but practical use typically ends by A-9 when
+the waveform reaches its minimum length of two bytes.
+
+|-------------+------+------+------+------+------+------+------+------+------|
+| note/octave |    1 |    2 |    3 |    4 |    5 |    6 |    7 |    8 |    9 |
+|-------------+------+------+------+------+------+------+------+------+------|
+| C           | 0x02 | 0x0e | 0x1a | 0x26 | 0x32 | 0x3e | 0x4a | 0x56 | 0x62 |
+| C#          | 0x03 | 0x0f | 0x1b | 0x27 | 0x33 | 0x3f | 0x4b | 0x57 | 0x63 |
+| D           | 0x04 | 0x10 | 0x1c | 0x28 | 0x34 | 0x40 | 0x4c | 0x58 | 0x64 |
+| Eb          | 0x05 | 0x11 | 0x1d | 0x29 | 0x35 | 0x41 | 0x4d | 0x59 | 0x65 |
+| E           | 0x06 | 0x12 | 0x1e | 0x2a | 0x36 | 0x42 | 0x4e | 0x5a | 0x66 |
+| F           | 0x07 | 0x13 | 0x1f | 0x2b | 0x37 | 0x43 | 0x4f | 0x5b | 0x67 |
+| F#          | 0x08 | 0x14 | 0x20 | 0x2c | 0x38 | 0x44 | 0x50 | 0x5c | 0x68 |
+| G           | 0x09 | 0x15 | 0x21 | 0x2d | 0x39 | 0x45 | 0x51 | 0x5d | 0x69 |
+| Ab          | 0x0a | 0x16 | 0x22 | 0x2e | 0x3a | 0x46 | 0x52 | 0x5e | 0x6a |
+| A           | 0x0b | 0x17 | 0x23 | 0x2f | 0x3b | 0x47 | 0x53 | 0x5f | 0x6b |
+| Bb          | 0x0c | 0x18 | 0x24 | 0x30 | 0x3c | 0x48 | 0x54 | 0x60 | 0x6c |
+| B           | 0x0d | 0x19 | 0x25 | 0x31 | 0x3d | 0x49 | 0x55 | 0x61 | 0x6d |
+|-------------+------+------+------+------+------+------+------+------+------|
 
 
 ** Score structure

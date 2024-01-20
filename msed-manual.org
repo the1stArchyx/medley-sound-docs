@@ -582,6 +582,10 @@ The sound mode can be one of the following:
 
 Any other value for this parameter defaults to single-shot std mode.
 
+Caveat: In single-shot mode the previous sample must end before
+another note will play on the same channel!  This is something to keep
+in mind when making drum tracks.
+
 
 **** <std> and <???>
 

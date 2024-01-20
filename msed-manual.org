@@ -833,6 +833,26 @@ four waveform displays on top: current sample buffer (Source A),
 Source B, Result, and Undo Buffer.  Source B can be used to copy
 sample data to other waves/samples.
 
+Below each waveform is a parameter display, for example for a freshly
+loaded preset sine wave it is ~80, 80 s1 x1~ while a sample merged
+from an external source might have something like ~23f0, 0 s0 x0~.
+
+1. The first hexadecimal number is the data buffer length.
+
+2. The second value is currently known as "dummy".  A known use for it
+   hasn't been discovered, yet, but it may bee some sort of a buffer
+   size.
+
+3. The letter after the two described above shows if the sample is
+   single- (s) or double-buffered (d).
+
+4. The number after the buffer mode flag is the octave.  This value
+   should be between 0 and 7.  Any other values for octaves will
+   provide unpredictable results as the player routine will address
+   memory outside the actual octave multiplier table.
+
+5. The last one is the "FragFactor" which is not used.
+
 |--------------+-------------------------------------------|
 | ~/~          | Swap sources A and B                      |
 | ~,~ (comma)  | Copy Result to Source A                   |
@@ -939,16 +959,17 @@ Makes a copy of the precalculated sine wave.
 
 * File Menu
 
-** TODO (l)oad
+** TODO (l)oad, (m)erge, and (i)mport
 
+Medley Sound editor is able to load its own project format "PVMS" as
+well as SMUS/IFF song data. The third supported format is raw sample
+data encapsulated in a HUNK_UNIT file.
 
-** TODO (m)erge
+*Warning!* Loading will destroy your current project, even if you're
+loading just a sample!
 
 
 ** TODO (s)ave
-
-
-** TODO (i)mport
 
 
 ** TODO <a>ssembly

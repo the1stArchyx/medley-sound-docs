@@ -8,6 +8,9 @@ V4.0.
 
 In addition to plain documentation, some programs are supplied:
 
+- tools/add_sample_header.py – an ugly hack to make raw unsigned 8-bit
+  samples loadable into Medley Sound editor.
+
 - tools/msodecode.py – a program to display Medley Sound Object flags
   and names of scores, tracks, instruments, and waves.
 

@@ -331,36 +331,36 @@ parameters should be set to 0.
 
 *** Insert and edit mode functions
 
-|------------------+--------------------------------------------------------|
-| Return           | add line below (in insert mode)                        |
-| Shift + Return   | insert line above (in insert mode)                     |
-| ~a~ .. ~g~       | set note                                               |
-| ~1~ .. ~9~       | set octave for note                                    |
-| ~`~ (back-quote) | tie note (an asterisk shown before the note)           |
-| ~!~              | [[te_TSIGN][TSIGN]] – set time signature (editor feature)            |
-| ~@~              | [[te_DYNLV][DYNLV]] – set volume                                     |
-| ~#~              | [[te_INSTR][INSTR]] – set instrument                                 |
-| ~$~              | [[te_UDATA][UDATA]] – jump to a random track                         |
-| ~%~              | [[te_TRACK][TRACK]] – "gosub" to a track                             |
-| ~^~              | [[te_RPEAT][RPEAT]] – set start of a loop and loop count             |
-| ~&~              | [[te_LOOP][LOOP]] – jump back to a loop start                       |
-| ~*~              | [[te_TRANSP][TRANSP]] – transpose up or down in semitones             |
-| ~+~              | ~++++~                                                 |
-| ~_~ (underscore) | rest ~----~                                            |
-| ~-~              | semitone down                                          |
-| ~=  ('+')~       | semitone up (buggy sanity-check, don't go beyond B-9!) |
-| ~t~              | Trace mode (useful only while playing a track)         |
-| Amiga + ~b~      | Set block                                              |
-| Amiga + ~c~      | Copy block                                             |
-| Amiga + ~i~      | Insert block                                           |
-| Amiga + ~k~      | Kill line to buffer                                    |
-| Amiga + ~l~      | Yank line from buffer                                  |
-| Amiga + ~x~      | Cut block                                              |
-| Home (numpad)    | Page up                                                |
-| End (numpad)     | Page down                                              |
-| Shift + Home     | Go to start of track                                   |
-| Shift + End      | Go to end of track                                     |
-|------------------+--------------------------------------------------------|
+|------------------+------------------------------------------------------------------------|
+| Return           | add line below (in insert mode)                                        |
+| Shift + Return   | insert line above (in insert mode)                                     |
+| ~a~ .. ~g~       | set note                                                               |
+| ~1~ .. ~9~       | set octave for note                                                    |
+| ~`~ (back-quote) | tie note (an asterisk shown before the note)                           |
+| ~!~              | [[te_TSIGN][TSIGN]] – set time signature (editor feature)                            |
+| ~@~              | [[te_DYNLV][DYNLV]] – set volume                                                     |
+| ~#~              | [[te_INSTR][INSTR]] – set instrument                                                 |
+| ~$~              | [[te_UDATA][UDATA]] – jump to a random track                                         |
+| ~%~              | [[te_TRACK][TRACK]] – "gosub" to a track                                             |
+| ~^~              | [[te_RPEAT][RPEAT]] – set start of a loop and loop count                             |
+| ~&~              | [[te_LOOP][LOOP]] – jump back to a loop start                                       |
+| ~*~              | [[te_TRANSP][TRANSP]] – transpose up or down in semitones                             |
+| ~+~              | ~++++~                                                                 |
+| ~_~ (underscore) | rest ~----~                                                            |
+| ~-~              | semitone down                                                          |
+| ~=  ('+')~       | semitone up (buggy sanity-check, don't go beyond B-9!)                 |
+| ~t~              | Trace mode (useful only while playing a track, but often broken!)      |
+| Amiga + ~b~      | Set block                                                              |
+| Amiga + ~c~      | Copy block                                                             |
+| Amiga + ~i~      | Insert block                                                           |
+| Amiga + ~k~      | Kill line to buffer                                                    |
+| Amiga + ~l~      | Yank line from buffer                                                  |
+| Amiga + ~x~      | Cut block                                                              |
+| Home (numpad)    | Page up                                                                |
+| End (numpad)     | Page down                                                              |
+| Shift + Home     | Go to start of track                                                   |
+| Shift + End      | Go to end of track                                                     |
+|------------------+------------------------------------------------------------------------|
 
 Track navigation is performed using the numpad instead of cursor keys.
 

@@ -204,9 +204,9 @@ special option to export the song as an assembly language source code.
 
 ** (Q) Quit
 
-To quit Medley Sound Editor you must press Shift + ~Q~.  If you press
-just ~q~, the editor will instruct "Shift-Q to Quit" in the title bar
-of the window.
+To quit Medley Sound Editor you must press ~Shift + Q~.  If you press
+just ~q~, the editor will show "Say what?" on the window title.
+Pressing ~Esc~ will instruct "Shift-Q to Quit" in the window title.
 
 
 * TODO Score Editor

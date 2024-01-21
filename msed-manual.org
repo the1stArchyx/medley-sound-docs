@@ -1291,6 +1291,13 @@ Order of operations:
 |    0x9 | .b   | ~op_PE~ |            | PE: playback period (* 0x10 + 0x96)                       |
 |--------+------+---------+------------+-----------------------------------------------------------|
 
+Some operations affect the octave number of waves in a way that
+potentially makes the waves play incorrectly.  This happens when the
+octave number goes beyond its functional range of 0..7.  This is
+something to look further into, both in the wave editor and the replay
+routine, to understand how the octave number affects the playback of
+samples.
+
 
 ** Sound Channel Structure ("SCH")
 
@@ -1366,56 +1373,61 @@ This is also the data structure used in MSOB and PVMS files.
 
 ~ins_SizeOf~ = 0x7a
 
-|--------+-----------+-----------------+--------------------------|
-| offset | size      | name            | description              |
-|--------+-----------+-----------------+--------------------------|
-|    0x0 | .b × 0x10 | ~ins_Name~      |                          |
-|   0x10 | .b        | ~ins_SoundMode~ |                          |
-|   0x11 | .b        | ~ins_BShift~    |                          |
-|   0x12 | .b        | ~ins_DShift~    |                          |
-|   0x13 | .b        | ~ins_Transpose~ |                          |
-|   0x14 | .b × 0x8  | ~ins_WaveRefs~  | one byte for each octave |
-|   0x1c | .b        | ~ins_DynFreq~   |                          |
-|   0x1d | .b × 0x7  |                 | (padding)                |
-|   0x24 | .b        | ~ins_EnvTrig~   |                          |
-|   0x25 | .b        | ~ins_EnvATime~  |                          |
-|   0x26 | .b        | ~ins_EnvDTime~  |                          |
-|   0x27 | .b        | ~ins_EnvRTime~  |                          |
-|   0x28 | .w        | ~ins_EnvTLevel~ | (MSB used, LSB zero)     |
-|   0x2a | .w        | ~ins_EnvSLevel~ | (MSB used, LSB zero)     |
-|   0x2c | .w        | ~ins_EnvASlope~ |                          |
-|   0x2e | .w        | ~ins_EnvDSlope~ |                          |
-|   0x30 | .w        | ~ins_EnvRSlope~ |                          |
-|   0x32 |           | ~ins_Mg1~       |                          |
-|   0x44 |           | ~ins_Mg2~       |                          |
-|   0x56 |           | ~ins_Mg3~       |                          |
-|   0x68 |           | ~ins_Mg4~       |                          |
-|--------+-----------+-----------------+--------------------------|
+|--------+-----------+-----------------+----------------------------------------------------------------------------|
+| offset | size      | name            | description                                                                |
+|--------+-----------+-----------------+----------------------------------------------------------------------------|
+|    0x0 | .b × 0x10 | ~ins_Name~      |                                                                            |
+|   0x10 | .b        | ~ins_SoundMode~ | mode (0 = looped sample; 1 = BShift; 2 = Dynamic; 3 >= single-shot sample) |
+|   0x11 | .b        | ~ins_BShift~    | "Base shift"                                                               |
+|   0x12 | .b        | ~ins_DShift~    | "Dynamic shift"                                                            |
+|   0x13 | .b        | ~ins_Transpose~ | instrument transpose                                                       |
+|   0x14 | .b × 0x8  | ~ins_WaveRefs~  | one byte for each octave, refers to the number of a wave/sample            |
+|   0x1c | .b        | ~ins_DynFreq~   | Dynamic frequencies, two nybbles                                           |
+|   0x1d | .b × 0x7  |                 | (padding)                                                                  |
+|   0x24 | .b        | ~ins_EnvTrig~   | (not used)                                                                 |
+|   0x25 | .b        | ~ins_EnvATime~  | ADSR: attack time                                                          |
+|   0x26 | .b        | ~ins_EnvDTime~  | ADSR: decay time                                                           |
+|   0x27 | .b        | ~ins_EnvRTime~  | ADSR: release time                                                         |
+|   0x28 | .w        | ~ins_EnvTLevel~ | ADSR: peak level (MSB used, LSB zero)                                      |
+|   0x2a | .w        | ~ins_EnvSLevel~ | ADSR: sustain level (MSB used, LSB zero)                                   |
+|   0x2c | .w        | ~ins_EnvASlope~ | ADSR: attack slope (internal)                                              |
+|   0x2e | .w        | ~ins_EnvDSlope~ | ADSR: decay slope (internal)                                               |
+|   0x30 | .w        | ~ins_EnvRSlope~ | ADSR: release slope (internal)                                             |
+|   0x32 |           | ~ins_Mg1~       | Modulation Generator 1                                                     |
+|   0x44 |           | ~ins_Mg2~       | Modulation Generator 2                                                     |
+|   0x56 |           | ~ins_Mg3~       | Modulation Generator 3                                                     |
+|   0x68 |           | ~ins_Mg4~       | Modulation Generator 4                                                     |
+|--------+-----------+-----------------+----------------------------------------------------------------------------|
 
+
+*** TODO ADSR slope math to be extracted from the editor code!
 
 *** MG structure
 
 ~mg_SizeOf~ = 0x12
 
-|--------+------+-------------------+-----------------|
-| offset | size | name              | description     |
-|--------+------+-------------------+-----------------|
-|    0x0 | .b   | ~mg_Destination~  |                 |
-|    0x1 | .b   | ~mg_Shape~        |                 |
-|    0x2 | .b   | ~mg_TrigMode~     |                 |
-|    0x3 | .b   | ~mg_SingleShot~   |                 |
-|    0x4 | .b   |                   | "Sg", not used? |
-|    0x5 | .b   | ~mg_RvsOut~       |                 |
-|    0x6 | .b   | ~mg_DelayTime~    |                 |
-|    0x7 | .b   | ~mg_HalfShift~    |                 |
-|    0x8 | .b   | ~mg_QuarterShift~ |                 |
-|    0x9 | .b   | ~mg_S1~           |                 |
-|    0xa | .b   | ~mg_S2~           |                 |
-|    0xb | .b   |                   | not used?       |
-|    0xc | .w   | ~mg_Level~        |                 |
-|    0xe | .w   | ~mg_Slope1~       |                 |
-|   0x10 | .w   | ~mg_Slope2~       |                 |
-|--------+------+-------------------+-----------------|
+|--------+------+-------------------+-----------------------------------------------------------------------------------------------|
+| offset | size | name              | description                                                                                   |
+|--------+------+-------------------+-----------------------------------------------------------------------------------------------|
+|    0x0 | .b   | ~mg_Destination~  | parameter to be modulated: 0 = off; 1..7 = FM/AM/Bshift/Dshift/FM+/FM-/Dfreq                  |
+|    0x1 | .b   | ~mg_Shape~        | boolean; modulaton waveform shape: 0 = triangle, non-zero = square                            |
+|    0x2 | .b   | ~mg_TrigMode~     | boolean; trigger mode: 0 = retrigger at every note-on, non-zero = do not retrigger            |
+|    0x3 | .b   | ~mg_SingleShot~   | boolean; single-shot mode: 0 = run generator continuously, non-zero = run cycle once and stop |
+|    0x4 | .b   |                   | "Sg", not used                                                                                |
+|    0x5 | .b   | ~mg_RvsOut~       | boolean; reverse operation: 0 = standard, non-zero = run modulation generator in reverse      |
+|    0x6 | .b   | ~mg_DelayTime~    | non-zero = delay start of modulation                                                          |
+|    0x7 | .b   | ~mg_HalfShift~    |                                                                                               |
+|    0x8 | .b   | ~mg_QuarterShift~ |                                                                                               |
+|    0x9 | .b   | ~mg_S1~           | time to reach modulation level from 0                                                         |
+|    0xa | .b   | ~mg_S2~           | time to return to 0 from modulation level                                                     |
+|    0xb | .b   |                   | not used?                                                                                     |
+|    0xc | .w   | ~mg_Level~        | modulation level                                                                              |
+|    0xe | .w   | ~mg_Slope1~       | MG slope (internal)                                                                           |
+|   0x10 | .w   | ~mg_Slope2~       | MG slope (internal)                                                                           |
+|--------+------+-------------------+-----------------------------------------------------------------------------------------------|
+
+
+**** TODO MG slope math to be extracted from the editor code!
 
 
 ** Wave structure
@@ -1425,37 +1437,37 @@ below is the "xplay" variety used in MSOBs.
 
 ~ww_SizeOfHeader~ = 0x18
 
-|--------+---------------------+-------------------+-------------|
-| offset | size                | name              | description |
-|--------+---------------------+-------------------+-------------|
-|    0x0 | .b × 0x10           | ~ww_Name~         |             |
-|   0x10 | .w                  | ~ww_CycleSize~    |             |
-|   0x12 | .w                  | ~ww_Dummy~        |             |
-|   0x14 | .b                  | ~ww_Octave~       |             |
-|   0x15 | .b                  | ~ww_FragFactor~   |             |
-|   0x16 | .b                  | ~ww_IsDoubleBufd~ |             |
-|   0x17 |                     |                   | (padding)   |
-|   0x18 | .b × ~ww_CycleSize~ |                   | Wave data   |
-|--------+---------------------+-------------------+-------------|
+|--------+---------------------+-------------------+---------------------------------------------------------|
+| offset | size                | name              | description                                             |
+|--------+---------------------+-------------------+---------------------------------------------------------|
+|    0x0 | .b × 0x10           | ~ww_Name~         |                                                         |
+|   0x10 | .w                  | ~ww_CycleSize~    | length of wave data                                     |
+|   0x12 | .w                  | ~ww_Dummy~        | (not used)                                              |
+|   0x14 | .b                  | ~ww_Octave~       | octave, should be 0..7                                  |
+|   0x15 | .b                  | ~ww_FragFactor~   | (not used, but is calculated by some sample operations) |
+|   0x16 | .b                  | ~ww_IsDoubleBufd~ | if non-zero, sample is double-buffered                  |
+|   0x17 |                     |                   | (padding)                                               |
+|   0x18 | .b × ~ww_CycleSize~ |                   | Wave data                                               |
+|--------+---------------------+-------------------+---------------------------------------------------------|
 
 The second variety below is the one used internally by the editor and
 stored in the PVMS project files.
 
 ~ww_SizeOfHeader~ = 0x1c
 
-|--------+---------------------+-------------------+---------------------------------------------------|
-| offset | size                | name              | description                                       |
-|--------+---------------------+-------------------+---------------------------------------------------|
-|    0x0 | .b × 0x10           | ~ww_Name~         |                                                   |
-|   0x10 | .l                  | ~ww_DataPtr~      | * pointer to wave data, ignored when loading PVMS |
-|   0x14 | .w                  | ~ww_CycleSize~    |                                                   |
-|   0x16 | .w                  | ~ww_Dummy~        |                                                   |
-|   0x18 | .b                  | ~ww_IsDoubleBufd~ |                                                   |
-|   0x19 | .b                  | ~ww_FragFactor~   |                                                   |
-|   0x1a | .b                  | ~ww_Octave~       |                                                   |
-|   0x1b |                     |                   | (padding)                                         |
-|   0x1c | .b × ~ww_CycleSize~ |                   | Wave data (only in PVMS files)                    |
-|--------+---------------------+-------------------+---------------------------------------------------|
+|--------+---------------------+-------------------+----------------------------------------------------------|
+| offset | size                | name              | description                                              |
+|--------+---------------------+-------------------+----------------------------------------------------------|
+|    0x0 | .b × 0x10           | ~ww_Name~         |                                                          |
+|   0x10 | .l                  | ~ww_DataPtr~      | * pointer to wave data, ignored when loading PVMS        |
+|   0x14 | .w                  | ~ww_CycleSize~    | length of wave data                                      |
+|   0x16 | .w                  | ~ww_Dummy~        | (not used)                                               |
+|   0x18 | .b                  | ~ww_IsDoubleBufd~ | if non-zero, sample is double-buffered                   |
+|   0x19 | .b                  | ~ww_FragFactor~   | (not used, but is calculated by some sample operations!) |
+|   0x1a | .b                  | ~ww_Octave~       | octave, should be 0..7                                   |
+|   0x1b |                     |                   | (padding)                                                |
+|   0x1c | .b × ~ww_CycleSize~ |                   | Wave data (only in PVMS files)                           |
+|--------+---------------------+-------------------+----------------------------------------------------------|
 
 
 ** Track structure
@@ -1519,27 +1531,27 @@ the waveform reaches its minimum length of two bytes.
 
 ~sco_SizeOf~ = 0x32
 
-|--------+-----------+--------------------+---------------------------------------------------------|
-| offset | size      | name               | description                                             |
-|--------+-----------+--------------------+---------------------------------------------------------|
-|    0x0 | .b × 0x10 | ~sco_Name~         |                                                         |
-|   0x10 | .b × 0x4  | ~sco_Tracks~       | one byte per channel                                    |
-|   0x14 | .b × 0x4  | ~sco_Tracks2~      | one byte per channel, alternate tracks (editor feature) |
-|   0x18 | .w        | ~sco_Tempo~        | can be broken into two bytes, "Tempo Hi" and "Tempo Lo" |
-|   0x19 | .b        | ~sco_TempoLo~      |                                                         |
-|   0x1a | .b × 0x4  | ~sco_Instrs~       | one byte per channel                                    |
-|   0x1e | .b        | ~sco_DefInstr~     |                                                         |
-|   0x1f | .b        | ~sco_Transpose~    |                                                         |
-|   0x20 | .b        | ~sco_UpdReduction~ |                                                         |
-|   0x21 | .b        | ~sco_Repeat~       |                                                         |
-|   0x22 | .b        | ~sco_FlangAlgo~    |                                                         |
-|   0x23 | .b        | ~sco_FlangSpeed~   |                                                         |
-|   0x24 | .b        | ~sco_Volume~       |                                                         |
-|   0x25 | .b        |                    | (reserved?)                                             |
-|   0x26 | .b × 0x4  | ~sco_FxBases~      | one byte per channel                                    |
-|   0x2a | .b × 0x4  | ~sco_FxRnds~       | one byte per channel                                    |
-|   0x2e | .b × 0x4  | ~sco_Volumes~      | one byte per channel                                    |
-|--------+-----------+--------------------+---------------------------------------------------------|
+|--------+-----------+--------------------+----------------------------------------------------------------------------------|
+| offset | size      | name               | description                                                                      |
+|--------+-----------+--------------------+----------------------------------------------------------------------------------|
+|    0x0 | .b × 0x10 | ~sco_Name~         |                                                                                  |
+|   0x10 | .b × 0x4  | ~sco_Tracks~       | one byte per channel                                                             |
+|   0x14 | .b × 0x4  | ~sco_Tracks2~      | one byte per channel, alternate tracks (editor feature)                          |
+|   0x18 | .w        | ~sco_Tempo~        | can be broken into two bytes, "Tempo Hi" and "Tempo Lo"                          |
+|   0x19 | .b        | ~sco_TempoLo~      |                                                                                  |
+|   0x1a | .b × 0x4  | ~sco_Instrs~       | one byte per channel                                                             |
+|   0x1e | .b        | ~sco_DefInstr~     | default instrument                                                               |
+|   0x1f | .b        | ~sco_Transpose~    | transpose (whole song)                                                           |
+|   0x20 | .b        | ~sco_UpdReduction~ | update reduction, skip specified amount of timer ticks                           |
+|   0x21 | .b        | ~sco_Repeat~       | boolean; 0 = play once, non-zero = play forever                                  |
+|   0x22 | .b        | ~sco_FlangAlgo~    | flanger algorithm: 0 = off, 1-5 = select algo, >5 = off                          |
+|   0x23 | .b        | ~sco_FlangSpeed~   | flanger speed: advance to next flanger row after specified number of timer ticks |
+|   0x24 | .b        | ~sco_Volume~       | master volume: 0x00..0x3f                                                        |
+|   0x25 | .b        |                    | (reserved?)                                                                      |
+|   0x26 | .b × 0x4  | ~sco_FxBases~      | FxTimeBase: 0 = off (one byte per channel)                                       |
+|   0x2a | .b × 0x4  | ~sco_FxRnds~       | FxRnd: 0 = off (one byte per channel)                                            |
+|   0x2e | .b × 0x4  | ~sco_Volumes~      | channel volume, 0x00..0x3f (one byte per channel)                                |
+|--------+-----------+--------------------+----------------------------------------------------------------------------------|
 
 
 ** "Function 0x14"

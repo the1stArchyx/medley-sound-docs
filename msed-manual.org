@@ -925,7 +925,11 @@ This operation adjusts the Result buffer length.  This value defaults
 to $10 which matches the length of Source A.  $08 will mean half the
 length of Source A and $20 is double the length.
 
-Values below $02 are most likely practically useless.
+Do keep in mind that the octave number is calculated from the length
+of the waveform data.  If you lengthen the waveform beyond 0x17e, or
+382 bytes to make the octave go negative, it will no longer play back
+right outside the wave editor.  This will also affect modifying longer
+samples imported from external sources!
 
 
 *** g:UF
@@ -1277,6 +1281,7 @@ Order of operations:
 - offset Src A wave data
 - mix
 - adjust amplitude (multiply by value and divide by 0x10)
+- recalculate octave number
 
 |--------+------+---------+------------+-----------------------------------------------------------|
 | offset | size | name    | init value | description                                               |
@@ -1291,12 +1296,30 @@ Order of operations:
 |    0x9 | .b   | ~op_PE~ |            | PE: playback period (* 0x10 + 0x96)                       |
 |--------+------+---------+------------+-----------------------------------------------------------|
 
-Some operations affect the octave number of waves in a way that
-potentially makes the waves play incorrectly.  This happens when the
-octave number goes beyond its functional range of 0..7.  This is
-something to look further into, both in the wave editor and the replay
-routine, to understand how the octave number affects the playback of
-samples.
+The octave number is calculated from the final length of the waveform.
+Do note that the calculation routine can count down below zero to
+"negative" octaves which will mess up the sample replay.
+
+The octave number is calculated by taking the resulting buffer length
+and shifting the bits right until the result is 2 or less, counting
+down from 7 at each bitshift.  By this logic the buffer length
+boundaries are as follows:
+
+| octave | max. buffer length |   hex |
+|--------+--------------------+-------|
+|      7 |                  2 |   0x2 |
+|      6 |                  5 |   0x4 |
+|      5 |                 10 |   0xa |
+|      4 |                 22 |  0x16 |
+|      3 |                 46 |  0x2e |
+|      2 |                 94 |  0x5e |
+|      1 |                190 |  0xbe |
+|      0 |                382 | 0x17e |
+
+This will only affect buffers that have been created through the Wave
+Editor operations.  Any raw samples directly loaded into the project
+will receive octave number 0 which will make the player play the
+sample as is without any playback period correction.
 
 
 ** Sound Channel Structure ("SCH")

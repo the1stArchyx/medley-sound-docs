@@ -586,16 +586,17 @@ The transposition is defined in semitones.
 
 * Instrument Editor
 
-|------------+---------------------------------|
-| ~1~ .. ~4~ | Edit [[ie_mg][MG parameters]]              |
-| ~e~        | Edit volume [[ie_env][envelope parameters]] |
-| ~f~        | test note selection             |
-| ~o~        | octave bank                     |
-| ~p~        | play test note                  |
-| ~s~        | Edit [[ie_snd][sound parameters]]           |
-| ~v~        | view output wave                |
-| ~w~        | go to wave editor               |
-|------------+---------------------------------|
+|------------+------------------------------------------------------------|
+| ~1~ .. ~4~ | Edit [[ie_mg][MG parameters]]                                         |
+| ~e~        | Edit volume [[ie_env][envelope parameters]]                            |
+| ~f~        | test note selection                                        |
+| ~o~        | octave bank                                                |
+| ~p~        | play test note                                             |
+| ~s~        | Edit [[ie_snd][sound parameters]]                                      |
+| ~v~        | view output wave                                           |
+| ~w~        | go to wave editor                                          |
+| ~<~        | replace current instrument with data of another instrument |
+|------------+------------------------------------------------------------|
 
 
 ** <<ie_snd>>SND

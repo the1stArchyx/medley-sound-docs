@@ -690,7 +690,11 @@ to edit the left nybble, and 1 and 3 to edit the right nybble.
 
 ** <<ie_env>>ENV - Envelope Generator
 
-This section specifies the envelope generator parameters:
+This section specifies the envelope generator parameters.
+
+When editing these parameters, the generated "slopes" are shown in the
+parameter window next to the waveform.  The slope values represent the
+amount of change made at each player tick.
 
 
 *** a:Tr - (unused?)
@@ -705,10 +709,14 @@ level.  This value together with Peak level is used to calculate
 ASlope (Attack Slope), which is the value used by the player
 internally.
 
+Attack time of $ff represents infinity and will make the instrument
+silent.
+
 
 *** c:Tl - Peak level (Top level)
 
 This parameter specifies the Peak level between attack and decay.
+Once this level is reached, the EG switches from attack to decay.
 
 
 *** d:Dt - Decay time
@@ -718,19 +726,24 @@ level.  This value together with Peak and Sustain levels is used to
 calculate DSlope (Decay Slope), which is the value used by the player
 internally.
 
+Decay time of $ff represents infinity, which means that the peak level
+will also be the sustain level.
+
 
 *** e:Sl - Sustain level
 
-This parameter specifies the Sustain level.  The note volume will stay
-at this level until a note off command.
+This parameter specifies the Sustain level.  The note volume will
+decay to and stay at this level until note-off (rest, "----").
 
 
 *** f:Rt - Release Time
 
-This parameter specifies the time it take from the note off command to
-silence.  This value together with Sustain Level is used to calculate
-RSlope (Release Slope), which is the value used by the player
-internally.
+This parameter specifies the time it takes from note-off to silence.
+This value together with Sustain Level is used to calculate RSlope
+(Release Slope), which is the value used by the player internally.
+
+Release time of $ff represents infinity, ie. the sound will never
+stop after a note-off.
 
 
 ** <<ie_mg>>MG - Modulation Generator

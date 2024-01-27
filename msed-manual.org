@@ -100,7 +100,19 @@ below.
 |------+----------------------|
 
 
-*** TODO ~m~ and ~v~ – monitor and view
+*** ~m~ and ~v~ – monitor and view
+
+Monitor and View are basically the same thing. The difference is that
+View displays a single frame of player status while Monitor refreshes
+the status display continuously.
+
+: Enable ff   Flang Algo 03  Flang Speed 06  Volume 3f
+:
+: 0:on   C..3  02  ins 09 dbass2           Vol 3f
+: 1:on   C..2  2b  ins 06 Carrilon         Vol 3f
+: 2:on   C..3  42  ins 09 dbass2           Vol 31
+: 3:on   E..2  06  ins 09 Snaredrum        Vol 3f
+
 
 *** ~o~ – optimise
 

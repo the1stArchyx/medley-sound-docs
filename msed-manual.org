@@ -30,15 +30,16 @@ values to make the editor useful once again.
 The different parts of the editor share certain common commands and
 data input schemes.  The typical commands are as follows:
 
-|-------------+------------------------------------|
-| ~c~         | Change instrument/score/track/wave |
-| ~r~         | Rename instrument/score/track/wave |
-| Shift + ~K~ | Delete ("kill")                    |
-| Shift + ~N~ | Allocate new                       |
-| <SPC>       | Notes off / stop                   |
-| <ESC>       | Cancel input/operation             |
-| Ctrl + ~V~  | Open supervisor console            |
-|-------------+------------------------------------|
+|-------------+----------------------------------------|
+| ~c~         | Change instrument/score/track/wave     |
+| ~r~         | Rename instrument/score/track/wave     |
+| Shift + ~K~ | Delete ("kill")                        |
+| Shift + ~N~ | Allocate new                           |
+| <SPC>       | Notes off / stop                       |
+| <ESC>       | Cancel input/operation                 |
+| Ctrl + ~L~  | Switch hardware low-pass filter on/off |
+| Ctrl + ~V~  | Open supervisor console                |
+|-------------+----------------------------------------|
 
 Not all of these commands work in every editor, but most do.
 

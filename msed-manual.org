@@ -352,6 +352,11 @@ parameters should be set to 0.
 | Shift + ~T~ | Edit Tone              |
 |-------------+------------------------|
 
+The set editing mode of a track persists for the track over track
+changes and will also be saved into the project file.  Remember to
+change a track back to *List Mode* when you're done editing to avoid
+accidental edits!
+
 
 *** Insert and edit mode functions
 

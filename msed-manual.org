@@ -797,7 +797,7 @@ This parameter appears not to be used.
 
 *** f:Rv - Reverse (boolean, $00 = off)
 
-Reverses the modulation operating, ie. modulating up becomes modulating down and vice versa.
+Reverses the modulation operation, ie. modulating up becomes modulating down and vice versa.
 
 
 *** g:Dt - Delay time
@@ -818,26 +818,34 @@ modulation waveform.
 
 *** k:Hs / l:Qs - Half-shift / Quarter-shift
 
-The function of these two parameters requires more research.  At
-present knowledge they may affect the initial offsetting of modulation
-depending on channel flags.  The value affects which flag is used:
+These values are used to shift the starting point of modulation
+waveform depending on the channel the instrument plays on.  They're
+mostly useful to desync modulators of an instrument playing on two
+channels at the same time.
 
-|-----+-------------------------------------------------------------------------|
-| $00 | off                                                                     |
-|-----+-------------------------------------------------------------------------|
-| $01 | ~sch_FlagLR~ - initial offset is applied if the instrument plays on the |
-|     | right channel                                                           |
-|-----+-------------------------------------------------------------------------|
-| $02 | ~sch_FlagLH~ - initial offset is applied if the instrument plays on the |
-|     | "higher" channel, ie. on one of the second stereo pair.                 |
-|-----+-------------------------------------------------------------------------|
+The Half-shift sets the initial modulation value to the Modulation
+level.  The Quarter-shift sets the initial modulation value to half
+the Modulation level.
 
+|-------+----------------------------------------------------------------|
+| value | description                                                    |
+|-------+----------------------------------------------------------------|
+| $00   | off                                                            |
+|-------+----------------------------------------------------------------|
+| $01   | ~sch_FlagLR~ - shift is applied if the instrument plays on the |
+|       | right channel, ie. on channel 2 or 3.                          |
+|-------+----------------------------------------------------------------|
+| $02   | ~sch_FlagLH~ - shift is applied if the instrument plays on the |
+|       | "higher" channel, ie. on channel 2 or 4.                       |
+|-------+----------------------------------------------------------------|
+| > $02 | Undefined behaviour. Non-zero values are used to address Sound |
+|       | Channel structure directly.                                    |
+|-------+----------------------------------------------------------------|
 
-The useful application for this would be to make flanging like effects
-when playing the same instrument on two different channels.
+Quarter-shift takes the higher priority if both are set.
       
-Quarter-shift is always on for frequency modulation (trigger
-destination 01) when a delay time is set.
+Quarter-shift is always enabled for frequency modulation (destination
+$01) when a delay time is set.
 
 
 * TODO Wave Editor

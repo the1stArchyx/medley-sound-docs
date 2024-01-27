@@ -1199,15 +1199,15 @@ hard-coded into the program.
 |  0xde0 | .l × 0x100        | ~mem_ScratchBuf0~           |        | scratch buffer for editing functions (Supervisor, optimise score table) |
 | 0x11dc | .w                |                             |        | ^ scratch buffer                                                        |
 | 0x11de | .w                |                             |        | ^ scratch buffer                                                        |
-| 0x11e0 | .l × 0x10         |                             |        | str                                                                     |
-| 0x11f1 | .b                |                             |        | { relates to 0x1268 }                                                   |
-| 0x11f2 | .w                |                             |   0x63 |                                                                         |
-| 0x11f4 | .w                |                             |   0x1e |                                                                         |
-| 0x11f6 | .w                |                             |   0xb4 |                                                                         |
-| 0x11f8 | .w                |                             |  0x14a |                                                                         |
-| 0x11fa | .w                |                             |  0x1e0 |                                                                         |
-| 0x11fc | .w                |                             |   0x66 |                                                                         |
-| 0x11fe | .w                |                             |   0x16 |                                                                         |
+| 0x11e0 | .l × 0x10         | ~mem_LabelBuffer~           |        | str                                                                     |
+| 0x11f1 | .b                | ~mem_PrevPenCol~            |        | gfx: Previous pen colour                                                |
+| 0x11f2 | .w                | ~mem_gfxCoordRoot1~         |   0x63 | gfx: Coordinate root                                                    |
+| 0x11f4 | .w                | ~mem_gfxCoordRoot2~         |   0x1e | gfx: Coordinate root                                                    |
+| 0x11f6 | .w                | ~mem_gfxCoordRoot3~         |   0xb4 | gfx: Coordinate root                                                    |
+| 0x11f8 | .w                | ~mem_gfxCoordRoot4~         |  0x14a | gfx: Coordinate root                                                    |
+| 0x11fa | .w                | ~mem_gfxCoordRoot5~         |  0x1e0 | gfx: Coordinate root                                                    |
+| 0x11fc | .w                | ~mem_gfxCoordRoot6~         |   0x66 | gfx: Coordinate root                                                    |
+| 0x11fe | .w                | ~mem_gfxCoordRoot7~         |   0x16 | gfx: Coordinate root                                                    |
 | 0x1200 | .b                |                             |        | flag                                                                    |
 | 0x1201 | .b                |                             |        | flag                                                                    |
 | 0x1202 | .w                |                             |        |                                                                         |
@@ -1215,7 +1215,7 @@ hard-coded into the program.
 | 0x125e | .l                |                             |        | * interrupt pointer ?                                                   |
 | 0x1262 | .w                |                             |        |                                                                         |
 | 0x1264 | .l                |                             |        | * memory                                                                |
-| 0x1268 | .b                |                             |        | { gfx, A Pen }                                                          |
+| 0x1268 | .b                | ~mem_CurPenCol~             |        | gfx: Current pen colour                                                 |
 | 0x1269 | .b                |                             |        | SMUS import: track counter                                              |
 | 0x126a | .w                |                             |        |                                                                         |
 | 0x126c | .l                |                             |        | * handle of main window (Exec, Intuition)                               |
@@ -1274,7 +1274,7 @@ hard-coded into the program.
 | 0x185c | .b                |                             |        | track editor: editing mode                                              |
 | 0x185d | .b                |                             |        | { instrument editor }                                                   |
 | 0x185e | .w                | ~mem_seChannelCounter~      |        | score editor: channel counter, channel column drawing                   |
-| 0x186a | .l                |                             |        |                                                                         |
+| 0x186a | .l                |                             |        | * "wave", "track", "score", "instrument"                                |
 | 0x186e | .w                | ~mem_seChanColumn~          |        | score editor: x coordinate for channel column                           |
 | 0x1870 |                   |                             |        |                                                                         |
 | 0x1878 | .w                | ~mem_seSelChanColumn~       |        | score editor: x coordinate of selected channel column                   |

@@ -215,6 +215,16 @@ The Score Editor defines the starting tracks of the song played on the
 four channels.  See Track Editor and the TRACK command to figure out
 how to nest tracks to make a song out of multiple tracks.
 
+A starting track, a default instrument, FxBase, FxRnd, and channel
+volume are defined for each channel.  FxBase and FxRnd are discussed
+further in a following section.  The channel volume appears to be a
+non-functional variable.
+
+Setting volumes and other score variables is typically not boundary
+checked, which means the song programmer needs to take care that the
+variables are within functional limits, eg. volumes are between 0 and
+$3f.
+
 
 ** Keyboard commands
 
@@ -245,7 +255,7 @@ how to nest tracks to make a song out of multiple tracks.
 | Shift + ~T~ | Go to Track Editor, edit track set on selected channel           |
 | ~u~         | Set Upd Reduc                                                    |
 | Shift + ~U~ | Unchord (useful mainly with tracks imported from SMUS files)     |
-| ~v~         | Set channel volume                                               |
+| ~v~         | Set channel volume (Not implemented in the player!)              |
 | Shift + ~V~ | Set song volume                                                  |
 | Shift + ~X~ | Exchange tracks with secondary track set[fn:shiftX]              |
 |-------------+------------------------------------------------------------------|
@@ -264,7 +274,7 @@ value, ie. higher values deliver a slower effect.
 
 The flanger update is performed in the player interrupt code which
 makes the Flang Speed definition be "update every nth interrupt
-trigger".
+trigger", which also makes it relative to tempo.
 
 
 *** <<se_flalgo>>Flanger algorithms
@@ -305,10 +315,11 @@ effect.
 ** TODO <<se_fx>>Sound effects
 
 Medley Sound was designed for game music and sound effects, so there
-naturally is support for the fx in the music player.  FxBase ("effect
-time base") and FxRnd (effect randomisation) are used to select sound
-channels for sound effects as well as randomising the "channel
-stealing" and how long a channel is kept "stolen".
+naturally is support for the sound effects in the music player.
+FxBase ("effect time base") and FxRnd (channel stealing time
+randomisation) are used to select sound channels for sound effects as
+well as randomising the "channel stealing" and how long a channel is
+kept "stolen".
 
 This feature requires more research.  For plain music playing the Fx
 parameters should be set to 0.
@@ -385,7 +396,7 @@ theoretical infinite note length.
 When using the beat and bar signs of the track editor, note length of
 $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time signature.
 
-|         | length | dotted | triplet |
+| note    | length | dotted | triplet |
 |---------+--------+--------+---------|
 | whole   | $60    |        |         |
 | half    | $30    | $48    | $20     |
@@ -1679,7 +1690,7 @@ register.
 
 * msed patches
 
-Sadly msed does have plenty of bugs in it. This section describes
+Sadly msed does have plenty of bugs in it.  This section describes
 workarounds to disable functionality that may corrupt memory.
 
 

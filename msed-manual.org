@@ -11,7 +11,9 @@ Medley Sound is the software that was used to make the background
 music for the Imploder 4.0.  The two songs used in it were called
 "Plodemusic" and "requester deun", the first one being the main theme
 tune and latter was the tune that played after the file implosion was
-done and the save requester was shown.
+done and the save requester was shown.  The Meter Test feature in the
+score editor was for fine tuning the meters in Imploder 4.0 to wiggle
+with the theme tune.
 
 This manual is a creation based on a lot of experimentation and some
 reverse engineering of the Medley Sound player routine and the editor.
@@ -255,7 +257,7 @@ $3f.
 | Shift + ~I~ | Go to Instrument Editor, edit instrument set on selected channel |
 | Shift + ~K~ | Delete score                                                     |
 | ~l~         | Set Tempo Lo                                                     |
-| ~m~         | Meter test                                                       |
+| ~m~         | Meter test (Imploder 4.0 meters!)                                |
 | ~n~         | Set FxRnd, see [[se_fx][Sound effects]]                                     |
 | Shift + ~N~ | Allocate new score                                               |
 | ~o~         | Set Transpose                                                    |
@@ -1274,6 +1276,7 @@ hard-coded into the program.
 | 0x185c | .b                |                             |        | track editor: editing mode                                              |
 | 0x185d | .b                |                             |        | { instrument editor }                                                   |
 | 0x185e | .w                | ~mem_seChannelCounter~      |        | score editor: channel counter, channel column drawing                   |
+| 0x1860 |                   | ~mem_MeterBuffer~           |        | "Imploder meter buffer"                                                 |
 | 0x186a | .l                |                             |        | * "wave", "track", "score", "instrument"                                |
 | 0x186e | .w                | ~mem_seChanColumn~          |        | score editor: x coordinate for channel column                           |
 | 0x1870 |                   |                             |        |                                                                         |

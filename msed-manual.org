@@ -15,14 +15,15 @@ done and the save requester was shown.  The Meter Test feature in the
 score editor was for fine tuning the meters in Imploder 4.0 to wiggle
 with the theme tune.
 
-This manual is a creation based on a lot of experimentation and some
-reverse engineering of the Medley Sound player routine and the editor.
-All of this was written because the original complete source code and
-whatever documentation there had been was partially lost prior to Paul
-releasing what little was left of this legendary software.
+This manual is a creation based on a lot of experimentation and a lot
+more reverse engineering of the Medley Sound player routine and the
+editor.  All of this was written because the original complete source
+code and whatever documentation there had been was partially lost
+prior to Paul releasing what little was left of this historical
+software.
 
 The editor doesn't have a very polished interface and plenty of the
-values for various parameters just have to be known, so this manual is
+values for various parameters just have to be known.  This manual is
 an attempt to document these various parameters and their functional
 values to make the editor useful once again.
 
@@ -32,16 +33,16 @@ values to make the editor useful once again.
 The different parts of the editor share certain common commands and
 data input schemes.  The typical commands are as follows:
 
-|-------------+----------------------------------------|
-| ~c~         | Change instrument/score/track/wave     |
-| ~r~         | Rename instrument/score/track/wave     |
-| Shift + ~K~ | Delete ("kill")                        |
-| Shift + ~N~ | Allocate new                           |
-| <SPC>       | Notes off / stop                       |
-| <ESC>       | Cancel input/operation                 |
-| Ctrl + ~L~  | Switch hardware low-pass filter on/off |
-| Ctrl + ~V~  | Open supervisor console                |
-|-------------+----------------------------------------|
+|-------------+------------------------------------------------|
+| ~c~         | Change (or select) instrument/score/track/wave |
+| ~r~         | Rename instrument/score/track/wave             |
+| Shift + ~K~ | Delete ("kill")                                |
+| Shift + ~N~ | Allocate new                                   |
+| <SPC>       | Notes off / stop                               |
+| <ESC>       | Cancel input/operation, exit editor            |
+| Ctrl + ~L~  | Switch hardware low-pass filter on/off         |
+| Ctrl + ~V~  | Open supervisor console                        |
+|-------------+------------------------------------------------|
 
 Not all of these commands work in every editor, but most do.
 
@@ -55,7 +56,7 @@ A typical single-byte number entry uses the typewriter keyboard to
 input individual hexadecimal numbers.  The current number in the
 single digit position is pushed into tens and the number in tens is
 discarded.  The ~1~ to ~9~ on the numpad is used in a special way to
-modify the existing number:
+modify the existing hex number:
 
 +-----+-----+-----+-----+
 |  [  |  ]  |  /  |  *  |
@@ -83,6 +84,7 @@ unused ones.
 
 The score optimiser can potentially corrupt memory in addition to
 plain clearing the score table without freeing the allocated memory.
+
 
 *** ~i~ – info
 
@@ -116,6 +118,13 @@ the status display continuously.
 : 2:on   C..3  42  ins 09 dbass2           Vol 31
 : 3:on   E..2  06  ins 09 Snaredrum        Vol 3f
 
+The first line shows player interrupt status, flanger algorithm and
+speed, and the song volume.
+
+The data shown for each channel is channel status (~on~ or ~off~), the
+note, the play time of the note left, the instrument number and name,
+and volume.
+
 
 *** ~o~ – optimise
 
@@ -135,13 +144,13 @@ corruption!
 
 The intention of score optimisation is to move all allocated scores
 one after another into a contiguous list.  Due to a partial buggy
-implementation it may write outside the intended memory space and
-corrupt memory.
+implementation it most likely will write outside the intended memory
+space and corrupt memory.
 
 
 **** ~oa~ - Optimise all
 
-Performs the following optimisations in order.
+Performs the following optimisations in order:
 
 1. Optimise tracks.
 2. Optimise instruments.
@@ -193,7 +202,7 @@ The Instrument Editor is used to define instrument parameters.  There
 can be a maximum number of 255 instruments, $1..$ff, each using 1 to 8
 waves defined by an octave table, a single volume envelope generator,
 and four modulation generators.  Three operating modes are available
-to produce complex synthesis.
+to produce sounds from plain samples to complex dynamic synthesis.
 
 
 ** (w) Wave Editor
@@ -215,6 +224,8 @@ implementation.
 
 The File Menu offers the usual project loading and saving as well as a
 special option to export the song as an assembly language source code.
+Assembling the source will produce a Medley Sound Object, or MSOB, for
+use with the standalone player.
 
 
 ** (Q) Quit
@@ -224,7 +235,7 @@ just ~q~, the editor will show "Say what?" on the window title.
 Pressing ~Esc~ will instruct "Shift-Q to Quit" in the window title.
 
 
-* TODO Score Editor
+* Score Editor
 
 The Score Editor defines the starting tracks of the song played on the
 four channels.  See Track Editor and the TRACK command to figure out
@@ -257,7 +268,7 @@ $3f.
 | Shift + ~I~ | Go to Instrument Editor, edit instrument set on selected channel |
 | Shift + ~K~ | Delete score                                                     |
 | ~l~         | Set Tempo Lo                                                     |
-| ~m~         | Meter test (Imploder 4.0 meters!)                                |
+| ~m~         | Meter test                                                       |
 | ~n~         | Set FxRnd, see [[se_fx][Sound effects]]                                     |
 | Shift + ~N~ | Allocate new score                                               |
 | ~o~         | Set Transpose                                                    |
@@ -272,12 +283,18 @@ $3f.
 | Shift + ~U~ | Unchord (useful mainly with tracks imported from SMUS files)     |
 | ~v~         | Set channel volume (Not implemented in the player!)              |
 | Shift + ~V~ | Set song volume                                                  |
-| Shift + ~X~ | Exchange tracks with secondary track set[fn:shiftX]              |
+| Shift + ~X~ | Exchange tracks with secondary track set                         |
 |-------------+------------------------------------------------------------------|
 
-[fn:shiftX]Editor feature. Secondary tracks are not used by the
-player! (Or something for the "Medley" feature that was never
-implemented.)
+Notes:
+
+- Secondary tracks are not used by the player.  (Or it's something for
+  the "Medley" feature that was never implemented.)
+
+- The Meter Test shows a mockup of Imploder 4.0 meters on top of the
+  score editor.  The drum instrument numbers are hardcoded against
+  preset meter deflections.  Other meter modes calculate deflection
+  dynamically from a combination of note and note duration.
 
 
 ** Flanger
@@ -340,7 +357,7 @@ This feature requires more research.  For plain music playing the Fx
 parameters should be set to 0.
 
 
-* TODO Track Editor
+* Track Editor
 
 ** Keboard commands
 
@@ -433,13 +450,13 @@ $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time signature.
 
 *** SCODEs ($80..$ff)
 
-The commands are internally known as SCODEs.
+The control commands are internally known as SCODEs.
 
 
 **** $80 [end]
 
 The unmodifyable SCODE is $80 and it's strictly reserved to end a
-track.  The operand (always $00) is discarded.
+track.  The operand (always $00) is discarded by the player.
 
 Track nesting table is checked at the track end and replay is resumed
 from the calling track, if any.  If there is no track to return to,
@@ -453,7 +470,7 @@ beat and bar indicators in the track editor functional.  The beat/bar
 indicators don't handle TRACK commands which may break the beat count
 when other tracks are called within the track.
 
-The operand is 5/3 bit designation for the time signature.  The lower
+The operand is 5+3 bit designation for the time signature.  The lower
 three bits designate the length of the beat and the upper five bits
 the count.  See table below.
 
@@ -473,7 +490,7 @@ and add $02 from the left side, $18 + $02 = $1a.
 
 For 6/8 the numbers would be $28 + $03 = $2b.
 
-***Note!*** 1/128 ($07) is known to crash the editor!
+**Note!** 1/128 ($07) is known to crash the editor!
 
 
 **** <<te_DYNLV>>$82 DYNLV
@@ -496,7 +513,7 @@ The name of this SCODE isn't very clear regarding its function.  This
 one is used to pick a random track from a specified number of
 following TRACK lines.  Use of this SCODE must be carefully considered
 because the replay routine doesn't sanity check the following track
-data.
+data and the editor doesn't prevent entering non-functional data.
 
 The operand should be a power of two, ie. $02, $04, $08, $10, $20,
 $40, or $80.  Using any other value is not of use due to how the SCODE
@@ -579,7 +596,7 @@ The transposition is defined in semitones.
 ** Important DO NOTs:
 
 - Do not set the time signature to 1/128 ($07).  The editor will
-  freeze if you do so and there are any notes on following lines.
+  freeze if you do so and there are any notes on the following lines.
 
 - Do no use the "halftone up" command ('=') to set notes beyond B-9.
   You'll eventually reach the end code after 'F-;' and the editor will
@@ -588,17 +605,17 @@ The transposition is defined in semitones.
 
 * Instrument Editor
 
-|------------+------------------------------------------------------------|
-| ~1~ .. ~4~ | Edit [[ie_mg][MG parameters]]                                         |
-| ~e~        | Edit volume [[ie_env][envelope parameters]]                            |
-| ~f~        | test note selection                                        |
-| ~o~        | octave bank                                                |
-| ~p~        | play test note                                             |
-| ~s~        | Edit [[ie_snd][sound parameters]]                                      |
-| ~v~        | view output wave                                           |
-| ~w~        | go to wave editor                                          |
-| ~<~        | replace current instrument with data of another instrument |
-|------------+------------------------------------------------------------|
+|------------+--------------------------------------------------------------|
+| ~1~ .. ~4~ | Edit [[ie_mg][MG parameters]]                                           |
+| ~e~        | Edit volume [[ie_env][envelope parameters]]                              |
+| ~f~        | Test note selection                                          |
+| ~o~        | Octave bank                                                  |
+| ~p~        | Play test note                                               |
+| ~s~        | Edit [[ie_snd][sound parameters]]                                        |
+| ~v~        | View output wave (useful to check BShift modulation)         |
+| ~w~        | Go to wave editor                                            |
+| ~<~        | Replace current instrument with data from another instrument |
+|------------+--------------------------------------------------------------|
 
 
 ** <<ie_snd>>SND
@@ -620,15 +637,16 @@ The sound mode can be one of the following:
 Any other value for this parameter defaults to single-shot std mode.
 
 Caveat: In single-shot mode the previous sample must end before
-another note will play on the same channel!  This is something to keep
-in mind when making drum tracks.
+another one will play on the same channel!  This is something to keep
+in mind when making drum tracks, ie. keep your drum samples short or
+end longer ones with a rest and fast volume envelope release.
 
 
 **** <std> and <???>
 
 This is the simplest sample player mode and will play samples as is.
 The <???> is the single-shot variant of standard mode and is suitable
-for drum samples and effect sounds.
+for drum and effect samples.
 
 
 **** <bsm>
@@ -807,7 +825,8 @@ modulate the frequency either up or down from the note frequency.
 
 This modulates the dynamic frequency of the instrument.  Do keep in
 mind that the modulation affects the whole byte, not just for one or
-the other nybble.
+the other nybble.  However, with careful crafting of slope values it
+may be possible to make fine changes to both nybbles.
 
 
 *** <<ie_mgBl>>b:Bl - Block wave (boolean, $00 = off)
@@ -836,7 +855,8 @@ This parameter appears not to be used.
 
 *** f:Rv - Reverse (boolean, $00 = off)
 
-Reverses the modulation operation, ie. modulating up becomes modulating down and vice versa.
+Reverses the modulation operation, ie. modulating up becomes
+modulating down and vice versa.
 
 
 *** g:Dt - Delay time
@@ -851,8 +871,8 @@ This parameter specifies the amplitude, or level of modulation.
 
 *** i:S1 / j:S2 - Slope 1 / Slope 2
 
-These two slope time parameters are used to shape the form of the
-modulation waveform.
+These two slope time parameters are used to shape the modulation
+waveform.
 
 
 *** k:Hs / l:Qs - Half-shift / Quarter-shift
@@ -866,20 +886,20 @@ The Half-shift sets the initial modulation value to the Modulation
 level.  The Quarter-shift sets the initial modulation value to half
 the Modulation level.
 
-|-------+----------------------------------------------------------------|
-| value | description                                                    |
-|-------+----------------------------------------------------------------|
-| $00   | off                                                            |
-|-------+----------------------------------------------------------------|
-| $01   | ~sch_FlagLR~ - shift is applied if the instrument plays on the |
-|       | right channel, ie. on channel 2 or 3.                          |
-|-------+----------------------------------------------------------------|
-| $02   | ~sch_FlagLH~ - shift is applied if the instrument plays on the |
-|       | "higher" channel, ie. on channel 2 or 4.                       |
-|-------+----------------------------------------------------------------|
-| > $02 | Undefined behaviour. Non-zero values are used to address Sound |
-|       | Channel structure directly.                                    |
-|-------+----------------------------------------------------------------|
+|-------+-----------------------------------------------------------------|
+| value | description                                                     |
+|-------+-----------------------------------------------------------------|
+| $00   | off                                                             |
+|-------+-----------------------------------------------------------------|
+| $01   | ~sch_FlagLR~ - shift is applied if the instrument plays on the  |
+|       | right channel, ie. on channel 2 or 3.                           |
+|-------+-----------------------------------------------------------------|
+| $02   | ~sch_FlagLH~ - shift is applied if the instrument plays on the  |
+|       | "higher" channel, ie. on channel 2 or 4.                        |
+|-------+-----------------------------------------------------------------|
+| > $02 | Undefined behaviour.  Non-zero values are used to address Sound |
+|       | Channel structure directly.                                     |
+|-------+-----------------------------------------------------------------|
 
 Quarter-shift takes the higher priority if both are set.
       
@@ -887,10 +907,10 @@ Quarter-shift is always enabled for frequency modulation (destination
 $01) when a delay time is set.
 
 
-* TODO Wave Editor
+* Wave Editor
 
 The Medley Sound Wave Editor is a simple yet powerful tool to make
-short samples for use with Base Shift and Dynamic modes.  There are
+short waveforms for use with Base Shift and Dynamic modes.  There are
 four waveform displays on top: current sample buffer (Source A),
 Source B, Result, and Undo Buffer.  Source B can be used to copy
 sample data to other waves/samples.
@@ -902,8 +922,7 @@ from an external source might have something like ~23f0, 0 s0 x0~.
 1. The first hexadecimal number is the data buffer length.
 
 2. The second value is currently known as "dummy".  A known use for it
-   hasn't been discovered, yet, but it may bee some sort of a buffer
-   size.
+   hasn't been discovered, yet.
 
 3. The letter after the two described above shows if the sample is
    single- (s) or double-buffered (d).
@@ -951,7 +970,7 @@ appear to move left in the visual preview.
 *** b:SY – shift source A down (add a fixed value to each sample)
 
 This operation adds a signed byte value to each sample of Source A,
-which makes waveform move down in the visual preview.
+which makes the waveform move down in the visual preview.
 
 
 *** c:AM – amplitude (10 = no change)
@@ -973,8 +992,8 @@ This operation mixes sources A and B.  Value of $00 will bypass the
 mixing and use only Source A.  Value of $ff will use only Source B and
 $80 will mix both evenly together.
 
-The thing to keep in mind is that in case the Source B is shorter than
-the Result buffer, it will not be looped.
+The thing to keep in mind is that the Source B will not be looped if
+it is shorter than the Result buffer!
 
 
 *** f:RE - Adjust Result buffer length
@@ -1009,46 +1028,62 @@ replace any waveform data in Source A.
 
 *** a:RA - generate a saw/triangle wave
 
-The operand is used to adjust duty cycle of the triangle wave.  $80 is
-pure triangle.
+The operand is used to adjust the duty cycle of the triangle wave.
+$80 is pure triangle.
 
 
 *** b:PU - generate a pulse/square wave
 
-The operand is used to adjust duty cycle of the square wave.
+The operand is used to adjust the duty cycle of the square wave.  $80
+equals 50%.
 
 
 *** s - precalculated sine wave
 
-Makes a copy of the precalculated sine wave.
+Press ~s~ to copy the precalculated sine wave to Source A.
 
 
 * File Menu
 
-** TODO (l)oad, (m)erge, and (i)mport
+** (l)oad, (m)erge, and (i)mport
 
 Medley Sound editor is able to load its own project format "PVMS" as
 well as SMUS/IFF song data. The third supported format is raw sample
 data encapsulated in a HUNK_UNIT file.
 
 *Warning!* Loading will destroy your current project, even if you're
-loading just a sample!
+loading just a sample!  Use Merge or Import to load a sample into your
+existing project!
+
+The difference between Merge and Import is that Merge will silently
+merge a complete PVMS project into the current one.  Import will query
+what content is to be imported.
 
 
-** TODO (s)ave
+** (s)ave
+
+This function saves the current project into a PVMS file.  The editor
+is not directly able to save to Medley Sound Object (MSOB) format.
 
 
-** TODO <a>ssembly
+** <a>ssembly
+
+This function is used to export the current project in memory into an
+assembly source code which can be assembled into a Medley Sound
+Object, and then linked into an executable.
 
 
-** TODO (C)lear
+** (C)lear
+
+This functions frees all working memory.
 
 
 * File formats
 
 ** TODO PVMS
 
-PVMS is the project file format of Medley Sound.
+PVMS is the project file format of Medley Sound editor.  Medley Sound
+player (msplay) does not read this format.
 
 
 *** Basic file structure
@@ -1367,7 +1402,7 @@ boundaries are as follows:
 | octave | max. buffer length |   hex |
 |--------+--------------------+-------|
 |      7 |                  2 |   0x2 |
-|      6 |                  5 |   0x4 |
+|      6 |                  5 |   0x5 |
 |      5 |                 10 |   0xa |
 |      4 |                 22 |  0x16 |
 |      3 |                 46 |  0x2e |
@@ -1383,7 +1418,7 @@ sample as is without any playback period correction.
 
 ** Sound Channel Structure ("SCH")
 
-One for each channel exists. Some data, like DMA switching masks, are
+One for each channel exists.  Some data, like DMA switching masks, are
 pre-calculated to simplify the player routine.
 
 |--------+-----------+---------------------+---------------------------------------------------------------------------------------|
@@ -1548,8 +1583,11 @@ stored in the PVMS project files.
 |   0x19 | .b                  | ~ww_FragFactor~   | (not used, but is calculated by some sample operations!) |
 |   0x1a | .b                  | ~ww_Octave~       | octave, should be 0..7                                   |
 |   0x1b |                     |                   | (padding)                                                |
-|   0x1c | .b × ~ww_CycleSize~ |                   | Wave data (only in PVMS files)                           |
+|   0x1c | .b × ~ww_CycleSize~ |                   | Wave data                                                |
 |--------+---------------------+-------------------+----------------------------------------------------------|
+
+Wave data is stored in PVMS files immediately after the header.  In
+memory the wave data is stored in a separate chip RAM buffer.
 
 
 ** Track structure
@@ -1588,8 +1626,8 @@ msed memory and PVMS project files.
 *** Notes
 
 Notes range from 0x02 (C-1) to 0x6d (B-9). In theory the notes can
-range up to 0x7f ("F-;") but practical use typically ends by A-9 when
-the waveform reaches its minimum length of two bytes.
+range up to 0x7f ("F-;") but practical use ends by A-9 when the
+dynamic waveforms reach the minimum length of two bytes.
 
 |-------------+------+------+------+------+------+------+------+------+------|
 | note/octave |    1 |    2 |    3 |    4 |    5 |    6 |    7 |    8 |    9 |
@@ -1648,9 +1686,8 @@ the waveform reaches its minimum length of two bytes.
 \n
 \z
 
-This function is a complex oddball and called via a function pointer.
-At this point in the reverse enginerding it appears to be a
-printf()-like string formatting function.
+This function is called via a function pointer.  It is a printf()-like
+string formatting function.
 
 The following table lists offsets of stack space used via linked A4
 register.

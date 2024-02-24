@@ -1775,8 +1775,28 @@ register.
 
 * msed patches
 
-Sadly msed does have plenty of bugs in it.  This section describes
-workarounds to disable functionality that may corrupt memory.
+In addition of missing features msed does have plenty of bugs in it.
+This section describes patches to fix or disable functionality that
+may corrupt memory.
+
+
+** Track editor: semitone up
+
+The upper boundary of "semitone up" is too high and allows turning a
+note into a track end marker.
+
+Replace
+
+: 4a48 : 0c 10 00 7f        cmpi.b  #0x7f,(A0)
+
+with
+
+: 4a48 : 0c 10 00 7e        cmpi.b  #0x7e,(A0)
+
+The above fix will change the check to compare against the penultimate
+possible note value instead of the last one.  The following
+conditional branch instruction (bhi) will skip the next addition
+instruction only if the byte value (note or SCODE) at A0 is higher.
 
 
 ** Supervisor: optimise scores

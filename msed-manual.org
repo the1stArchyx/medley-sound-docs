@@ -246,10 +246,10 @@ volume are defined for each channel.  FxBase and FxRnd are discussed
 further in a following section.  The channel volume appears to be a
 non-functional variable.
 
-Note!  If you have song repeat enabled, the player routine will become
-stuck in an endless loop if a starting track on any channel contains
-no notes or only zero-length notes.  This will freeze the whole
-computer!
+*Note!* If you have song repeat enabled, the player routine will
+become stuck in an endless loop if a starting track on any channel
+contains no notes or only zero-length notes.  This will freeze the
+whole computer!
 
 Setting volumes and other score variables is typically not boundary
 checked, which means the song programmer needs to take care that the
@@ -443,14 +443,42 @@ theoretical infinite note length.
 When using the beat and bar signs of the track editor, note length of
 $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time signature.
 
-| note    | length | dotted | triplet |
-|---------+--------+--------+---------|
-| whole   | $60    |        |         |
-| half    | $30    | $48    | $20     |
-| quarter | $18    | $24    | $10     |
-| eight   | $0c    | $12    | $08     |
-| 1/16    | $06    | $09    | $04     |
-| 1/32    | $03    |        | $02     |
+| note      | length | dotted | triplet |
+|-----------+--------+--------+---------|
+| whole     | $60    |        |         |
+| half      | $30    | $48    | $20     |
+| quarter   | $18    | $24    | $10     |
+| eighth    | $0c    | $12    | $08     |
+| sixteenth | $06    | $09    | $04     |
+| 1/32      | $03    |        | $02     |
+
+Comparing to ProTracker patterns at VBlank speed 6, the timing is as
+follows:
+
+: ___PT___  ___ Medley Sound ___
+: dec  hex  note length
+: 00 = 00 = $00
+: 01   01   $06   sixteenth
+: 02   02   $0c   eighth
+: 03   03   $12   dotted eighth
+: 04 - 04 - $18 - quarter
+: 05   05   $1e
+: 06   06   $24   dotted quarter
+: 07   07   $2a
+: 08 - 08 - $30 - half
+: 09   09   $36
+: 10   0A   $3c
+: 11   0B   $42
+: 12 - 0C - $48 - dotted half
+: 13   0D   $4e
+: 14   0E   $54
+: 15   0F   $5a
+: 16 = 10 = $60 = whole
+: 17   11   $66
+: 18   12   $6c
+: 19   13   $72
+: 20 - 14 - $78
+: 21   15   $7e
 
 
 *** SCODEs ($80..$ff)

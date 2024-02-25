@@ -455,30 +455,31 @@ $60 will match a whole note.  See [[te_TSIGN][TSIGN]] to adjust time signature.
 Comparing to ProTracker patterns at VBlank speed 6, the timing is as
 follows:
 
-: ___PT___  ___ Medley Sound ___
-: dec  hex  note length
-: 00 = 00 = $00
-: 01   01   $06   sixteenth
-: 02   02   $0c   eighth
-: 03   03   $12   dotted eighth
-: 04 - 04 - $18 - quarter
-: 05   05   $1e
-: 06   06   $24   dotted quarter
-: 07   07   $2a
-: 08 - 08 - $30 - half
-: 09   09   $36
-: 10   0A   $3c
-: 11   0B   $42
-: 12 - 0C - $48 - dotted half
-: 13   0D   $4e
-: 14   0E   $54
-: 15   0F   $5a
-: 16 = 10 = $60 = whole
-: 17   11   $66
-: 18   12   $6c
-: 19   13   $72
-: 20 - 14 - $78
-: 21   15   $7e
+: ___PT___    ___ Medley Sound ___
+: dec  hex    note length
+:
+:  00 = 00 == $00
+:  01   01    $06   sixteenth
+:  02   02    $0c   eighth
+:  03   03    $12   dotted eighth
+:  04 - 04 -- $18 - quarter
+:  05   05    $1e
+:  06   06    $24   dotted quarter
+:  07   07    $2a
+:  08 - 08 -- $30 - half
+:  09   09    $36
+:  10   0A    $3c
+:  11   0B    $42
+:  12 - 0C -- $48 - dotted half
+:  13   0D    $4e
+:  14   0E    $54
+:  15   0F    $5a
+:  16 = 10 == $60 = whole
+:  17   11    $66
+:  18   12    $6c
+:  19   13    $72
+:  20 - 14 -- $78
+:  21   15    $7e
 
 
 *** SCODEs ($80..$ff)

@@ -40,7 +40,7 @@ data input schemes.  The typical commands are as follows:
 | Shift + ~N~ | Allocate new                                   |
 | <SPC>       | Notes off / stop                               |
 | <ESC>       | Cancel input/operation, exit editor            |
-| Ctrl + ~L~  | Switch hardware low-pass filter on/off         |
+| Ctrl + ~L~  | Switch hardware low-pass filter on/off ("LED") |
 | Ctrl + ~V~  | Open supervisor console                        |
 |-------------+------------------------------------------------|
 
@@ -55,7 +55,7 @@ with the default ~us~ keymap.
 A typical single-byte number entry uses the typewriter keyboard to
 input individual hexadecimal numbers.  The current number in the
 single digit position is pushed into tens and the number in tens is
-discarded.  The ~1~ to ~9~ on the numpad is used in a special way to
+discarded.  The ~1~ to ~9~ on the numpad are used in a special way to
 modify the existing hex number:
 
 +-----+-----+-----+-----+
@@ -245,6 +245,10 @@ A starting track, a default instrument, FxBase, FxRnd, and channel
 volume are defined for each channel.  FxBase and FxRnd are discussed
 further in a following section.  The channel volume appears to be a
 non-functional variable.
+
+Note!  The player routine will be stuck in an endless loop if a
+starting track on any channel contains no notes or only zero-length
+notes.  This will freeze the whole computer!
 
 Setting volumes and other score variables is typically not boundary
 checked, which means the song programmer needs to take care that the

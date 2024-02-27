@@ -646,7 +646,7 @@ The transposition is defined in semitones.
 | ~o~        | Octave bank                                                  |
 | ~p~        | Play test note                                               |
 | ~s~        | Edit [[ie_snd][sound parameters]]                                        |
-| ~v~        | View output wave (useful to check BShift modulation)         |
+| ~v~        | View output wave (useful to check BShift/DShift modulation)  |
 | ~w~        | Go to wave editor                                            |
 | ~<~        | Replace current instrument with data from another instrument |
 |------------+--------------------------------------------------------------|
@@ -756,6 +756,10 @@ When editing these parameters, the generated "slopes" are shown in the
 parameter window next to the waveform.  The slope values represent the
 amount of change made at each player tick.
 
+Internally the envelope generator is 16-bit. The most significant six
+bits of the final calculated value after ADSR and MG calculations is
+used to address a volume value from the volume table.
+
 
 *** a:Tr - (unused?)
 
@@ -812,6 +816,9 @@ Each instrument features four identical modulation generators.
 Depending on the [[ie_mgBl][Block wave]] flag the oscillator generates a
 triangle/saw or a square wave with time constants S1 and S2.
 
+Similarly to the volume Envelope Generator, modulation speed is
+relative to song speed (ie. score tempo).
+
 
 *** a:De - Destination
 
@@ -822,7 +829,7 @@ $07.  Any numbers past $07 are interpreted as $07.
 **** $00 : off
 
 The replayer will bypass any MG that is set off.  The other parameters
-will be ignored.
+will not be processed at all.
 
 
 **** $01 : FM - Frequency Modulation
@@ -830,11 +837,17 @@ will be ignored.
 Frequency modulation modulates the playback frequency of the sound,
 just like it says on the tin.  This produces a vibrato effect.
 
+This modulation results in a signed 8-bit value and affects the
+playback period directly.
+
 
 **** $02 : AM - Amplitude Modulation
 
 This is the same for the amplitude, or volume of the sound, ie. a
 tremolo effect.
+
+Amplitude modulation is applied to the 16-bit internal amplitude value
+after ADSR.
 
 
 **** $03 : BShift - Base shift modulation ~<bsm>~
@@ -843,10 +856,14 @@ This modulates the base shift of the instrument.  With a specially
 crafted waveform this can be used to create eg. a pulse-width
 modulated square wave sound.
 
+This modulation is internally 8-bit.
+
 
 **** $04 : DShift - Dynamic shift modulation ~<dyn>~
 
 This modulates the dynamic shift of the instrument.
+
+This modulation is internally 8-bit.
 
 
 **** $05 / $06 : FM+ / FM- - Frequency Modulation (period up = frequency down) / (period down = frequency up)
@@ -854,13 +871,19 @@ This modulates the dynamic shift of the instrument.
 Unlike the ordinary FM mode ($01), these frequency modulation modes
 modulate the frequency either up or down from the note frequency.
 
+These modulations are internally 11-bit and affect the playback period
+directly.
+
 
 **** $07 : DynFreq - Dynamic frequency modulation ~<dyn>~
 
-This modulates the dynamic frequency of the instrument.  Do keep in
-mind that the modulation affects the whole byte, not just for one or
-the other nybble.  However, with careful crafting of slope values it
-may be possible to make fine changes to both nybbles.
+This modulates the waveform frequencies of a dynamic instrument.  Do
+keep in mind that the modulation affects the whole byte, not just for
+one or the other nybble.  However, with careful crafting of slope
+values it may be possible to make fine changes to both nybbles in a
+predictable manner.
+
+This modulation is internally 8-bit.
 
 
 *** <<ie_mgBl>>b:Bl - Block wave (boolean, $00 = off)
@@ -896,11 +919,14 @@ modulating down and vice versa.
 *** g:Dt - Delay time
 
 This parameter specifies the time from trigger to start of modulation.
+Time is specified in player ticks.
 
 
 *** h:Lv - Level
 
 This parameter specifies the amplitude, or level of modulation.
+Internally the modulation level is a 16-bit value, of which the user
+input is the most significant byte.
 
 
 *** i:S1 / j:S2 - Slope 1 / Slope 2
@@ -1455,67 +1481,67 @@ sample as is without any playback period correction.
 One for each channel exists.  Some data, like DMA switching masks, are
 pre-calculated to simplify the player routine.
 
-|--------+-----------+---------------------+---------------------------------------------------------------------------------------|
-| offset | size      | name                | description                                                                           |
-|--------+-----------+---------------------+---------------------------------------------------------------------------------------|
-|    0x0 | .b        | ~sch_IsActive~      | True if channel has track data to play.                                               |
-|    0x1 | .b        | ~sch_LogNote~       |                                                                                       |
-|    0x2 | .b        | ~sch_Gate~          |                                                                                       |
-|    0x3 | .b        | ~sch_Trig~          |                                                                                       |
-|    0x4 | .l        | ~sch_PaulaPtr~      | *                                                                                     |
-|    0x8 | .w        | ~sch_DmaMask0~      | bitmask to write to DMACON to turn audio channel DMA off                              |
-|    0xa | .w        | ~sch_DmaMask1~      | bitmask to write to DMACON to turn audio channel DMA on                               |
-|    0xc | .l        | ~sch_Instrument~    | * pointer to current instrument                                                       |
-|   0x10 | .w        | ~sch_EnvLevel~      |                                                                                       |
-|   0x12 | .w        | ~sch_Period~        |                                                                                       |
-|   0x14 | .b        | ~sch_Amplitude~     |                                                                                       |
-|   0x15 | .b        |                     |                                                                                       |
-|   0x16 | .w        | ~sch_BShift~        | "Base Shift"                                                                          |
-|   0x18 | .w        | ~sch_DShift~        | "Dynamic Shift"                                                                       |
-|   0x1a | .l × 0x4  | ~sch_MgPars~        | MG parameters, "WORD Level BYTE DelayTime, status (u/d)"                              |
-|   0x2a | .b        | ~sch_EnvStatus~     |                                                                                       |
-|   0x2b | .b        | ~sch_Duration~      |                                                                                       |
-|   0x2c | .l        | ~sch_TrackPtr~      | * play position at track                                                              |
-|   0x30 | .b        | ~sch_TrackMode~     |                                                                                       |
-|        |           |                     |                                                                                       |
-|   0x36 | .l        | ~sch_OutWavePtr~    | *                                                                                     |
-|   0x3a | .w        | ~sch_OutWaveLen~    |                                                                                       |
-|   0x3c | .b        | ~sch_OutLogNote~    |                                                                                       |
-|   0x3d | .b        | ~sch_OutWaveNum~    |                                                                                       |
-|   0x3e | .b        | ~sch_OutOctave~     |                                                                                       |
-|   0x3f | .b        | ~sch_MustFetchWave~ |                                                                                       |
-|   0x40 | .l        | ~sch_OutWaveStruc~  | *                                                                                     |
-|   0x44 | .w        | ~sch_OutCycleSize~  |                                                                                       |
-|   0x46 | .l        | ~sch_OutWaveBuf~    | *                                                                                     |
-|   0x4a | .l        | ~sch_ChipBuf~       | * pointer to a 0x20 byte Chip RAM buffer                                              |
-|   0x4e | .w        | ~sch_PrePeriod~     |                                                                                       |
-|   0x50 | .b        | ~sch_DynWaveValid~  | True, when dynamically generated wave doesn't need to be recalculated                 |
-|   0x51 | .b        | ~sch_IsStolen~      |                                                                                       |
-|   0x52 | .w        | ~sch_DynWaveSize~   | Size of dynamically generated wave in "ChipBuf"                                       |
-|   0x54 | .w        | ~sch_LastDShift~    | Previous calculated "dynamic shift"                                                   |
-|   0x56 | .b        | ~sch_ChnFlags~      |                                                                                       |
-|   0x57 | .b        | ~sch_FlagLR~        | 0x00 = left ; 0xff = right                                                            |
-|   0x58 | .b        | ~sch_FlagLH~        | 0x00 = "low" : 0xff = "high"                                                          |
-|   0x59 | .b        |                     |                                                                                       |
-|   0x5a | .w        | ~sch_Detune~        |                                                                                       |
-|   0x5c | .l        | ~sch_InitialTrkPtr~ | * pointer to start of track in the currently loaded score (song)                      |
-|   0x60 | .b        | ~sch_DynPerLsr~     | Bitwise left shift count for playback period correction of dynamically generated wave |
-|   0x61 | .b        | ~sch_DynFreq~       | 2× nybble, advancing speeds for dynamic wave generation                               |
-|   0x62 | .b        | ~sch_UpdRate~       |                                                                                       |
-|   0x63 | .b        | ~sch_Volume~        |                                                                                       |
-|   0x64 | .b × 0x40 | ~sch_VolTable~      |                                                                                       |
-|   0xa4 | .b        | ~sch_InsNum~        |                                                                                       |
-|   0xa5 | .b        |                     |                                                                                       |
-|   0xa6 | .b        | ~sch_FxTimeBase~    |                                                                                       |
-|   0xa7 | .b        | ~sch_FxTimeRnd~     |                                                                                       |
-|   0xa8 | .b        | ~sch_FxOffTime~     |                                                                                       |
-|   0xa9 | .b        | ~sch_Transpose~     |                                                                                       |
-|   0xaa | .w        | ~sch_GosubTblVec~   |                                                                                       |
-|   0xac | .w        | ~sch_LoopTblVec~    |                                                                                       |
-|   0xae | .l × 0x8  | ~sch_GosubTable~    |                                                                                       |
-|   0xce | .l × 0x8  | ~sch_LoopPtrTbl~    |                                                                                       |
-|   0xee | .l × 0x8  | ~sch_LoopTable~     |                                                                                       |
-|--------+-----------+---------------------+---------------------------------------------------------------------------------------|
+|--------+-----------+---------------------+----------------------------------------------------------------------------------------------------------|
+| offset | size      | name                | description                                                                                              |
+|--------+-----------+---------------------+----------------------------------------------------------------------------------------------------------|
+|    0x0 | .b        | ~sch_IsActive~      | True if channel has track data to play.                                                                  |
+|    0x1 | .b        | ~sch_LogNote~       |                                                                                                          |
+|    0x2 | .b        | ~sch_Gate~          | When false, triggers ADSR release.                                                                       |
+|    0x3 | .b        | ~sch_Trig~          | Set true at every note unless the note is tied. Triggers ADSR and MGs. Set false at the end of UpdSCH(). |
+|    0x4 | .l        | ~sch_PaulaPtr~      | *                                                                                                        |
+|    0x8 | .w        | ~sch_DmaMask0~      | bitmask to write to DMACON to turn audio channel DMA off                                                 |
+|    0xa | .w        | ~sch_DmaMask1~      | bitmask to write to DMACON to turn audio channel DMA on                                                  |
+|    0xc | .l        | ~sch_Instrument~    | * pointer to current instrument                                                                          |
+|   0x10 | .w        | ~sch_EnvLevel~      |                                                                                                          |
+|   0x12 | .w        | ~sch_Period~        |                                                                                                          |
+|   0x14 | .b        | ~sch_Amplitude~     |                                                                                                          |
+|   0x15 | .b        |                     |                                                                                                          |
+|   0x16 | .w        | ~sch_BShift~        | "Base Shift"                                                                                             |
+|   0x18 | .w        | ~sch_DShift~        | "Dynamic Shift"                                                                                          |
+|   0x1a | .l × 0x4  | ~sch_MgPars~        | MG parameters, "WORD Level BYTE DelayTime, status (u/d)"                                                 |
+|   0x2a | .b        | ~sch_EnvStatus~     | Set true when ADSR TLevel reached. (attack -> decay)                                                     |
+|   0x2b | .b        | ~sch_Duration~      |                                                                                                          |
+|   0x2c | .l        | ~sch_TrackPtr~      | * play position at track                                                                                 |
+|   0x30 | .b        | ~sch_TrackMode~     |                                                                                                          |
+|        |           |                     |                                                                                                          |
+|   0x36 | .l        | ~sch_OutWavePtr~    | *                                                                                                        |
+|   0x3a | .w        | ~sch_OutWaveLen~    |                                                                                                          |
+|   0x3c | .b        | ~sch_OutLogNote~    |                                                                                                          |
+|   0x3d | .b        | ~sch_OutWaveNum~    |                                                                                                          |
+|   0x3e | .b        | ~sch_OutOctave~     |                                                                                                          |
+|   0x3f | .b        | ~sch_MustFetchWave~ |                                                                                                          |
+|   0x40 | .l        | ~sch_OutWaveStruc~  | *                                                                                                        |
+|   0x44 | .w        | ~sch_OutCycleSize~  |                                                                                                          |
+|   0x46 | .l        | ~sch_OutWaveBuf~    | *                                                                                                        |
+|   0x4a | .l        | ~sch_ChipBuf~       | * pointer to a 0x20 byte Chip RAM buffer                                                                 |
+|   0x4e | .w        | ~sch_PrePeriod~     |                                                                                                          |
+|   0x50 | .b        | ~sch_DynWaveValid~  | True, when dynamically generated wave doesn't need to be recalculated                                    |
+|   0x51 | .b        | ~sch_IsStolen~      |                                                                                                          |
+|   0x52 | .w        | ~sch_DynWaveSize~   | Size of dynamically generated wave in "ChipBuf"                                                          |
+|   0x54 | .w        | ~sch_LastDShift~    | Previous calculated "dynamic shift"                                                                      |
+|   0x56 | .b        | ~sch_ChnFlags~      |                                                                                                          |
+|   0x57 | .b        | ~sch_FlagLR~        | 0x00 = left ; 0xff = right                                                                               |
+|   0x58 | .b        | ~sch_FlagLH~        | 0x00 = "low" : 0xff = "high"                                                                             |
+|   0x59 | .b        |                     |                                                                                                          |
+|   0x5a | .w        | ~sch_Detune~        |                                                                                                          |
+|   0x5c | .l        | ~sch_InitialTrkPtr~ | * pointer to start of track in the currently loaded score (song)                                         |
+|   0x60 | .b        | ~sch_DynPerLsr~     | Bitwise left shift count for playback period correction of dynamically generated wave                    |
+|   0x61 | .b        | ~sch_DynFreq~       | 2× nybble, advancing speeds for dynamic wave generation                                                  |
+|   0x62 | .b        | ~sch_UpdRate~       |                                                                                                          |
+|   0x63 | .b        | ~sch_Volume~        |                                                                                                          |
+|   0x64 | .b × 0x40 | ~sch_VolTable~      |                                                                                                          |
+|   0xa4 | .b        | ~sch_InsNum~        |                                                                                                          |
+|   0xa5 | .b        |                     |                                                                                                          |
+|   0xa6 | .b        | ~sch_FxTimeBase~    |                                                                                                          |
+|   0xa7 | .b        | ~sch_FxTimeRnd~     |                                                                                                          |
+|   0xa8 | .b        | ~sch_FxOffTime~     |                                                                                                          |
+|   0xa9 | .b        | ~sch_Transpose~     |                                                                                                          |
+|   0xaa | .w        | ~sch_GosubTblVec~   |                                                                                                          |
+|   0xac | .w        | ~sch_LoopTblVec~    |                                                                                                          |
+|   0xae | .l × 0x8  | ~sch_GosubTable~    |                                                                                                          |
+|   0xce | .l × 0x8  | ~sch_LoopPtrTbl~    |                                                                                                          |
+|   0xee | .l × 0x8  | ~sch_LoopTable~     |                                                                                                          |
+|--------+-----------+---------------------+----------------------------------------------------------------------------------------------------------|
 
 
 ** Instrument structure
@@ -1553,6 +1579,7 @@ This is also the data structure used in MSOB and PVMS files.
 
 *** TODO ADSR slope math to be extracted from the editor code!
 
+
 *** MG structure
 
 ~mg_SizeOf~ = 0x12
@@ -1572,7 +1599,7 @@ This is also the data structure used in MSOB and PVMS files.
 |    0x9 | .b   | ~mg_S1~           | time to reach modulation level from 0                                                         |
 |    0xa | .b   | ~mg_S2~           | time to return to 0 from modulation level                                                     |
 |    0xb | .b   |                   | not used?                                                                                     |
-|    0xc | .w   | ~mg_Level~        | modulation level                                                                              |
+|    0xc | .w   | ~mg_Level~        | modulation level (user input is the most significant byte!)                                   |
 |    0xe | .w   | ~mg_Slope1~       | MG slope (internal)                                                                           |
 |   0x10 | .w   | ~mg_Slope2~       | MG slope (internal)                                                                           |
 |--------+------+-------------------+-----------------------------------------------------------------------------------------------|

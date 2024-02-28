@@ -482,9 +482,12 @@ follows:
 :  21   15    $7e
 
 
-*** SCODEs ($80..$ff)
+*** SCODEs ($80..$8f)
 
-The control commands are internally known as SCODEs.
+The control commands are internally known as SCODEs.  The existing
+implementation of the player has a jump table for control codes from
+$80 to $8f.  Setting a control code beyond $8f will cause the player
+routine to jump to an undefined memory location.
 
 
 **** $80 [end]

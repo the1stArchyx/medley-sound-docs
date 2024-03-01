@@ -546,6 +546,11 @@ self-explanatory.
 
 **** <<te_UDATA>>$84 UDATA
 
+Note!  The implementation of UDATA is broken in the standalone Medley
+Sound Player (msplay)!  Msplay's UDATA handler performs address
+displacement calculation incorrectly and jumps to an arbitrary
+location in track data.
+
 The name of this SCODE isn't very clear regarding its function.  This
 one is used to pick a random track from a specified number of
 following TRACK lines.  Use of this SCODE must be carefully considered
@@ -1134,6 +1139,17 @@ is not directly able to save to Medley Sound Object (MSOB) format.
 This function is used to export the current project in memory into an
 assembly source code which can be assembled into a Medley Sound
 Object, and then linked into an executable.
+
+The option menu navigated with numpad arrow keys and options can be
+changed by pressing return.  To produce the smallest possible MSOB,
+set options to strip names and partial tables.
+
+Asm68k available on Aminet has been tested to produce an object
+readable by the standalone Medley Sound Player msplay, even if it
+complains about a comment as two undefined identifiers, "future" and
+"expansion".
+
+Keep in mind that the implementation of UDATA is broken in msplay!
 
 
 ** (C)lear

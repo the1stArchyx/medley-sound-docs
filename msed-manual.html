@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-01 Fri 12:58 -->
+<!-- 2024-03-10 Sun 01:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Medley Sound editor V1.0 manual</title>
@@ -236,182 +236,182 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1691da6">1. Medley Sound editor V1.0 manual</a>
+<li><a href="#org7a332fc">1. Medley Sound editor V1.0 manual</a>
 <ul>
-<li><a href="#orgb86fc5c">1.1. Some common commands and data input schemes</a>
+<li><a href="#org77e162b">1.1. Some common commands and data input schemes</a>
 <ul>
-<li><a href="#org32b04d4">1.1.1. Number entry</a></li>
+<li><a href="#org9854708">1.1.1. Number entry</a></li>
 </ul>
 </li>
-<li><a href="#orgadaa6eb">1.2. Supervisor</a>
+<li><a href="#orgfbbb5aa">1.2. Supervisor</a>
 <ul>
-<li><a href="#org704f95d">1.2.1. <code>i</code> – info</a></li>
-<li><a href="#orgb787779">1.2.2. <code>l</code> – list</a></li>
-<li><a href="#org8d60941">1.2.3. <code>m</code> and <code>v</code> – monitor and view</a></li>
-<li><a href="#org3afda7f">1.2.4. <code>o</code> – optimise</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org6e1bce9">2. Main Menu</a>
-<ul>
-<li><a href="#org004bda1">2.1. (m) Medley Editor</a></li>
-<li><a href="#org2f4402c">2.2. (s) Score Editor</a></li>
-<li><a href="#org0772f39">2.3. (t) Track Editor</a></li>
-<li><a href="#org3453850">2.4. (i) Instrument Editor</a></li>
-<li><a href="#org1c021e6">2.5. (w) Wave Editor</a></li>
-<li><a href="#org7b87a25">2.6. (c) Chord Editor</a></li>
-<li><a href="#org4c9ed98">2.7. (f) File Menu</a></li>
-<li><a href="#orgda802da">2.8. (Q) Quit</a></li>
-</ul>
-</li>
-<li><a href="#org05f2aa8">3. Score Editor</a>
-<ul>
-<li><a href="#org82524b2">3.1. Keyboard commands</a></li>
-<li><a href="#orgb0e8300">3.2. Flanger</a>
-<ul>
-<li><a href="#org09ca1d0">3.2.1. Flanger algorithms</a></li>
-</ul>
-</li>
-<li><a href="#org1f4f057">3.3. <span class="todo TODO">TODO</span> Sound effects</a></li>
-</ul>
-</li>
-<li><a href="#org5621e16">4. Track Editor</a>
-<ul>
-<li><a href="#org799dfb2">4.1. Keboard commands</a>
-<ul>
-<li><a href="#org45d9303">4.1.1. Editing modes</a></li>
-<li><a href="#org7beabd2">4.1.2. Insert and edit mode functions</a></li>
-</ul>
-</li>
-<li><a href="#org4c2d202">4.2. Note editing and SCODEs</a>
-<ul>
-<li><a href="#org97cda88">4.2.1. Notes ($00..$7f)</a></li>
-<li><a href="#org381e267">4.2.2. SCODEs ($80..$8f)</a></li>
-</ul>
-</li>
-<li><a href="#orgd1ae2d1">4.3. Important DO NOTs:</a></li>
-</ul>
-</li>
-<li><a href="#org9712e7c">5. Instrument Editor</a>
-<ul>
-<li><a href="#org4439345">5.1. SND</a>
-<ul>
-<li><a href="#org451dea1">5.1.1. a:Mo - sound mode</a></li>
-<li><a href="#org85ee8c7">5.1.2. b:Wa - wave</a></li>
-<li><a href="#org5ac8330">5.1.3. c:Bs - Base shift <code>&lt;bsm&gt;</code></a></li>
-<li><a href="#orga1d781b">5.1.4. d:Ds - Dynamic shift <code>&lt;dyn&gt;</code></a></li>
-<li><a href="#orgafed39d">5.1.5. e:Tr - transpose</a></li>
-<li><a href="#org38175c6">5.1.6. f:Fq - Dynamic frequency <code>&lt;dyn&gt;</code></a></li>
-</ul>
-</li>
-<li><a href="#orgfd02ee1">5.2. ENV - Envelope Generator</a>
-<ul>
-<li><a href="#org071c84a">5.2.1. a:Tr - (unused?)</a></li>
-<li><a href="#org343c7e5">5.2.2. b:At - Attack time</a></li>
-<li><a href="#org3456a12">5.2.3. c:Tl - Peak level (Top level)</a></li>
-<li><a href="#org806cefd">5.2.4. d:Dt - Decay time</a></li>
-<li><a href="#org4ce67c8">5.2.5. e:Sl - Sustain level</a></li>
-<li><a href="#org507f5ff">5.2.6. f:Rt - Release Time</a></li>
-</ul>
-</li>
-<li><a href="#org521cc83">5.3. MG - Modulation Generator</a>
-<ul>
-<li><a href="#orgdd745e1">5.3.1. a:De - Destination</a></li>
-<li><a href="#org27b8266">5.3.2. b:Bl - Block wave (boolean, $00 = off)</a></li>
-<li><a href="#orgcb638fd">5.3.3. c:Tr - Trigger mode (boolean, $00 = trigger at every note-on)</a></li>
-<li><a href="#org51c6dfd">5.3.4. d:Ss - Single-shot (boolean, $00 = off)</a></li>
-<li><a href="#org4347323">5.3.5. e:Sg - (unused)</a></li>
-<li><a href="#org307f6e2">5.3.6. f:Rv - Reverse (boolean, $00 = off)</a></li>
-<li><a href="#org2be3583">5.3.7. g:Dt - Delay time</a></li>
-<li><a href="#orgc88267a">5.3.8. h:Lv - Level</a></li>
-<li><a href="#org13269bb">5.3.9. i:S1 / j:S2 - Slope 1 / Slope 2</a></li>
-<li><a href="#org1909d0e">5.3.10. k:Hs / l:Qs - Half-shift / Quarter-shift</a></li>
+<li><a href="#org31cbad6">1.2.1. <code>i</code> – info</a></li>
+<li><a href="#org52f9595">1.2.2. <code>l</code> – list</a></li>
+<li><a href="#orgfaee168">1.2.3. <code>m</code> and <code>v</code> – monitor and view</a></li>
+<li><a href="#orgecff481">1.2.4. <code>o</code> – optimise</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org325e68c">6. Wave Editor</a>
+<li><a href="#org8d6ab5d">2. Main Menu</a>
 <ul>
-<li><a href="#org9dc9c2f">6.1. Frags</a></li>
-<li><a href="#org4fc2e8c">6.2. Operations</a>
-<ul>
-<li><a href="#orgf801d2e">6.2.1. a:SX – shift source A left in samples</a></li>
-<li><a href="#org6654b8c">6.2.2. b:SY – shift source A down (add a fixed value to each sample)</a></li>
-<li><a href="#org1274fc0">6.2.3. c:AM – amplitude (10 = no change)</a></li>
-<li><a href="#orgfb223f0">6.2.4. d:FQ – frequency of source A (10 = no change)</a></li>
-<li><a href="#orgd5d2ad5">6.2.5. e:MX – mix sources (00 = A; ff = B; 80 will mix 50/50)</a></li>
-<li><a href="#org84843e7">6.2.6. f:RE - Adjust Result buffer length</a></li>
-<li><a href="#orgbbdfba4">6.2.7. g:UF</a></li>
-<li><a href="#org592ebd3">6.2.8. h:PE – playback period (higher value = lower frequency)</a></li>
+<li><a href="#org1fdc50b">2.1. (m) Medley Editor</a></li>
+<li><a href="#org106f251">2.2. (s) Score Editor</a></li>
+<li><a href="#orgfd461d5">2.3. (t) Track Editor</a></li>
+<li><a href="#org590ec97">2.4. (i) Instrument Editor</a></li>
+<li><a href="#org39867c6">2.5. (w) Wave Editor</a></li>
+<li><a href="#org4041817">2.6. (c) Chord Editor</a></li>
+<li><a href="#orgf9b604c">2.7. (f) File Menu</a></li>
+<li><a href="#orgaeabd31">2.8. (Q) Quit</a></li>
 </ul>
 </li>
-<li><a href="#org37cdb6b">6.3. Preset - generate waveforms</a>
+<li><a href="#org223c141">3. Score Editor</a>
 <ul>
-<li><a href="#org39b9c18">6.3.1. a:RA - generate a saw/triangle wave</a></li>
-<li><a href="#orgdc6a206">6.3.2. b:PU - generate a pulse/square wave</a></li>
-<li><a href="#org8a3a103">6.3.3. s - precalculated sine wave</a></li>
+<li><a href="#org886d18a">3.1. Keyboard commands</a></li>
+<li><a href="#org3bdbd66">3.2. Flanger</a>
+<ul>
+<li><a href="#org8a026ec">3.2.1. Flanger algorithms</a></li>
+</ul>
+</li>
+<li><a href="#orgeee0749">3.3. <span class="todo TODO">TODO</span> Sound effects</a></li>
+</ul>
+</li>
+<li><a href="#orgdfcc171">4. Track Editor</a>
+<ul>
+<li><a href="#orgf4c39d0">4.1. Keboard commands</a>
+<ul>
+<li><a href="#org299fab9">4.1.1. Editing modes</a></li>
+<li><a href="#org8430bca">4.1.2. Insert and edit mode functions</a></li>
+</ul>
+</li>
+<li><a href="#org2912b86">4.2. Note editing and SCODEs</a>
+<ul>
+<li><a href="#orgba6501d">4.2.1. Notes ($00..$7f)</a></li>
+<li><a href="#org44a8a4a">4.2.2. SCODEs ($80..$8f)</a></li>
+</ul>
+</li>
+<li><a href="#org7db3c4f">4.3. Important DO NOTs:</a></li>
+</ul>
+</li>
+<li><a href="#orgf36a7b4">5. Instrument Editor</a>
+<ul>
+<li><a href="#org14a99f3">5.1. SND</a>
+<ul>
+<li><a href="#orga3957c3">5.1.1. a:Mo - sound mode</a></li>
+<li><a href="#org0ef9ab9">5.1.2. b:Wa - wave</a></li>
+<li><a href="#orgb0fbb81">5.1.3. c:Bs - Base shift <code>&lt;bsm&gt;</code></a></li>
+<li><a href="#org1d85da5">5.1.4. d:Ds - Dynamic shift <code>&lt;dyn&gt;</code></a></li>
+<li><a href="#org75b0039">5.1.5. e:Tr - transpose</a></li>
+<li><a href="#orga6ff3d4">5.1.6. f:Fq - Dynamic frequency <code>&lt;dyn&gt;</code></a></li>
+</ul>
+</li>
+<li><a href="#orgf4439b6">5.2. ENV - Envelope Generator</a>
+<ul>
+<li><a href="#org6eacdcb">5.2.1. a:Tr - (unused?)</a></li>
+<li><a href="#org60bacae">5.2.2. b:At - Attack time</a></li>
+<li><a href="#org7cd5901">5.2.3. c:Tl - Peak level (Top level)</a></li>
+<li><a href="#orgc788ebc">5.2.4. d:Dt - Decay time</a></li>
+<li><a href="#org7e5d050">5.2.5. e:Sl - Sustain level</a></li>
+<li><a href="#orgdc9fb8d">5.2.6. f:Rt - Release Time</a></li>
+</ul>
+</li>
+<li><a href="#org006d7e4">5.3. MG - Modulation Generator</a>
+<ul>
+<li><a href="#org76bbb72">5.3.1. a:De - Destination</a></li>
+<li><a href="#orgdd8e82e">5.3.2. b:Bl - Block wave (boolean, $00 = off)</a></li>
+<li><a href="#org97fffc5">5.3.3. c:Tr - Trigger mode (boolean, $00 = trigger at every note-on)</a></li>
+<li><a href="#org59b888c">5.3.4. d:Ss - Single-shot (boolean, $00 = off)</a></li>
+<li><a href="#orge32e419">5.3.5. e:Sg - (unused)</a></li>
+<li><a href="#org5b80088">5.3.6. f:Rv - Reverse (boolean, $00 = off)</a></li>
+<li><a href="#org4a50701">5.3.7. g:Dt - Delay time</a></li>
+<li><a href="#org301e20c">5.3.8. h:Lv - Level</a></li>
+<li><a href="#org5daed1b">5.3.9. i:S1 / j:S2 - Slope 1 / Slope 2</a></li>
+<li><a href="#org268b7c8">5.3.10. k:Hs / l:Qs - Half-shift / Quarter-shift</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org8d90f08">7. File Menu</a>
+<li><a href="#org0accc5e">6. Wave Editor</a>
 <ul>
-<li><a href="#org0804427">7.1. (l)oad, (m)erge, and (i)mport</a></li>
-<li><a href="#org2f1f094">7.2. (s)ave</a></li>
-<li><a href="#orgd1aeaba">7.3. &lt;a&gt;ssembly</a></li>
-<li><a href="#org14ed01f">7.4. (C)lear</a></li>
+<li><a href="#org0b89df0">6.1. Frags</a></li>
+<li><a href="#orgdd4a3ea">6.2. Operations</a>
+<ul>
+<li><a href="#orgbc1c103">6.2.1. a:SX – shift source A left in samples</a></li>
+<li><a href="#org7d75479">6.2.2. b:SY – shift source A down (add a fixed value to each sample)</a></li>
+<li><a href="#orgc6159da">6.2.3. c:AM – amplitude (10 = no change)</a></li>
+<li><a href="#orge554e47">6.2.4. d:FQ – frequency of source A (10 = no change)</a></li>
+<li><a href="#org6553cf8">6.2.5. e:MX – mix sources (00 = A; ff = B; 80 will mix 50/50)</a></li>
+<li><a href="#org152b820">6.2.6. f:RE - Adjust Result buffer length</a></li>
+<li><a href="#orgfe55b93">6.2.7. g:UF</a></li>
+<li><a href="#org5432456">6.2.8. h:PE – playback period (higher value = lower frequency)</a></li>
 </ul>
 </li>
-<li><a href="#orgea2d46c">8. File formats</a>
+<li><a href="#org7c10ad1">6.3. Preset - generate waveforms</a>
 <ul>
-<li><a href="#org6ca5562">8.1. <span class="todo TODO">TODO</span> PVMS</a>
-<ul>
-<li><a href="#org4e827a6">8.1.1. Basic file structure</a></li>
-<li><a href="#org5fee8b4">8.1.2. Basic data chunk structure</a></li>
-<li><a href="#org1f2604d">8.1.3. Basic data block structure</a></li>
-</ul>
-</li>
-<li><a href="#org4b6ea95">8.2. <span class="todo TODO">TODO</span> MSOB</a>
-<ul>
-<li><a href="#org0b4b38d">8.2.1. Header</a></li>
-<li><a href="#orgb2899dc">8.2.2. Tables</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#org4e12600">9. msed internals</a>
-<ul>
-<li><a href="#orgcb932ba">9.1. Memory map</a>
-<ul>
-<li><a href="#org2776f77">9.1.1. Wave editor operations</a></li>
-</ul>
-</li>
-<li><a href="#org7ae9fe5">9.2. Sound Channel Structure ("SCH")</a></li>
-<li><a href="#orgc78ffc5">9.3. Instrument structure</a>
-<ul>
-<li><a href="#orgf316407">9.3.1. <span class="todo TODO">TODO</span> ADSR slope math to be extracted from the editor code!</a></li>
-<li><a href="#orgaa3da93">9.3.2. MG structure</a></li>
-</ul>
-</li>
-<li><a href="#org5039279">9.4. Wave structure</a></li>
-<li><a href="#orgcb11b01">9.5. Track structure</a>
-<ul>
-<li><a href="#orga7bd195">9.5.1. Notes</a></li>
-</ul>
-</li>
-<li><a href="#org2e997b6">9.6. Score structure</a></li>
-<li><a href="#org4ec4805">9.7. "Function 0x14"</a>
-<ul>
-<li><a href="#org0165fc4">9.7.1. stack</a></li>
+<li><a href="#orgf4b37c0">6.3.1. a:RA - generate a saw/triangle wave</a></li>
+<li><a href="#org56c37be">6.3.2. b:PU - generate a pulse/square wave</a></li>
+<li><a href="#orgb9aad05">6.3.3. s - precalculated sine wave</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org9abf5af">10. msed patches</a>
+<li><a href="#orgbcec374">7. File Menu</a>
 <ul>
-<li><a href="#org2cd80e3">10.1. Track editor: semitone up</a></li>
-<li><a href="#org18cbebd">10.2. Supervisor: optimise scores</a></li>
+<li><a href="#org7329b49">7.1. (l)oad, (m)erge, and (i)mport</a></li>
+<li><a href="#org9bde365">7.2. (s)ave</a></li>
+<li><a href="#org3134de3">7.3. &lt;a&gt;ssembly</a></li>
+<li><a href="#org17da175">7.4. (C)lear</a></li>
+</ul>
+</li>
+<li><a href="#orge8e6ef3">8. File formats</a>
+<ul>
+<li><a href="#org59a3a7b">8.1. <span class="todo TODO">TODO</span> PVMS</a>
+<ul>
+<li><a href="#orgbfa228e">8.1.1. Basic file structure</a></li>
+<li><a href="#orgfcf50d1">8.1.2. Basic data chunk structure</a></li>
+<li><a href="#org0531f06">8.1.3. Basic data block structure</a></li>
+</ul>
+</li>
+<li><a href="#org95a8060">8.2. <span class="todo TODO">TODO</span> MSOB</a>
+<ul>
+<li><a href="#org03be73a">8.2.1. Header</a></li>
+<li><a href="#org51f1ddd">8.2.2. Tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0d3bade">9. msed internals</a>
+<ul>
+<li><a href="#org82770df">9.1. Memory map</a>
+<ul>
+<li><a href="#org216ad6d">9.1.1. Wave editor operations</a></li>
+</ul>
+</li>
+<li><a href="#org69f83b2">9.2. Sound Channel Structure ("SCH")</a></li>
+<li><a href="#orgd3067e9">9.3. Instrument structure</a>
+<ul>
+<li><a href="#orgff6aadb">9.3.1. <span class="todo TODO">TODO</span> ADSR slope math to be extracted from the editor code!</a></li>
+<li><a href="#org30055da">9.3.2. MG structure</a></li>
+</ul>
+</li>
+<li><a href="#org63fa83d">9.4. Wave structure</a></li>
+<li><a href="#org8e8852b">9.5. Track structure</a>
+<ul>
+<li><a href="#org04218c2">9.5.1. Notes</a></li>
+</ul>
+</li>
+<li><a href="#org6cbb627">9.6. Score structure</a></li>
+<li><a href="#org2d81c0a">9.7. "Function 0x14"</a>
+<ul>
+<li><a href="#org3b9b39d">9.7.1. stack</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc228b09">10. msed patches</a>
+<ul>
+<li><a href="#org19ec347">10.1. Track editor: semitone up</a></li>
+<li><a href="#orgd73cb2b">10.2. Supervisor: optimise scores</a></li>
 </ul>
 </li>
 </ul>
@@ -419,8 +419,8 @@
 </div>
 
 
-<div id="outline-container-org1691da6" class="outline-2">
-<h2 id="org1691da6"><span class="section-number-2">1.</span> Medley Sound editor V1.0 manual</h2>
+<div id="outline-container-org7a332fc" class="outline-2">
+<h2 id="org7a332fc"><span class="section-number-2">1.</span> Medley Sound editor V1.0 manual</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Medley Sound is the software that was used to make the background
@@ -450,8 +450,8 @@ values to make the editor useful once again.
 </div>
 
 
-<div id="outline-container-orgb86fc5c" class="outline-3">
-<h3 id="orgb86fc5c"><span class="section-number-3">1.1.</span> Some common commands and data input schemes</h3>
+<div id="outline-container-org77e162b" class="outline-3">
+<h3 id="org77e162b"><span class="section-number-3">1.1.</span> Some common commands and data input schemes</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 The different parts of the editor share certain common commands and
@@ -520,8 +520,8 @@ with the default <code>us</code> keymap.
 </div>
 
 
-<div id="outline-container-org32b04d4" class="outline-4">
-<h4 id="org32b04d4"><span class="section-number-4">1.1.1.</span> Number entry</h4>
+<div id="outline-container-org9854708" class="outline-4">
+<h4 id="org9854708"><span class="section-number-4">1.1.1.</span> Number entry</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 A typical single-byte number entry uses the typewriter keyboard to
@@ -605,8 +605,8 @@ modify the existing hex number:
 </div>
 
 
-<div id="outline-container-orgadaa6eb" class="outline-3">
-<h3 id="orgadaa6eb"><span class="section-number-3">1.2.</span> Supervisor</h3>
+<div id="outline-container-orgfbbb5aa" class="outline-3">
+<h3 id="orgfbbb5aa"><span class="section-number-3">1.2.</span> Supervisor</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The editor features a "Supervisor" console from which certain
@@ -628,8 +628,8 @@ plain clearing the score table without freeing the allocated memory.
 </div>
 
 
-<div id="outline-container-org704f95d" class="outline-4">
-<h4 id="org704f95d"><span class="section-number-4">1.2.1.</span> <code>i</code> – info</h4>
+<div id="outline-container-org31cbad6" class="outline-4">
+<h4 id="org31cbad6"><span class="section-number-4">1.2.1.</span> <code>i</code> – info</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 Shows basic information about the current song in memory.
@@ -638,8 +638,8 @@ Shows basic information about the current song in memory.
 </div>
 
 
-<div id="outline-container-orgb787779" class="outline-4">
-<h4 id="orgb787779"><span class="section-number-4">1.2.2.</span> <code>l</code> – list</h4>
+<div id="outline-container-org52f9595" class="outline-4">
+<h4 id="org52f9595"><span class="section-number-4">1.2.2.</span> <code>l</code> – list</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 This command is used to list allocated instruments, scores, tracks, or
@@ -681,8 +681,8 @@ below.
 </div>
 
 
-<div id="outline-container-org8d60941" class="outline-4">
-<h4 id="org8d60941"><span class="section-number-4">1.2.3.</span> <code>m</code> and <code>v</code> – monitor and view</h4>
+<div id="outline-container-orgfaee168" class="outline-4">
+<h4 id="orgfaee168"><span class="section-number-4">1.2.3.</span> <code>m</code> and <code>v</code> – monitor and view</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <p>
 Monitor and View are basically the same thing. The difference is that
@@ -714,8 +714,8 @@ and volume.
 </div>
 
 
-<div id="outline-container-org3afda7f" class="outline-4">
-<h4 id="org3afda7f"><span class="section-number-4">1.2.4.</span> <code>o</code> – optimise</h4>
+<div id="outline-container-orgecff481" class="outline-4">
+<h4 id="orgecff481"><span class="section-number-4">1.2.4.</span> <code>o</code> – optimise</h4>
 <div class="outline-text-4" id="text-1-2-4">
 <p>
 These commmands are used to clean up unused song parts before
@@ -732,7 +732,7 @@ tool.
 
 
 <ol class="org-ol">
-<li><a id="orgbd1a0c9"></a><code>os</code> – Optimise scores<br />
+<li><a id="org69df10e"></a><code>os</code> – Optimise scores<br />
 <div class="outline-text-5" id="text-1-2-4-1">
 <p>
 <b><b>Do not use!</b></b> This feature is broken and will lead to memory
@@ -749,7 +749,7 @@ space and corrupt memory.
 </li>
 
 
-<li><a id="org6a2d778"></a><code>oa</code> - Optimise all<br />
+<li><a id="org99d5c48"></a><code>oa</code> - Optimise all<br />
 <div class="outline-text-5" id="text-1-2-4-2">
 <p>
 Performs the following optimisations in order:
@@ -764,7 +764,7 @@ Performs the following optimisations in order:
 </li>
 
 
-<li><a id="orgf582e08"></a><code>ot</code> - Optimise tracks<br />
+<li><a id="orgfbb3c77"></a><code>ot</code> - Optimise tracks<br />
 <div class="outline-text-5" id="text-1-2-4-3">
 <p>
 Scans through all tracks used in scores and any tracks used by tracks
@@ -774,7 +774,7 @@ used in scores and deletes all the tracks not referenced to.
 </li>
 
 
-<li><a id="orgc0be246"></a><code>oi</code> – Optimise instruments<br />
+<li><a id="org44b078c"></a><code>oi</code> – Optimise instruments<br />
 <div class="outline-text-5" id="text-1-2-4-4">
 <p>
 Scans through all scores and tracks for any used instruments and
@@ -784,7 +784,7 @@ deletes any instruments not used.
 </li>
 
 
-<li><a id="org275216a"></a><code>ow</code> – Optimise waves<br />
+<li><a id="orgf7a6288"></a><code>ow</code> – Optimise waves<br />
 <div class="outline-text-5" id="text-1-2-4-5">
 <p>
 Scans through all instruments and deletes all unused waves.
@@ -797,12 +797,12 @@ Scans through all instruments and deletes all unused waves.
 </div>
 
 
-<div id="outline-container-org6e1bce9" class="outline-2">
-<h2 id="org6e1bce9"><span class="section-number-2">2.</span> Main Menu</h2>
+<div id="outline-container-org8d6ab5d" class="outline-2">
+<h2 id="org8d6ab5d"><span class="section-number-2">2.</span> Main Menu</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org004bda1" class="outline-3">
-<h3 id="org004bda1"><span class="section-number-3">2.1.</span> (m) Medley Editor</h3>
+<div id="outline-container-org1fdc50b" class="outline-3">
+<h3 id="org1fdc50b"><span class="section-number-3">2.1.</span> (m) Medley Editor</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 The Medley Editor is not implemented.
@@ -811,8 +811,8 @@ The Medley Editor is not implemented.
 </div>
 
 
-<div id="outline-container-org2f4402c" class="outline-3">
-<h3 id="org2f4402c"><span class="section-number-3">2.2.</span> (s) Score Editor</h3>
+<div id="outline-container-org106f251" class="outline-3">
+<h3 id="org106f251"><span class="section-number-3">2.2.</span> (s) Score Editor</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 The Score Editor is used to define the four tracks and other
@@ -822,8 +822,8 @@ parameters that make each of 255 possible songs, $1..$ff.
 </div>
 
 
-<div id="outline-container-org0772f39" class="outline-3">
-<h3 id="org0772f39"><span class="section-number-3">2.3.</span> (t) Track Editor</h3>
+<div id="outline-container-orgfd461d5" class="outline-3">
+<h3 id="orgfd461d5"><span class="section-number-3">2.3.</span> (t) Track Editor</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 The Track Editor is used to create and edit tracks, the maximum number
@@ -836,8 +836,8 @@ which allows great flexibility to reuse tracks efficiently.
 </div>
 
 
-<div id="outline-container-org3453850" class="outline-3">
-<h3 id="org3453850"><span class="section-number-3">2.4.</span> (i) Instrument Editor</h3>
+<div id="outline-container-org590ec97" class="outline-3">
+<h3 id="org590ec97"><span class="section-number-3">2.4.</span> (i) Instrument Editor</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 The Instrument Editor is used to define instrument parameters.  There
@@ -850,8 +850,8 @@ to produce sounds from plain samples to complex dynamic synthesis.
 </div>
 
 
-<div id="outline-container-org1c021e6" class="outline-3">
-<h3 id="org1c021e6"><span class="section-number-3">2.5.</span> (w) Wave Editor</h3>
+<div id="outline-container-org39867c6" class="outline-3">
+<h3 id="org39867c6"><span class="section-number-3">2.5.</span> (w) Wave Editor</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 The Wave Editor is also known as the Sample Editor.  The Wave Editor
@@ -863,8 +863,8 @@ together.
 </div>
 
 
-<div id="outline-container-org7b87a25" class="outline-3">
-<h3 id="org7b87a25"><span class="section-number-3">2.6.</span> (c) Chord Editor</h3>
+<div id="outline-container-org4041817" class="outline-3">
+<h3 id="org4041817"><span class="section-number-3">2.6.</span> (c) Chord Editor</h3>
 <div class="outline-text-3" id="text-2-6">
 <p>
 The Chord Editor is not implemented.  It could be speculated that the
@@ -875,8 +875,8 @@ implementation.
 </div>
 
 
-<div id="outline-container-org4c9ed98" class="outline-3">
-<h3 id="org4c9ed98"><span class="section-number-3">2.7.</span> (f) File Menu</h3>
+<div id="outline-container-orgf9b604c" class="outline-3">
+<h3 id="orgf9b604c"><span class="section-number-3">2.7.</span> (f) File Menu</h3>
 <div class="outline-text-3" id="text-2-7">
 <p>
 The File Menu offers the usual project loading and saving as well as a
@@ -888,8 +888,8 @@ use with the standalone player.
 </div>
 
 
-<div id="outline-container-orgda802da" class="outline-3">
-<h3 id="orgda802da"><span class="section-number-3">2.8.</span> (Q) Quit</h3>
+<div id="outline-container-orgaeabd31" class="outline-3">
+<h3 id="orgaeabd31"><span class="section-number-3">2.8.</span> (Q) Quit</h3>
 <div class="outline-text-3" id="text-2-8">
 <p>
 To quit Medley Sound Editor you must press <code>Shift + Q</code>.  If you press
@@ -901,8 +901,8 @@ Pressing <code>Esc</code> will instruct "Shift-Q to Quit" in the window title.
 </div>
 
 
-<div id="outline-container-org05f2aa8" class="outline-2">
-<h2 id="org05f2aa8"><span class="section-number-2">3.</span> Score Editor</h2>
+<div id="outline-container-org223c141" class="outline-2">
+<h2 id="org223c141"><span class="section-number-2">3.</span> Score Editor</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The Score Editor defines the starting tracks of the song played on the
@@ -933,8 +933,8 @@ $3f.
 </div>
 
 
-<div id="outline-container-org82524b2" class="outline-3">
-<h3 id="org82524b2"><span class="section-number-3">3.1.</span> Keyboard commands</h3>
+<div id="outline-container-org886d18a" class="outline-3">
+<h3 id="org886d18a"><span class="section-number-3">3.1.</span> Keyboard commands</h3>
 <div class="outline-text-3" id="text-3-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -962,12 +962,12 @@ $3f.
 
 <tr>
 <td class="org-left"><code>a</code></td>
-<td class="org-left">Set Fl. Algo (<a href="#org28be12f">flanger algorithm</a>, $01..$05, or $00 = off)</td>
+<td class="org-left">Set Fl. Algo (<a href="#org58eb56a">flanger algorithm</a>, $01..$05, or $00 = off)</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>b</code></td>
-<td class="org-left">Set FxBase, see <a href="#org16fd5ea">Sound effects</a></td>
+<td class="org-left">Set FxBase, see <a href="#org80bcea9">Sound effects</a></td>
 </tr>
 
 <tr>
@@ -1017,7 +1017,7 @@ $3f.
 
 <tr>
 <td class="org-left"><code>n</code></td>
-<td class="org-left">Set FxRnd, see <a href="#org16fd5ea">Sound effects</a></td>
+<td class="org-left">Set FxRnd, see <a href="#org80bcea9">Sound effects</a></td>
 </tr>
 
 <tr>
@@ -1109,8 +1109,8 @@ dynamically from a combination of note and note duration.</li>
 </div>
 
 
-<div id="outline-container-orgb0e8300" class="outline-3">
-<h3 id="orgb0e8300"><span class="section-number-3">3.2.</span> Flanger</h3>
+<div id="outline-container-org3bdbd66" class="outline-3">
+<h3 id="org3bdbd66"><span class="section-number-3">3.2.</span> Flanger</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The flanger effect is implemented as changing channel detunes.  To
@@ -1127,8 +1127,8 @@ trigger", which also makes it relative to tempo.
 </div>
 
 
-<div id="outline-container-org09ca1d0" class="outline-4">
-<h4 id="org09ca1d0"><span class="section-number-4">3.2.1.</span> <a id="org28be12f"></a>Flanger algorithms</h4>
+<div id="outline-container-org8a026ec" class="outline-4">
+<h4 id="org8a026ec"><span class="section-number-4">3.2.1.</span> <a id="org58eb56a"></a>Flanger algorithms</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <p>
 The five flanger algorithms are defined in the player routine as
@@ -1303,8 +1303,8 @@ effect.
 </div>
 
 
-<div id="outline-container-org1f4f057" class="outline-3">
-<h3 id="org1f4f057"><span class="section-number-3">3.3.</span> <span class="todo TODO">TODO</span> <a id="org16fd5ea"></a>Sound effects</h3>
+<div id="outline-container-orgeee0749" class="outline-3">
+<h3 id="orgeee0749"><span class="section-number-3">3.3.</span> <span class="todo TODO">TODO</span> <a id="org80bcea9"></a>Sound effects</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Medley Sound was designed for game music and sound effects, so there
@@ -1324,16 +1324,16 @@ parameters should be set to 0.
 </div>
 
 
-<div id="outline-container-org5621e16" class="outline-2">
-<h2 id="org5621e16"><span class="section-number-2">4.</span> Track Editor</h2>
+<div id="outline-container-orgdfcc171" class="outline-2">
+<h2 id="orgdfcc171"><span class="section-number-2">4.</span> Track Editor</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org799dfb2" class="outline-3">
-<h3 id="org799dfb2"><span class="section-number-3">4.1.</span> Keboard commands</h3>
+<div id="outline-container-orgf4c39d0" class="outline-3">
+<h3 id="orgf4c39d0"><span class="section-number-3">4.1.</span> Keboard commands</h3>
 <div class="outline-text-3" id="text-4-1">
 </div>
-<div id="outline-container-org45d9303" class="outline-4">
-<h4 id="org45d9303"><span class="section-number-4">4.1.1.</span> Editing modes</h4>
+<div id="outline-container-org299fab9" class="outline-4">
+<h4 id="org299fab9"><span class="section-number-4">4.1.1.</span> Editing modes</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1381,8 +1381,8 @@ accidental edits!
 </div>
 
 
-<div id="outline-container-org7beabd2" class="outline-4">
-<h4 id="org7beabd2"><span class="section-number-4">4.1.2.</span> Insert and edit mode functions</h4>
+<div id="outline-container-org8430bca" class="outline-4">
+<h4 id="org8430bca"><span class="section-number-4">4.1.2.</span> Insert and edit mode functions</h4>
 <div class="outline-text-4" id="text-4-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1420,42 +1420,42 @@ accidental edits!
 
 <tr>
 <td class="org-left"><code>!</code></td>
-<td class="org-left"><a href="#org45af48e">TSIGN</a> – set time signature (editor feature)</td>
+<td class="org-left"><a href="#orgc6f6345">TSIGN</a> – set time signature (editor feature)</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>@</code></td>
-<td class="org-left"><a href="#org0e0a223">DYNLV</a> – set volume</td>
+<td class="org-left"><a href="#org5ded8ff">DYNLV</a> – set volume</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>#</code></td>
-<td class="org-left"><a href="#org6e6f13b">INSTR</a> – set instrument</td>
+<td class="org-left"><a href="#orgab6c80f">INSTR</a> – set instrument</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>$</code></td>
-<td class="org-left"><a href="#orgdc37cc1">UDATA</a> – jump to a random track</td>
+<td class="org-left"><a href="#orgfd9e10c">UDATA</a> – jump to a random track</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>%</code></td>
-<td class="org-left"><a href="#org5291120">TRACK</a> – "gosub" to a track</td>
+<td class="org-left"><a href="#org1a280b8">TRACK</a> – "gosub" to a track</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>^</code></td>
-<td class="org-left"><a href="#org019f363">RPEAT</a> – set start of a loop and loop count</td>
+<td class="org-left"><a href="#orgd054b89">RPEAT</a> – set start of a loop and loop count</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>&amp;</code></td>
-<td class="org-left"><a href="#orgb8e10fa">LOOP</a> – jump back to a loop start</td>
+<td class="org-left"><a href="#org1f8d099">LOOP</a> – jump back to a loop start</td>
 </tr>
 
 <tr>
 <td class="org-left"><code>*</code></td>
-<td class="org-left"><a href="#orgc264576">TRANSP</a> – transpose up or down in semitones</td>
+<td class="org-left"><a href="#orgd801fd3">TRANSP</a> – transpose up or down in semitones</td>
 </tr>
 
 <tr>
@@ -1550,8 +1550,8 @@ visual view like the pattern view of ProTracker.
 </div>
 
 
-<div id="outline-container-org4c2d202" class="outline-3">
-<h3 id="org4c2d202"><span class="section-number-3">4.2.</span> Note editing and SCODEs</h3>
+<div id="outline-container-org2912b86" class="outline-3">
+<h3 id="org2912b86"><span class="section-number-3">4.2.</span> Note editing and SCODEs</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Each line of a track represents a note and its length or a control
@@ -1560,8 +1560,8 @@ code (SCODE, most likely from Dutch "stuurcode") and its operand.
 </div>
 
 
-<div id="outline-container-org97cda88" class="outline-4">
-<h4 id="org97cda88"><span class="section-number-4">4.2.1.</span> Notes ($00..$7f)</h4>
+<div id="outline-container-orgba6501d" class="outline-4">
+<h4 id="orgba6501d"><span class="section-number-4">4.2.1.</span> Notes ($00..$7f)</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 Notes are defined starting from <code>C-1</code> ($02 in track data) up to <code>B-9</code>
@@ -1578,7 +1578,7 @@ theoretical infinite note length.
 
 <p>
 When using the beat and bar signs of the track editor, note length of
-$60 will match a whole note.  See <a href="#org45af48e">TSIGN</a> to adjust time signature.
+$60 will match a whole note.  See <a href="#orgc6f6345">TSIGN</a> to adjust time signature.
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -1682,8 +1682,8 @@ dec  hex    note length
 </div>
 
 
-<div id="outline-container-org381e267" class="outline-4">
-<h4 id="org381e267"><span class="section-number-4">4.2.2.</span> SCODEs ($80..$8f)</h4>
+<div id="outline-container-org44a8a4a" class="outline-4">
+<h4 id="org44a8a4a"><span class="section-number-4">4.2.2.</span> SCODEs ($80..$8f)</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <p>
 The control commands are internally known as SCODEs.  The existing
@@ -1695,7 +1695,7 @@ routine to jump to an undefined memory location.
 
 
 <ol class="org-ol">
-<li><a id="orgdc39a28"></a>$80 [end]<br />
+<li><a id="org78617ca"></a>$80 [end]<br />
 <div class="outline-text-5" id="text-4-2-2-1">
 <p>
 The unmodifyable SCODE is $80 and it's strictly reserved to end a
@@ -1711,7 +1711,7 @@ song repeat flag is checked and if true, the track restarts.
 </li>
 
 
-<li><a id="org27e4661"></a><a id="org45af48e"></a>$81 TSIGN<br />
+<li><a id="org7d47573"></a><a id="orgc6f6345"></a>$81 TSIGN<br />
 <div class="outline-text-5" id="text-4-2-2-2">
 <p>
 This SCODE is ignored by the player.  It exists solely to make the
@@ -1798,7 +1798,7 @@ For 6/8 the numbers would be $28 + $03 = $2b.
 </li>
 
 
-<li><a id="org8318d9e"></a><a id="org0e0a223"></a>$82 DYNLV<br />
+<li><a id="orgfbc1e00"></a><a id="org5ded8ff"></a>$82 DYNLV<br />
 <div class="outline-text-5" id="text-4-2-2-3">
 <p>
 This sets the channel volume ("dynamic level").  The operand is
@@ -1810,7 +1810,7 @@ significant bit.
 </li>
 
 
-<li><a id="org91486b4"></a><a id="org6e6f13b"></a>$83 INSTR<br />
+<li><a id="orgd41af93"></a><a id="orgab6c80f"></a>$83 INSTR<br />
 <div class="outline-text-5" id="text-4-2-2-4">
 <p>
 Set instrument on current track. This should be rather
@@ -1820,13 +1820,13 @@ self-explanatory.
 </li>
 
 
-<li><a id="orgc5b3f4a"></a><a id="orgdc37cc1"></a>$84 UDATA<br />
+<li><a id="org7ad9294"></a><a id="orgfd9e10c"></a>$84 UDATA<br />
 <div class="outline-text-5" id="text-4-2-2-5">
 <p>
 Note!  The implementation of UDATA is broken in the standalone Medley
-Sound Player (msplay)!  Msplay's UDATA handler doesn't perform track
-name skip and causes the player to interpret the track name as track
-data.
+Sound Player (msplay)!  Msplay's UDATA handler performs address
+displacement calculation incorrectly and jumps to an arbitrary
+location in track data.
 </p>
 
 <p>
@@ -1959,7 +1959,7 @@ with operand $01:
 </li>
 
 
-<li><a id="orgf3aec70"></a><a id="org5291120"></a>$85 TRACK<br />
+<li><a id="org7c3d800"></a><a id="org1a280b8"></a>$85 TRACK<br />
 <div class="outline-text-5" id="text-4-2-2-6">
 <p>
 Go to track specified by the operand.  This command is used to nest
@@ -1980,7 +1980,7 @@ code.
 </li>
 
 
-<li><a id="orgb430314"></a><a id="org019f363"></a>$86 RPEAT and <a id="orgb8e10fa"></a>$87 LOOP<br />
+<li><a id="orga91bd9a"></a><a id="orgd054b89"></a>$86 RPEAT and <a id="org1f8d099"></a>$87 LOOP<br />
 <div class="outline-text-5" id="text-4-2-2-7">
 <p>
 These two are used to create loops within tracks.  Up to eight nested
@@ -1999,7 +1999,7 @@ LOOP is ignored.
 </li>
 
 
-<li><a id="org3e37fc5"></a><a id="orgc264576"></a>$88 TRNSP<br />
+<li><a id="org212fec2"></a><a id="orgd801fd3"></a>$88 TRNSP<br />
 <div class="outline-text-5" id="text-4-2-2-8">
 <p>
 This is used to set the transposition byte of the channel.  It's a
@@ -2017,8 +2017,8 @@ The transposition is defined in semitones.
 </div>
 
 
-<div id="outline-container-orgd1ae2d1" class="outline-3">
-<h3 id="orgd1ae2d1"><span class="section-number-3">4.3.</span> Important DO NOTs:</h3>
+<div id="outline-container-org7db3c4f" class="outline-3">
+<h3 id="org7db3c4f"><span class="section-number-3">4.3.</span> Important DO NOTs:</h3>
 <div class="outline-text-3" id="text-4-3">
 <ul class="org-ul">
 <li>Do not set the time signature to 1/128 ($07).  The editor will
@@ -2033,8 +2033,8 @@ freeze if the track is playing while editing.</li>
 </div>
 
 
-<div id="outline-container-org9712e7c" class="outline-2">
-<h2 id="org9712e7c"><span class="section-number-2">5.</span> Instrument Editor</h2>
+<div id="outline-container-orgf36a7b4" class="outline-2">
+<h2 id="orgf36a7b4"><span class="section-number-2">5.</span> Instrument Editor</h2>
 <div class="outline-text-2" id="text-5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -2047,12 +2047,12 @@ freeze if the track is playing while editing.</li>
 <tbody>
 <tr>
 <td class="org-left"><code>1</code> .. <code>4</code></td>
-<td class="org-left">Edit <a href="#orgf539bfd">MG parameters</a></td>
+<td class="org-left">Edit <a href="#org8190bde">MG parameters</a></td>
 </tr>
 
 <tr>
 <td class="org-left"><code>e</code></td>
-<td class="org-left">Edit volume <a href="#org4f86f61">envelope parameters</a></td>
+<td class="org-left">Edit volume <a href="#org8708e5a">envelope parameters</a></td>
 </tr>
 
 <tr>
@@ -2072,7 +2072,7 @@ freeze if the track is playing while editing.</li>
 
 <tr>
 <td class="org-left"><code>s</code></td>
-<td class="org-left">Edit <a href="#org4916ff1">sound parameters</a></td>
+<td class="org-left">Edit <a href="#org6464883">sound parameters</a></td>
 </tr>
 
 <tr>
@@ -2094,8 +2094,8 @@ freeze if the track is playing while editing.</li>
 </div>
 
 
-<div id="outline-container-org4439345" class="outline-3">
-<h3 id="org4439345"><span class="section-number-3">5.1.</span> <a id="org4916ff1"></a>SND</h3>
+<div id="outline-container-org14a99f3" class="outline-3">
+<h3 id="org14a99f3"><span class="section-number-3">5.1.</span> <a id="org6464883"></a>SND</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 This section specifies the following parameters:
@@ -2103,8 +2103,8 @@ This section specifies the following parameters:
 </div>
 
 
-<div id="outline-container-org451dea1" class="outline-4">
-<h4 id="org451dea1"><span class="section-number-4">5.1.1.</span> a:Mo - sound mode</h4>
+<div id="outline-container-orga3957c3" class="outline-4">
+<h4 id="orga3957c3"><span class="section-number-4">5.1.1.</span> a:Mo - sound mode</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 The sound mode can be one of the following:
@@ -2161,7 +2161,7 @@ end longer ones with a rest and fast volume envelope release.
 
 
 <ol class="org-ol">
-<li><a id="orgd3e3424"></a>&lt;std&gt; and &lt;???&gt;<br />
+<li><a id="org3085ce3"></a>&lt;std&gt; and &lt;???&gt;<br />
 <div class="outline-text-5" id="text-5-1-1-1">
 <p>
 This is the simplest sample player mode and will play samples as is.
@@ -2172,12 +2172,12 @@ for drum and effect samples.
 </li>
 
 
-<li><a id="org6fd9150"></a>&lt;bsm&gt;<br />
+<li><a id="org9802772"></a>&lt;bsm&gt;<br />
 <div class="outline-text-5" id="text-5-1-1-2">
 <p>
 This is the "base shift mode".  The base shift mode uses an offsetting
 method to select a "window" of a wave to be played.  This window can
-be shifted on the fly with a <a href="#orgf539bfd">MG</a> to make a pulse-width modulation style
+be shifted on the fly with a <a href="#org8190bde">MG</a> to make a pulse-width modulation style
 effect with an appropriately crafted wave.
 </p>
 
@@ -2188,7 +2188,7 @@ Parameters specific to this mode are tagged with <code>&lt;bsm&gt;</code>.
 </li>
 
 
-<li><a id="org2bc28cc"></a>&lt;dyn&gt;<br />
+<li><a id="orga9a295b"></a>&lt;dyn&gt;<br />
 <div class="outline-text-5" id="text-5-1-1-3">
 <p>
 This is the "dynamic mode". The dynamic mode creates the final
@@ -2201,7 +2201,7 @@ waves.
 </p>
 
 <p>
-Shifting and frequencies can be modulated with <a href="#orgf539bfd">MG</a>s.  Parameters
+Shifting and frequencies can be modulated with <a href="#org8190bde">MG</a>s.  Parameters
 specific to this mode are tagged with <code>&lt;dyn&gt;</code>.
 </p>
 </div>
@@ -2210,8 +2210,8 @@ specific to this mode are tagged with <code>&lt;dyn&gt;</code>.
 </div>
 
 
-<div id="outline-container-org85ee8c7" class="outline-4">
-<h4 id="org85ee8c7"><span class="section-number-4">5.1.2.</span> b:Wa - wave</h4>
+<div id="outline-container-org0ef9ab9" class="outline-4">
+<h4 id="org0ef9ab9"><span class="section-number-4">5.1.2.</span> b:Wa - wave</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 This sets the wave used by this instrument.  For standard and base
@@ -2221,8 +2221,8 @@ shifted modes a wave table of eight can be set up for higher octaves.
 </div>
 
 
-<div id="outline-container-org5ac8330" class="outline-4">
-<h4 id="org5ac8330"><span class="section-number-4">5.1.3.</span> c:Bs - Base shift <code>&lt;bsm&gt;</code></h4>
+<div id="outline-container-orgb0fbb81" class="outline-4">
+<h4 id="orgb0fbb81"><span class="section-number-4">5.1.3.</span> c:Bs - Base shift <code>&lt;bsm&gt;</code></h4>
 <div class="outline-text-4" id="text-5-1-3">
 <p>
 This value offsets the waveform from its starting point.  For this to
@@ -2233,8 +2233,8 @@ required.
 </div>
 
 
-<div id="outline-container-orga1d781b" class="outline-4">
-<h4 id="orga1d781b"><span class="section-number-4">5.1.4.</span> d:Ds - Dynamic shift <code>&lt;dyn&gt;</code></h4>
+<div id="outline-container-org1d85da5" class="outline-4">
+<h4 id="org1d85da5"><span class="section-number-4">5.1.4.</span> d:Ds - Dynamic shift <code>&lt;dyn&gt;</code></h4>
 <div class="outline-text-4" id="text-5-1-4">
 <p>
 This value offsets the first copy of the waveform that the other copy
@@ -2244,8 +2244,8 @@ is mixed on top of.
 </div>
 
 
-<div id="outline-container-orgafed39d" class="outline-4">
-<h4 id="orgafed39d"><span class="section-number-4">5.1.5.</span> e:Tr - transpose</h4>
+<div id="outline-container-org75b0039" class="outline-4">
+<h4 id="org75b0039"><span class="section-number-4">5.1.5.</span> e:Tr - transpose</h4>
 <div class="outline-text-4" id="text-5-1-5">
 <p>
 The transpose parameter is entered as an unsigned byte and evaluated
@@ -2255,8 +2255,8 @@ as a signed byte, ie. $ff = -1, $fe = -2, etc.
 </div>
 
 
-<div id="outline-container-org38175c6" class="outline-4">
-<h4 id="org38175c6"><span class="section-number-4">5.1.6.</span> f:Fq - Dynamic frequency <code>&lt;dyn&gt;</code></h4>
+<div id="outline-container-orga6ff3d4" class="outline-4">
+<h4 id="orga6ff3d4"><span class="section-number-4">5.1.6.</span> f:Fq - Dynamic frequency <code>&lt;dyn&gt;</code></h4>
 <div class="outline-text-4" id="text-5-1-6">
 <p>
 This parameter is only functional in sound mode 02.  Each of the
@@ -2283,8 +2283,8 @@ to edit the left nybble, and 1 and 3 to edit the right nybble.
 </div>
 
 
-<div id="outline-container-orgfd02ee1" class="outline-3">
-<h3 id="orgfd02ee1"><span class="section-number-3">5.2.</span> <a id="org4f86f61"></a>ENV - Envelope Generator</h3>
+<div id="outline-container-orgf4439b6" class="outline-3">
+<h3 id="orgf4439b6"><span class="section-number-3">5.2.</span> <a id="org8708e5a"></a>ENV - Envelope Generator</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 This section specifies the envelope generator parameters.
@@ -2304,8 +2304,8 @@ used to address a volume value from the volume table.
 </div>
 
 
-<div id="outline-container-org071c84a" class="outline-4">
-<h4 id="org071c84a"><span class="section-number-4">5.2.1.</span> a:Tr - (unused?)</h4>
+<div id="outline-container-org6eacdcb" class="outline-4">
+<h4 id="org6eacdcb"><span class="section-number-4">5.2.1.</span> a:Tr - (unused?)</h4>
 <div class="outline-text-4" id="text-5-2-1">
 <p>
 This parameter appears not to be used.
@@ -2314,8 +2314,8 @@ This parameter appears not to be used.
 </div>
 
 
-<div id="outline-container-org343c7e5" class="outline-4">
-<h4 id="org343c7e5"><span class="section-number-4">5.2.2.</span> b:At - Attack time</h4>
+<div id="outline-container-org60bacae" class="outline-4">
+<h4 id="org60bacae"><span class="section-number-4">5.2.2.</span> b:At - Attack time</h4>
 <div class="outline-text-4" id="text-5-2-2">
 <p>
 This parameter specifies the attack time from start of note to Peak
@@ -2332,8 +2332,8 @@ silent.
 </div>
 
 
-<div id="outline-container-org3456a12" class="outline-4">
-<h4 id="org3456a12"><span class="section-number-4">5.2.3.</span> c:Tl - Peak level (Top level)</h4>
+<div id="outline-container-org7cd5901" class="outline-4">
+<h4 id="org7cd5901"><span class="section-number-4">5.2.3.</span> c:Tl - Peak level (Top level)</h4>
 <div class="outline-text-4" id="text-5-2-3">
 <p>
 This parameter specifies the Peak level between attack and decay.
@@ -2343,8 +2343,8 @@ Once this level is reached, the EG switches from attack to decay.
 </div>
 
 
-<div id="outline-container-org806cefd" class="outline-4">
-<h4 id="org806cefd"><span class="section-number-4">5.2.4.</span> d:Dt - Decay time</h4>
+<div id="outline-container-orgc788ebc" class="outline-4">
+<h4 id="orgc788ebc"><span class="section-number-4">5.2.4.</span> d:Dt - Decay time</h4>
 <div class="outline-text-4" id="text-5-2-4">
 <p>
 This parameter specifies the decay time from Peak level to Sustain
@@ -2361,8 +2361,8 @@ will also be the sustain level.
 </div>
 
 
-<div id="outline-container-org4ce67c8" class="outline-4">
-<h4 id="org4ce67c8"><span class="section-number-4">5.2.5.</span> e:Sl - Sustain level</h4>
+<div id="outline-container-org7e5d050" class="outline-4">
+<h4 id="org7e5d050"><span class="section-number-4">5.2.5.</span> e:Sl - Sustain level</h4>
 <div class="outline-text-4" id="text-5-2-5">
 <p>
 This parameter specifies the Sustain level.  The note volume will
@@ -2372,8 +2372,8 @@ decay to and stay at this level until note-off (rest, "-&#x2014;").
 </div>
 
 
-<div id="outline-container-org507f5ff" class="outline-4">
-<h4 id="org507f5ff"><span class="section-number-4">5.2.6.</span> f:Rt - Release Time</h4>
+<div id="outline-container-orgdc9fb8d" class="outline-4">
+<h4 id="orgdc9fb8d"><span class="section-number-4">5.2.6.</span> f:Rt - Release Time</h4>
 <div class="outline-text-4" id="text-5-2-6">
 <p>
 This parameter specifies the time it takes from note-off to silence.
@@ -2390,12 +2390,12 @@ stop after a note-off.
 </div>
 
 
-<div id="outline-container-org521cc83" class="outline-3">
-<h3 id="org521cc83"><span class="section-number-3">5.3.</span> <a id="orgf539bfd"></a>MG - Modulation Generator</h3>
+<div id="outline-container-org006d7e4" class="outline-3">
+<h3 id="org006d7e4"><span class="section-number-3">5.3.</span> <a id="org8190bde"></a>MG - Modulation Generator</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Each instrument features four identical modulation generators.
-Depending on the <a href="#org3285112">Block wave</a> flag the oscillator generates a
+Depending on the <a href="#org5c17c5d">Block wave</a> flag the oscillator generates a
 triangle/saw or a square wave with time constants S1 and S2.
 </p>
 
@@ -2406,8 +2406,8 @@ relative to song speed (ie. score tempo).
 </div>
 
 
-<div id="outline-container-orgdd745e1" class="outline-4">
-<h4 id="orgdd745e1"><span class="section-number-4">5.3.1.</span> a:De - Destination</h4>
+<div id="outline-container-org76bbb72" class="outline-4">
+<h4 id="org76bbb72"><span class="section-number-4">5.3.1.</span> a:De - Destination</h4>
 <div class="outline-text-4" id="text-5-3-1">
 <p>
 The modulation destination is a hexadecimal number between $00 and
@@ -2417,7 +2417,7 @@ $07.  Any numbers past $07 are interpreted as $07.
 
 
 <ol class="org-ol">
-<li><a id="org1ce8eb8"></a>$00 : off<br />
+<li><a id="orga9b6ae8"></a>$00 : off<br />
 <div class="outline-text-5" id="text-5-3-1-1">
 <p>
 The replayer will bypass any MG that is set off.  The other parameters
@@ -2427,7 +2427,7 @@ will not be processed at all.
 </li>
 
 
-<li><a id="org6bc5c03"></a>$01 : FM - Frequency Modulation<br />
+<li><a id="org3373892"></a>$01 : FM - Frequency Modulation<br />
 <div class="outline-text-5" id="text-5-3-1-2">
 <p>
 Frequency modulation modulates the playback frequency of the sound,
@@ -2442,7 +2442,7 @@ playback period directly.
 </li>
 
 
-<li><a id="org58e9bb9"></a>$02 : AM - Amplitude Modulation<br />
+<li><a id="org5121154"></a>$02 : AM - Amplitude Modulation<br />
 <div class="outline-text-5" id="text-5-3-1-3">
 <p>
 This is the same for the amplitude, or volume of the sound, ie. a
@@ -2457,7 +2457,7 @@ after ADSR.
 </li>
 
 
-<li><a id="orgb4aa9c3"></a>$03 : BShift - Base shift modulation <code>&lt;bsm&gt;</code><br />
+<li><a id="orgc8792df"></a>$03 : BShift - Base shift modulation <code>&lt;bsm&gt;</code><br />
 <div class="outline-text-5" id="text-5-3-1-4">
 <p>
 This modulates the base shift of the instrument.  With a specially
@@ -2472,7 +2472,7 @@ This modulation is internally 8-bit.
 </li>
 
 
-<li><a id="org00ecf71"></a>$04 : DShift - Dynamic shift modulation <code>&lt;dyn&gt;</code><br />
+<li><a id="org0ace708"></a>$04 : DShift - Dynamic shift modulation <code>&lt;dyn&gt;</code><br />
 <div class="outline-text-5" id="text-5-3-1-5">
 <p>
 This modulates the dynamic shift of the instrument.
@@ -2485,7 +2485,7 @@ This modulation is internally 8-bit.
 </li>
 
 
-<li><a id="org1218126"></a>$05 / $06 : FM+ / FM- - Frequency Modulation (period up = frequency down) / (period down = frequency up)<br />
+<li><a id="org2f521db"></a>$05 / $06 : FM+ / FM- - Frequency Modulation (period up = frequency down) / (period down = frequency up)<br />
 <div class="outline-text-5" id="text-5-3-1-6">
 <p>
 Unlike the ordinary FM mode ($01), these frequency modulation modes
@@ -2500,7 +2500,7 @@ directly.
 </li>
 
 
-<li><a id="org9316d7d"></a>$07 : DynFreq - Dynamic frequency modulation <code>&lt;dyn&gt;</code><br />
+<li><a id="orgaab1ded"></a>$07 : DynFreq - Dynamic frequency modulation <code>&lt;dyn&gt;</code><br />
 <div class="outline-text-5" id="text-5-3-1-7">
 <p>
 This modulates the waveform frequencies of a dynamic instrument.  Do
@@ -2519,8 +2519,8 @@ This modulation is internally 8-bit.
 </div>
 
 
-<div id="outline-container-org27b8266" class="outline-4">
-<h4 id="org27b8266"><span class="section-number-4">5.3.2.</span> <a id="org3285112"></a>b:Bl - Block wave (boolean, $00 = off)</h4>
+<div id="outline-container-orgdd8e82e" class="outline-4">
+<h4 id="orgdd8e82e"><span class="section-number-4">5.3.2.</span> <a id="org5c17c5d"></a>b:Bl - Block wave (boolean, $00 = off)</h4>
 <div class="outline-text-4" id="text-5-3-2">
 <p>
 Setting this non-zero will cause the replayer to use the S1 and S2
@@ -2531,8 +2531,8 @@ of the default triangle/saw wave.
 </div>
 
 
-<div id="outline-container-orgcb638fd" class="outline-4">
-<h4 id="orgcb638fd"><span class="section-number-4">5.3.3.</span> c:Tr - Trigger mode (boolean, $00 = trigger at every note-on)</h4>
+<div id="outline-container-org97fffc5" class="outline-4">
+<h4 id="org97fffc5"><span class="section-number-4">5.3.3.</span> c:Tr - Trigger mode (boolean, $00 = trigger at every note-on)</h4>
 <div class="outline-text-4" id="text-5-3-3">
 <p>
 When trigger mode is set non-zero, the MG is not retriggered as long
@@ -2543,8 +2543,8 @@ modulation over several notes.
 </div>
 
 
-<div id="outline-container-org51c6dfd" class="outline-4">
-<h4 id="org51c6dfd"><span class="section-number-4">5.3.4.</span> d:Ss - Single-shot (boolean, $00 = off)</h4>
+<div id="outline-container-org59b888c" class="outline-4">
+<h4 id="org59b888c"><span class="section-number-4">5.3.4.</span> d:Ss - Single-shot (boolean, $00 = off)</h4>
 <div class="outline-text-4" id="text-5-3-4">
 <p>
 When single-shot mode is enabled, the MG will run only once and stop.
@@ -2553,8 +2553,8 @@ When single-shot mode is enabled, the MG will run only once and stop.
 </div>
 
 
-<div id="outline-container-org4347323" class="outline-4">
-<h4 id="org4347323"><span class="section-number-4">5.3.5.</span> e:Sg - (unused)</h4>
+<div id="outline-container-orge32e419" class="outline-4">
+<h4 id="orge32e419"><span class="section-number-4">5.3.5.</span> e:Sg - (unused)</h4>
 <div class="outline-text-4" id="text-5-3-5">
 <p>
 This parameter appears not to be used.
@@ -2563,8 +2563,8 @@ This parameter appears not to be used.
 </div>
 
 
-<div id="outline-container-org307f6e2" class="outline-4">
-<h4 id="org307f6e2"><span class="section-number-4">5.3.6.</span> f:Rv - Reverse (boolean, $00 = off)</h4>
+<div id="outline-container-org5b80088" class="outline-4">
+<h4 id="org5b80088"><span class="section-number-4">5.3.6.</span> f:Rv - Reverse (boolean, $00 = off)</h4>
 <div class="outline-text-4" id="text-5-3-6">
 <p>
 Reverses the modulation operation, ie. modulating up becomes
@@ -2574,8 +2574,8 @@ modulating down and vice versa.
 </div>
 
 
-<div id="outline-container-org2be3583" class="outline-4">
-<h4 id="org2be3583"><span class="section-number-4">5.3.7.</span> g:Dt - Delay time</h4>
+<div id="outline-container-org4a50701" class="outline-4">
+<h4 id="org4a50701"><span class="section-number-4">5.3.7.</span> g:Dt - Delay time</h4>
 <div class="outline-text-4" id="text-5-3-7">
 <p>
 This parameter specifies the time from trigger to start of modulation.
@@ -2585,8 +2585,8 @@ Time is specified in player ticks.
 </div>
 
 
-<div id="outline-container-orgc88267a" class="outline-4">
-<h4 id="orgc88267a"><span class="section-number-4">5.3.8.</span> h:Lv - Level</h4>
+<div id="outline-container-org301e20c" class="outline-4">
+<h4 id="org301e20c"><span class="section-number-4">5.3.8.</span> h:Lv - Level</h4>
 <div class="outline-text-4" id="text-5-3-8">
 <p>
 This parameter specifies the amplitude, or level of modulation.
@@ -2597,8 +2597,8 @@ input is the most significant byte.
 </div>
 
 
-<div id="outline-container-org13269bb" class="outline-4">
-<h4 id="org13269bb"><span class="section-number-4">5.3.9.</span> i:S1 / j:S2 - Slope 1 / Slope 2</h4>
+<div id="outline-container-org5daed1b" class="outline-4">
+<h4 id="org5daed1b"><span class="section-number-4">5.3.9.</span> i:S1 / j:S2 - Slope 1 / Slope 2</h4>
 <div class="outline-text-4" id="text-5-3-9">
 <p>
 These two slope time parameters are used to shape the modulation
@@ -2608,8 +2608,8 @@ waveform.
 </div>
 
 
-<div id="outline-container-org1909d0e" class="outline-4">
-<h4 id="org1909d0e"><span class="section-number-4">5.3.10.</span> k:Hs / l:Qs - Half-shift / Quarter-shift</h4>
+<div id="outline-container-org268b7c8" class="outline-4">
+<h4 id="org268b7c8"><span class="section-number-4">5.3.10.</span> k:Hs / l:Qs - Half-shift / Quarter-shift</h4>
 <div class="outline-text-4" id="text-5-3-10">
 <p>
 These values are used to shift the starting point of modulation
@@ -2693,8 +2693,8 @@ $01) when a delay time is set.
 </div>
 
 
-<div id="outline-container-org325e68c" class="outline-2">
-<h2 id="org325e68c"><span class="section-number-2">6.</span> Wave Editor</h2>
+<div id="outline-container-org0accc5e" class="outline-2">
+<h2 id="org0accc5e"><span class="section-number-2">6.</span> Wave Editor</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 The Medley Sound Wave Editor is a simple yet powerful tool to make
@@ -2788,20 +2788,20 @@ memory outside the actual octave multiplier table.</li>
 
 <tr>
 <td class="org-left"><code>o</code></td>
-<td class="org-left">Perform <a href="#orgd819266">operations</a></td>
+<td class="org-left">Perform <a href="#orgc6c1b46">operations</a></td>
 </tr>
 
 <tr>
 <td class="org-left"><code>p</code></td>
-<td class="org-left">Generate a <a href="#org45e5b80">preset</a> waveform</td>
+<td class="org-left">Generate a <a href="#org46bf868">preset</a> waveform</td>
 </tr>
 </tbody>
 </table>
 </div>
 
 
-<div id="outline-container-org9dc9c2f" class="outline-3">
-<h3 id="org9dc9c2f"><span class="section-number-3">6.1.</span> Frags</h3>
+<div id="outline-container-org0b89df0" class="outline-3">
+<h3 id="org0b89df0"><span class="section-number-3">6.1.</span> Frags</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 These operations are not implemented.
@@ -2810,18 +2810,18 @@ These operations are not implemented.
 </div>
 
 
-<div id="outline-container-org4fc2e8c" class="outline-3">
-<h3 id="org4fc2e8c"><span class="section-number-3">6.2.</span> <a id="orgd819266"></a>Operations</h3>
+<div id="outline-container-orgdd4a3ea" class="outline-3">
+<h3 id="orgdd4a3ea"><span class="section-number-3">6.2.</span> <a id="orgc6c1b46"></a>Operations</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 These mathematical operations allow editing and mixing of sample data
 to create complex waveforms from simple waveforms generated with the
-<a href="#org45e5b80">Preset</a> function.
+<a href="#org46bf868">Preset</a> function.
 </p>
 </div>
 
-<div id="outline-container-orgf801d2e" class="outline-4">
-<h4 id="orgf801d2e"><span class="section-number-4">6.2.1.</span> a:SX – shift source A left in samples</h4>
+<div id="outline-container-orgbc1c103" class="outline-4">
+<h4 id="orgbc1c103"><span class="section-number-4">6.2.1.</span> a:SX – shift source A left in samples</h4>
 <div class="outline-text-4" id="text-6-2-1">
 <p>
 This operation offsets the Source A waveform in a way that makes it
@@ -2831,8 +2831,8 @@ appear to move left in the visual preview.
 </div>
 
 
-<div id="outline-container-org6654b8c" class="outline-4">
-<h4 id="org6654b8c"><span class="section-number-4">6.2.2.</span> b:SY – shift source A down (add a fixed value to each sample)</h4>
+<div id="outline-container-org7d75479" class="outline-4">
+<h4 id="org7d75479"><span class="section-number-4">6.2.2.</span> b:SY – shift source A down (add a fixed value to each sample)</h4>
 <div class="outline-text-4" id="text-6-2-2">
 <p>
 This operation adds a signed byte value to each sample of Source A,
@@ -2842,8 +2842,8 @@ which makes the waveform move down in the visual preview.
 </div>
 
 
-<div id="outline-container-org1274fc0" class="outline-4">
-<h4 id="org1274fc0"><span class="section-number-4">6.2.3.</span> c:AM – amplitude (10 = no change)</h4>
+<div id="outline-container-orgc6159da" class="outline-4">
+<h4 id="orgc6159da"><span class="section-number-4">6.2.3.</span> c:AM – amplitude (10 = no change)</h4>
 <div class="outline-text-4" id="text-6-2-3">
 <p>
 This operation adjusts the amplitude of the Result waveform after
@@ -2854,8 +2854,8 @@ half the amplitude and $20 is twice the amplitude.
 </div>
 
 
-<div id="outline-container-orgfb223f0" class="outline-4">
-<h4 id="orgfb223f0"><span class="section-number-4">6.2.4.</span> d:FQ – frequency of source A (10 = no change)</h4>
+<div id="outline-container-orge554e47" class="outline-4">
+<h4 id="orge554e47"><span class="section-number-4">6.2.4.</span> d:FQ – frequency of source A (10 = no change)</h4>
 <div class="outline-text-4" id="text-6-2-4">
 <p>
 This operation shrinks or expands the wave data of Source A to alter
@@ -2865,8 +2865,8 @@ its playback frequency.  It will not affect the mixed in Source B.
 </div>
 
 
-<div id="outline-container-orgd5d2ad5" class="outline-4">
-<h4 id="orgd5d2ad5"><span class="section-number-4">6.2.5.</span> e:MX – mix sources (00 = A; ff = B; 80 will mix 50/50)</h4>
+<div id="outline-container-org6553cf8" class="outline-4">
+<h4 id="org6553cf8"><span class="section-number-4">6.2.5.</span> e:MX – mix sources (00 = A; ff = B; 80 will mix 50/50)</h4>
 <div class="outline-text-4" id="text-6-2-5">
 <p>
 This operation mixes sources A and B.  Value of $00 will bypass the
@@ -2882,8 +2882,8 @@ it is shorter than the Result buffer!
 </div>
 
 
-<div id="outline-container-org84843e7" class="outline-4">
-<h4 id="org84843e7"><span class="section-number-4">6.2.6.</span> f:RE - Adjust Result buffer length</h4>
+<div id="outline-container-org152b820" class="outline-4">
+<h4 id="org152b820"><span class="section-number-4">6.2.6.</span> f:RE - Adjust Result buffer length</h4>
 <div class="outline-text-4" id="text-6-2-6">
 <p>
 This operation adjusts the Result buffer length.  This value defaults
@@ -2902,8 +2902,8 @@ samples imported from external sources!
 </div>
 
 
-<div id="outline-container-orgbbdfba4" class="outline-4">
-<h4 id="orgbbdfba4"><span class="section-number-4">6.2.7.</span> g:UF</h4>
+<div id="outline-container-orgfe55b93" class="outline-4">
+<h4 id="orgfe55b93"><span class="section-number-4">6.2.7.</span> g:UF</h4>
 <div class="outline-text-4" id="text-6-2-7">
 <p>
 This operation is not implemented.
@@ -2912,8 +2912,8 @@ This operation is not implemented.
 </div>
 
 
-<div id="outline-container-org592ebd3" class="outline-4">
-<h4 id="org592ebd3"><span class="section-number-4">6.2.8.</span> h:PE – playback period (higher value = lower frequency)</h4>
+<div id="outline-container-org5432456" class="outline-4">
+<h4 id="org5432456"><span class="section-number-4">6.2.8.</span> h:PE – playback period (higher value = lower frequency)</h4>
 <div class="outline-text-4" id="text-6-2-8">
 <p>
 This affects only the playback period of the previewed Result buffer,
@@ -2924,8 +2924,8 @@ not the buffer itself.
 </div>
 
 
-<div id="outline-container-org37cdb6b" class="outline-3">
-<h3 id="org37cdb6b"><span class="section-number-3">6.3.</span> <a id="org45e5b80"></a>Preset - generate waveforms</h3>
+<div id="outline-container-org7c10ad1" class="outline-3">
+<h3 id="org7c10ad1"><span class="section-number-3">6.3.</span> <a id="org46bf868"></a>Preset - generate waveforms</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 This operation is used to generate waveforms.  The operation will
@@ -2934,8 +2934,8 @@ replace any waveform data in Source A.
 </div>
 
 
-<div id="outline-container-org39b9c18" class="outline-4">
-<h4 id="org39b9c18"><span class="section-number-4">6.3.1.</span> a:RA - generate a saw/triangle wave</h4>
+<div id="outline-container-orgf4b37c0" class="outline-4">
+<h4 id="orgf4b37c0"><span class="section-number-4">6.3.1.</span> a:RA - generate a saw/triangle wave</h4>
 <div class="outline-text-4" id="text-6-3-1">
 <p>
 The operand is used to adjust the duty cycle of the triangle wave.
@@ -2945,8 +2945,8 @@ $80 is pure triangle.
 </div>
 
 
-<div id="outline-container-orgdc6a206" class="outline-4">
-<h4 id="orgdc6a206"><span class="section-number-4">6.3.2.</span> b:PU - generate a pulse/square wave</h4>
+<div id="outline-container-org56c37be" class="outline-4">
+<h4 id="org56c37be"><span class="section-number-4">6.3.2.</span> b:PU - generate a pulse/square wave</h4>
 <div class="outline-text-4" id="text-6-3-2">
 <p>
 The operand is used to adjust the duty cycle of the square wave.  $80
@@ -2956,8 +2956,8 @@ equals 50%.
 </div>
 
 
-<div id="outline-container-org8a3a103" class="outline-4">
-<h4 id="org8a3a103"><span class="section-number-4">6.3.3.</span> s - precalculated sine wave</h4>
+<div id="outline-container-orgb9aad05" class="outline-4">
+<h4 id="orgb9aad05"><span class="section-number-4">6.3.3.</span> s - precalculated sine wave</h4>
 <div class="outline-text-4" id="text-6-3-3">
 <p>
 Press <code>s</code> to copy the precalculated sine wave to Source A.
@@ -2968,12 +2968,12 @@ Press <code>s</code> to copy the precalculated sine wave to Source A.
 </div>
 
 
-<div id="outline-container-org8d90f08" class="outline-2">
-<h2 id="org8d90f08"><span class="section-number-2">7.</span> File Menu</h2>
+<div id="outline-container-orgbcec374" class="outline-2">
+<h2 id="orgbcec374"><span class="section-number-2">7.</span> File Menu</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org0804427" class="outline-3">
-<h3 id="org0804427"><span class="section-number-3">7.1.</span> (l)oad, (m)erge, and (i)mport</h3>
+<div id="outline-container-org7329b49" class="outline-3">
+<h3 id="org7329b49"><span class="section-number-3">7.1.</span> (l)oad, (m)erge, and (i)mport</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Medley Sound editor is able to load its own project format "PVMS" as
@@ -2996,8 +2996,8 @@ what content is to be imported.
 </div>
 
 
-<div id="outline-container-org2f1f094" class="outline-3">
-<h3 id="org2f1f094"><span class="section-number-3">7.2.</span> (s)ave</h3>
+<div id="outline-container-org9bde365" class="outline-3">
+<h3 id="org9bde365"><span class="section-number-3">7.2.</span> (s)ave</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 This function saves the current project into a PVMS file.  The editor
@@ -3007,8 +3007,8 @@ is not directly able to save to Medley Sound Object (MSOB) format.
 </div>
 
 
-<div id="outline-container-orgd1aeaba" class="outline-3">
-<h3 id="orgd1aeaba"><span class="section-number-3">7.3.</span> &lt;a&gt;ssembly</h3>
+<div id="outline-container-org3134de3" class="outline-3">
+<h3 id="org3134de3"><span class="section-number-3">7.3.</span> &lt;a&gt;ssembly</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 This function is used to export the current project in memory into an
@@ -3036,8 +3036,8 @@ Keep in mind that the implementation of UDATA is broken in msplay!
 </div>
 
 
-<div id="outline-container-org14ed01f" class="outline-3">
-<h3 id="org14ed01f"><span class="section-number-3">7.4.</span> (C)lear</h3>
+<div id="outline-container-org17da175" class="outline-3">
+<h3 id="org17da175"><span class="section-number-3">7.4.</span> (C)lear</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
 This functions frees all working memory.
@@ -3047,12 +3047,12 @@ This functions frees all working memory.
 </div>
 
 
-<div id="outline-container-orgea2d46c" class="outline-2">
-<h2 id="orgea2d46c"><span class="section-number-2">8.</span> File formats</h2>
+<div id="outline-container-orge8e6ef3" class="outline-2">
+<h2 id="orge8e6ef3"><span class="section-number-2">8.</span> File formats</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org6ca5562" class="outline-3">
-<h3 id="org6ca5562"><span class="section-number-3">8.1.</span> <span class="todo TODO">TODO</span> PVMS</h3>
+<div id="outline-container-org59a3a7b" class="outline-3">
+<h3 id="org59a3a7b"><span class="section-number-3">8.1.</span> <span class="todo TODO">TODO</span> PVMS</h3>
 <div class="outline-text-3" id="text-8-1">
 <p>
 PVMS is the project file format of Medley Sound editor.  Medley Sound
@@ -3061,8 +3061,8 @@ player (msplay) does not read this format.
 </div>
 
 
-<div id="outline-container-org4e827a6" class="outline-4">
-<h4 id="org4e827a6"><span class="section-number-4">8.1.1.</span> Basic file structure</h4>
+<div id="outline-container-orgbfa228e" class="outline-4">
+<h4 id="orgbfa228e"><span class="section-number-4">8.1.1.</span> Basic file structure</h4>
 <div class="outline-text-4" id="text-8-1-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -3105,8 +3105,8 @@ player (msplay) does not read this format.
 </div>
 
 
-<div id="outline-container-org5fee8b4" class="outline-4">
-<h4 id="org5fee8b4"><span class="section-number-4">8.1.2.</span> Basic data chunk structure</h4>
+<div id="outline-container-orgfcf50d1" class="outline-4">
+<h4 id="orgfcf50d1"><span class="section-number-4">8.1.2.</span> Basic data chunk structure</h4>
 <div class="outline-text-4" id="text-8-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -3155,8 +3155,8 @@ player (msplay) does not read this format.
 </div>
 
 
-<div id="outline-container-org1f2604d" class="outline-4">
-<h4 id="org1f2604d"><span class="section-number-4">8.1.3.</span> Basic data block structure</h4>
+<div id="outline-container-org0531f06" class="outline-4">
+<h4 id="org0531f06"><span class="section-number-4">8.1.3.</span> Basic data block structure</h4>
 <div class="outline-text-4" id="text-8-1-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -3200,8 +3200,8 @@ player (msplay) does not read this format.
 </div>
 
 
-<div id="outline-container-org4b6ea95" class="outline-3">
-<h3 id="org4b6ea95"><span class="section-number-3">8.2.</span> <span class="todo TODO">TODO</span> MSOB</h3>
+<div id="outline-container-org95a8060" class="outline-3">
+<h3 id="org95a8060"><span class="section-number-3">8.2.</span> <span class="todo TODO">TODO</span> MSOB</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 MSOB is the export file format of Medley Sound, "Medley Sound OBject".
@@ -3210,8 +3210,8 @@ This is the format msplay loads and plays.
 </div>
 
 
-<div id="outline-container-org0b4b38d" class="outline-4">
-<h4 id="org0b4b38d"><span class="section-number-4">8.2.1.</span> Header</h4>
+<div id="outline-container-org03be73a" class="outline-4">
+<h4 id="org03be73a"><span class="section-number-4">8.2.1.</span> Header</h4>
 <div class="outline-text-4" id="text-8-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -3290,8 +3290,8 @@ This is the format msplay loads and plays.
 </div>
 
 
-<div id="outline-container-orgb2899dc" class="outline-4">
-<h4 id="orgb2899dc"><span class="section-number-4">8.2.2.</span> Tables</h4>
+<div id="outline-container-org51f1ddd" class="outline-4">
+<h4 id="org51f1ddd"><span class="section-number-4">8.2.2.</span> Tables</h4>
 <div class="outline-text-4" id="text-8-2-2">
 <p>
 The score, track, instrument, and wave tables are displacement tables
@@ -3399,14 +3399,14 @@ memory.
 </div>
 
 
-<div id="outline-container-org4e12600" class="outline-2">
-<h2 id="org4e12600"><span class="section-number-2">9.</span> msed internals</h2>
+<div id="outline-container-org0d3bade" class="outline-2">
+<h2 id="org0d3bade"><span class="section-number-2">9.</span> msed internals</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 This section describes various internal data structures of the Medley
 Sound editor.  It's useful only for those who intend to reverse
 engineer and learn to understand how the editor works internally, or
-maybe to even extend its functionality.  See <a href="#orgea2d46c">File formats</a> if you only
+maybe to even extend its functionality.  See <a href="#orge8e6ef3">File formats</a> if you only
 need the file format descriptions.  These tables were created during
 the reverse engineering and redocumenting of the editor and may be
 partially inaccurate or incomplete.
@@ -3414,8 +3414,8 @@ partially inaccurate or incomplete.
 </div>
 
 
-<div id="outline-container-orgcb932ba" class="outline-3">
-<h3 id="orgcb932ba"><span class="section-number-3">9.1.</span> Memory map</h3>
+<div id="outline-container-org82770df" class="outline-3">
+<h3 id="org82770df"><span class="section-number-3">9.1.</span> Memory map</h3>
 <div class="outline-text-3" id="text-9-1">
 <p>
 This section describes the mapping of the memory block reserved during
@@ -3644,7 +3644,7 @@ hard-coded into the program.
 <td class="org-left">.b × 0x10</td>
 <td class="org-left"><code>mem_weOperations</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">wave editor <a href="#org73d6615">operations</a></td>
+<td class="org-left">wave editor <a href="#orga7a9544">operations</a></td>
 </tr>
 
 <tr>
@@ -3697,7 +3697,7 @@ hard-coded into the program.
 
 <tr>
 <td class="org-right">0xd14</td>
-<td class="org-left">.l × 0x8c</td>
+<td class="org-left">.l × 0xc8 (200)</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-right">&#xa0;</td>
 <td class="org-left">string buffer (function 0x14)</td>
@@ -4330,7 +4330,7 @@ hard-coded into the program.
 
 <tr>
 <td class="org-right">0x1860</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">.b × 5</td>
 <td class="org-left"><code>mem_MeterBuffer</code></td>
 <td class="org-right">&#xa0;</td>
 <td class="org-left">"Imploder meter buffer"</td>
@@ -4586,16 +4586,16 @@ hard-coded into the program.
 
 <tr>
 <td class="org-right">0x19dc</td>
-<td class="org-left">.l</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">.b × 0x10</td>
+<td class="org-left"><code>mem_AsmExportProjectPrefix</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">AsmExport: Project prefix (remnant from Future Player)</td>
 </tr>
 
 <tr>
 <td class="org-right">0x19ec</td>
 <td class="org-left">.b</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mem_AsmExportFullTables</code></td>
 <td class="org-right">&#xa0;</td>
 <td class="org-left">AsmExport flag, full tables (=0)</td>
 </tr>
@@ -4603,9 +4603,9 @@ hard-coded into the program.
 <tr>
 <td class="org-right">0x19ed</td>
 <td class="org-left">.b</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mem_AsmExportReqIndex</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">requester selection variable</td>
+<td class="org-left">AsmExport: requester line selection index</td>
 </tr>
 
 <tr>
@@ -4618,16 +4618,16 @@ hard-coded into the program.
 
 <tr>
 <td class="org-right">0x19f0</td>
-<td class="org-left">.l</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">.l × 0x10</td>
+<td class="org-left"><code>mem_AsmExportCommentPrefix</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">AsmExport: Comment prefix (remanant from Future Player)</td>
 </tr>
 
 <tr>
 <td class="org-right">0x1a00</td>
 <td class="org-left">.b</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mem_AsmExportStrinNames</code></td>
 <td class="org-right">&#xa0;</td>
 <td class="org-left">AsmExport flag, strip names (=0)</td>
 </tr>
@@ -4635,9 +4635,9 @@ hard-coded into the program.
 <tr>
 <td class="org-right">0x1a01</td>
 <td class="org-left">.b</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mem_AsmExportLastReqIndex</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">reference value for 0x19ed</td>
+<td class="org-left">AsmExoirt: last requester line (reference for 0x19ed)</td>
 </tr>
 
 <tr>
@@ -4645,7 +4645,7 @@ hard-coded into the program.
 <td class="org-left">.b</td>
 <td class="org-left">&#xa0;</td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">AsmExport flag, absolute code (=0)</td>
+<td class="org-left">AsmExport flag, absolute code (=0) (remnant from Future Player)</td>
 </tr>
 
 <tr>
@@ -4666,18 +4666,10 @@ hard-coded into the program.
 
 <tr>
 <td class="org-right">0x1a54</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">.b × ?</td>
+<td class="org-left"><code>mem_AsmExportReqStrBuffer</code></td>
 <td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-right">0x1a55</td>
-<td class="org-left">.b</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
+<td class="org-left">AsmExport: flag requester string buffer</td>
 </tr>
 
 <tr>
@@ -4756,8 +4748,8 @@ hard-coded into the program.
 </div>
 
 
-<div id="outline-container-org2776f77" class="outline-4">
-<h4 id="org2776f77"><span class="section-number-4">9.1.1.</span> <a id="org73d6615"></a>Wave editor operations</h4>
+<div id="outline-container-org216ad6d" class="outline-4">
+<h4 id="org216ad6d"><span class="section-number-4">9.1.1.</span> <a id="orga7a9544"></a>Wave editor operations</h4>
 <div class="outline-text-4" id="text-9-1-1">
 <p>
 Order of operations:
@@ -4953,8 +4945,8 @@ sample as is without any playback period correction.
 </div>
 
 
-<div id="outline-container-org7ae9fe5" class="outline-3">
-<h3 id="org7ae9fe5"><span class="section-number-3">9.2.</span> Sound Channel Structure ("SCH")</h3>
+<div id="outline-container-org69f83b2" class="outline-3">
+<h3 id="org69f83b2"><span class="section-number-3">9.2.</span> Sound Channel Structure ("SCH")</h3>
 <div class="outline-text-3" id="text-9-2">
 <p>
 One for each channel exists.  Some data, like DMA switching masks, are
@@ -5386,8 +5378,8 @@ pre-calculated to simplify the player routine.
 </div>
 
 
-<div id="outline-container-orgc78ffc5" class="outline-3">
-<h3 id="orgc78ffc5"><span class="section-number-3">9.3.</span> Instrument structure</h3>
+<div id="outline-container-orgd3067e9" class="outline-3">
+<h3 id="orgd3067e9"><span class="section-number-3">9.3.</span> Instrument structure</h3>
 <div class="outline-text-3" id="text-9-3">
 <p>
 This is also the data structure used in MSOB and PVMS files.
@@ -5569,13 +5561,13 @@ This is also the data structure used in MSOB and PVMS files.
 </div>
 
 
-<div id="outline-container-orgf316407" class="outline-4">
-<h4 id="orgf316407"><span class="section-number-4">9.3.1.</span> <span class="todo TODO">TODO</span> ADSR slope math to be extracted from the editor code!</h4>
+<div id="outline-container-orgff6aadb" class="outline-4">
+<h4 id="orgff6aadb"><span class="section-number-4">9.3.1.</span> <span class="todo TODO">TODO</span> ADSR slope math to be extracted from the editor code!</h4>
 </div>
 
 
-<div id="outline-container-orgaa3da93" class="outline-4">
-<h4 id="orgaa3da93"><span class="section-number-4">9.3.2.</span> MG structure</h4>
+<div id="outline-container-org30055da" class="outline-4">
+<h4 id="org30055da"><span class="section-number-4">9.3.2.</span> MG structure</h4>
 <div class="outline-text-4" id="text-9-3-2">
 <p>
 <code>mg_SizeOf</code> = 0x12
@@ -5712,14 +5704,14 @@ This is also the data structure used in MSOB and PVMS files.
 
 
 <ol class="org-ol">
-<li><a id="orgf2cdec7"></a><span class="todo TODO">TODO</span> MG slope math to be extracted from the editor code!<br /></li>
+<li><a id="orga63f8cf"></a><span class="todo TODO">TODO</span> MG slope math to be extracted from the editor code!<br /></li>
 </ol>
 </div>
 </div>
 
 
-<div id="outline-container-org5039279" class="outline-3">
-<h3 id="org5039279"><span class="section-number-3">9.4.</span> Wave structure</h3>
+<div id="outline-container-org63fa83d" class="outline-3">
+<h3 id="org63fa83d"><span class="section-number-3">9.4.</span> Wave structure</h3>
 <div class="outline-text-3" id="text-9-4">
 <p>
 There's two flavours of wave data structures used.  This first one
@@ -5912,8 +5904,8 @@ memory the wave data is stored in a separate chip RAM buffer.
 </div>
 
 
-<div id="outline-container-orgcb11b01" class="outline-3">
-<h3 id="orgcb11b01"><span class="section-number-3">9.5.</span> Track structure</h3>
+<div id="outline-container-org8e8852b" class="outline-3">
+<h3 id="org8e8852b"><span class="section-number-3">9.5.</span> Track structure</h3>
 <div class="outline-text-3" id="text-9-5">
 <p>
 In MSOBs tracks are headerless, but may have a 0x10 bytes long name
@@ -6067,8 +6059,8 @@ msed memory and PVMS project files.
 </div>
 
 
-<div id="outline-container-orga7bd195" class="outline-4">
-<h4 id="orga7bd195"><span class="section-number-4">9.5.1.</span> Notes</h4>
+<div id="outline-container-org04218c2" class="outline-4">
+<h4 id="org04218c2"><span class="section-number-4">9.5.1.</span> Notes</h4>
 <div class="outline-text-4" id="text-9-5-1">
 <p>
 Notes range from 0x02 (C-1) to 0x6d (B-9). In theory the notes can
@@ -6277,8 +6269,8 @@ dynamic waveforms reach the minimum length of two bytes.
 </div>
 
 
-<div id="outline-container-org2e997b6" class="outline-3">
-<h3 id="org2e997b6"><span class="section-number-3">9.6.</span> Score structure</h3>
+<div id="outline-container-org6cbb627" class="outline-3">
+<h3 id="org6cbb627"><span class="section-number-3">9.6.</span> Score structure</h3>
 <div class="outline-text-3" id="text-9-6">
 <p>
 <code>sco_SizeOf</code> = 0x32
@@ -6429,8 +6421,8 @@ dynamic waveforms reach the minimum length of two bytes.
 </div>
 
 
-<div id="outline-container-org4ec4805" class="outline-3">
-<h3 id="org4ec4805"><span class="section-number-3">9.7.</span> "Function 0x14"</h3>
+<div id="outline-container-org2d81c0a" class="outline-3">
+<h3 id="org2d81c0a"><span class="section-number-3">9.7.</span> "Function 0x14"</h3>
 <div class="outline-text-3" id="text-9-7">
 <p>
 %4X   = four hexadecimal digits
@@ -6710,8 +6702,8 @@ register.
 </div>
 
 
-<div id="outline-container-org0165fc4" class="outline-4">
-<h4 id="org0165fc4"><span class="section-number-4">9.7.1.</span> stack</h4>
+<div id="outline-container-org3b9b39d" class="outline-4">
+<h4 id="org3b9b39d"><span class="section-number-4">9.7.1.</span> stack</h4>
 <div class="outline-text-4" id="text-9-7-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -6921,8 +6913,8 @@ register.
 </div>
 
 
-<div id="outline-container-org9abf5af" class="outline-2">
-<h2 id="org9abf5af"><span class="section-number-2">10.</span> msed patches</h2>
+<div id="outline-container-orgc228b09" class="outline-2">
+<h2 id="orgc228b09"><span class="section-number-2">10.</span> msed patches</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 In addition of missing features msed does have plenty of bugs in it.
@@ -6932,8 +6924,8 @@ may corrupt memory.
 </div>
 
 
-<div id="outline-container-org2cd80e3" class="outline-3">
-<h3 id="org2cd80e3"><span class="section-number-3">10.1.</span> Track editor: semitone up</h3>
+<div id="outline-container-org19ec347" class="outline-3">
+<h3 id="org19ec347"><span class="section-number-3">10.1.</span> Track editor: semitone up</h3>
 <div class="outline-text-3" id="text-10-1">
 <p>
 The upper boundary of "semitone up" is too high and allows turning a
@@ -6968,8 +6960,8 @@ instruction only if the byte value (note or SCODE) at A0 is higher.
 </div>
 
 
-<div id="outline-container-org18cbebd" class="outline-3">
-<h3 id="org18cbebd"><span class="section-number-3">10.2.</span> Supervisor: optimise scores</h3>
+<div id="outline-container-orgd73cb2b" class="outline-3">
+<h3 id="orgd73cb2b"><span class="section-number-3">10.2.</span> Supervisor: optimise scores</h3>
 <div class="outline-text-3" id="text-10-2">
 <p>
 The score optimiser is completely broken and must not be used. The
@@ -7022,7 +7014,7 @@ bypassed here.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Lauri "Archyx" Lindholm</p>
-<p class="date">Created: 2024-03-01 Fri 12:58</p>
+<p class="date">Created: 2024-03-10 Sun 01:06</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

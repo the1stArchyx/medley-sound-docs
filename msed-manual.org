@@ -139,13 +139,15 @@ tool.
 
 **** ~os~ – Optimise scores
 
-**Do not use!** This feature is broken and will lead to memory
-corruption!
+**Do not use!** This feature is broken!  Initially it looked like it
+might write to undefined memory, but it still uses an uninitialised
+counter.  The executable should be patched first for this function to
+operate correctly.
 
 The intention of score optimisation is to move all allocated scores
-one after another into a contiguous list.  Due to a partial buggy
-implementation it most likely will write outside the intended memory
-space and corrupt memory.
+one after another into a contiguous list.  Due to a bug that
+initialises an incorrect register instead of the one used for the
+counter, this function might not scan through the whole score table.
 
 
 **** ~oa~ - Optimise all
@@ -1277,172 +1279,172 @@ hard-coded into the program.
 
 ~mem_SizeOf~ = 0x2288
 
-|--------+-------------------+------------------------------+--------+-------------------------------------------------------------------------|
-| offset | size              | name                         |   init | description                                                             |
-|--------+-------------------+------------------------------+--------+-------------------------------------------------------------------------|
-|    0x0 | .l                |                              |        | * function pointer for exit subroutine                                  |
-|    0x4 | .l                | ~mem_IntuitionBase~          |        | * base address of intuition.library                                     |
-|    0x8 | .l                | ~mem_GraphicsBase~           |        | * base address of graphics.library                                      |
-|    0xc | .l                |                              |        |                                                                         |
-|   0x10 | .l                |                              |        | * handle for output                                                     |
-|   0x14 | .l                | ~mem_xPtrFormatString~       |        | * function pointer for xFormatString (initialised at program start)     |
-|   0x18 | .l                | ~mem_dosCmdBuf~              |        | * dosCmdBuf                                                             |
-|   0x1c | .l                | ~mem_dosCmdLen~              |        | dosCmdLen                                                               |
-|   0x20 | .l                |                              |        | * handle for input                                                      |
-|   0x24 | .l                |                              |        | { DOS argument stuff }                                                  |
-|   0x28 | .l                | ~mem_DosBase~                |        | * base address of dos.library                                           |
-|   0x2c | .l                | ~mem_SPatInit2~              |        | stack pointer at end of main init                                       |
-|--------+-------------------+------------------------------+--------+-------------------------------------------------------------------------|
-|   0x30 | .b                |                              |        | window title status                                                     |
-|   0x32 | .l                | ~mem_SPatMainMenu~           |        | stack pointer at start of main menu                                     |
-|   0x36 | .l                |                              |        | * window title                                                          |
-|   0x3a | .w                | ~mem_weSelWaveNum~           |        | wave editor: selected wave number                                       |
-|   0x3c | .l × 0x100        |                              |        | * wave table                                                            |
-|  0x43c | .l × 0x100        |                              |        | * track table                                                           |
-|  0x83c | .l × 0x100        |                              |        | * instrument table                                                      |
-|  0xc3c | .l                | ~mem_wePlayWavePtr~          |        | * wave editor: pointer to wave being player                             |
-|  0xc40 | .l                | ~mem_SPatWaveEd~             |        | stack pointer at start of Wave Editor                                   |
-|  0xc44 | .l                |                              |        | * wave, sample editor buffer, Source A                                  |
-|  0xc48 | .b × 0x10         | ~mem_weOperations~           |        | wave editor [[mm_weops][operations]]                                                  |
-|  0xc54 | .l                |                              |        | * wave, sample editor buffer, Undo                                      |
-|  0xc70 | .l                |                              |        | * wave, sample editor buffer, Result                                    |
-|  0xc8c | .l                |                              |        | * wave, sample editor buffer, Source B                                  |
-|  0xca8 | .l                |                              |        | *                                                                       |
-|  0xcac | .l                |                              |        | *                                                                       |
-|  0xcb0 | .l                |                              |        | *                                                                       |
-|  0xd14 | .l × 0xc8 (200)   |                              |        | string buffer (function 0x14)                                           |
-|  0xddc | .l × 0x100        |                              |        | * score table                                                           |
-|  0xde0 | .l × 0x100        | ~mem_ScratchBuf0~            |        | scratch buffer for editing functions (Supervisor, optimise score table) |
-| 0x11dc | .w                |                              |        | ^ scratch buffer                                                        |
-| 0x11de | .w                |                              |        | ^ scratch buffer                                                        |
-| 0x11e0 | .l × 0x10         | ~mem_LabelBuffer~            |        | str                                                                     |
-| 0x11f1 | .b                | ~mem_PrevPenCol~             |        | gfx: Previous pen colour                                                |
-| 0x11f2 | .w                | ~mem_gfxCoordRoot1~          |   0x63 | gfx: Coordinate root                                                    |
-| 0x11f4 | .w                | ~mem_gfxCoordRoot2~          |   0x1e | gfx: Coordinate root                                                    |
-| 0x11f6 | .w                | ~mem_gfxCoordRoot3~          |   0xb4 | gfx: Coordinate root                                                    |
-| 0x11f8 | .w                | ~mem_gfxCoordRoot4~          |  0x14a | gfx: Coordinate root                                                    |
-| 0x11fa | .w                | ~mem_gfxCoordRoot5~          |  0x1e0 | gfx: Coordinate root                                                    |
-| 0x11fc | .w                | ~mem_gfxCoordRoot6~          |   0x66 | gfx: Coordinate root                                                    |
-| 0x11fe | .w                | ~mem_gfxCoordRoot7~          |   0x16 | gfx: Coordinate root                                                    |
-| 0x1200 | .b                |                              |        | flag                                                                    |
-| 0x1201 | .b                |                              |        | flag                                                                    |
-| 0x1202 | .w                |                              |        |                                                                         |
-| 0x1204 | .b × 0x4c         | ~mem_CurWinTitle~            |        | str, window title                                                       |
-| 0x125e | .l                |                              |        | * interrupt pointer ?                                                   |
-| 0x1262 | .w                |                              |        |                                                                         |
-| 0x1264 | .l                |                              |        | * memory                                                                |
-| 0x1268 | .b                | ~mem_CurPenCol~              |        | gfx: Current pen colour                                                 |
-| 0x1269 | .b                |                              |        | SMUS import: track counter                                              |
-| 0x126a | .w                |                              |        |                                                                         |
-| 0x126c | .l                |                              |        | * handle of main window (Exec, Intuition)                               |
-| 0x1270 | .l                |                              |        | * handle of main window (Graphics)                                      |
-| 0x1272 |                   |                              |        |                                                                         |
-| 0x1274 | .w                | ~mem_fmPVMSloaderHdrLen~     |        | PVMS loader, header length                                              |
-| 0x1276 | .l                | ~mem_SMUStargetScore~        |        | * SMUS import: target score                                             |
-| 0x127a | .b                | ~mem_ProjectModified~        |        | Flag: project modified                                                  |
-| 0x127b | .b                |                              |        | { SMUS track import, flag of some sort }                                |
-| 0x127c | .w                |                              |        | file menu: PVMS section loader, index counter                           |
-| 0x1280 | .b × 0x100        | ~mem_ScratchBuf1~            |        | scratch buffer, waves                                                   |
-| 0x1380 | .b × 0x100        | ~mem_ScratchBuf3~            |        | scratch buffer, tracks                                                  |
-| 0x1480 | .b × 0x100        | ~mem_ScratchBuf4~            |        | scratch buffer, scores                                                  |
-| 0x1580 | .b × 0x52         | ~mem_StringReqBuffer~        |        | string requester buffer                                                 |
-| 0x15d2 | .w                | ~mem_fmWaveCount~            |        | file menu: loaded sample/wave count                                     |
-| 0x15d4 | .b × 0x100        | ~mem_ScratchBuf2~            |        | scratch buffer, instruments                                             |
-| 0x16d4 | .b × 0x100        | ~mem_ScratchBuf5~            |        | scratch buffer                                                          |
-|--------+-------------------+------------------------------+--------+-------------------------------------------------------------------------|
-| 0x17d4 | .b                | ~mem_SMUSDurOverflow~        |        | SMUS import: duration overflow flag                                     |
-| 0x17d5 | .b                | ~mem_ProjectLoaded~          |        | Flag: project wipe req on quit/clear                                    |
-| 0x17d6 | .b                | ~mem_ImportSkip~             |        | PVMS import: skip                                                       |
-| 0x17d7 | .b                | ~mem_fmLoadImportMode~       |        | PVMS loader flag (set: import; clear: load, merge)                      |
-| 0x17d8 | .w                |                              |        | file menu: loaded track count                                           |
-| 0x17da | .w                |                              |        | file menu: loaded score count                                           |
-| 0x17dc | .w                |                              |        | file menu: loaded instrument count                                      |
-| 0x17de | .b                | ~mem_ImportESC~              |        | PVMS import: cancel                                                     |
-| 0x17df | .b                | ~mem_ImportAll~              |        | PVMS import: all                                                        |
-| 0x17e0 | .l                | ~mem_SPatFileMenu~           |        | * SP at File Menu entry                                                 |
-| 0x17e4 | .l                |                              |        | * string                                                                |
-| 0x17e8 | .l                |                              |        |                                                                         |
-| 0x17ec | .l                | ~mem_PtrStringReqBuffer~     |        | * string requester buffer, eg. filename                                 |
-| 0x17f0 | .l                |                              |        | * * function pointer                                                    |
-| 0x17f4 | .l                | ~mem_FileMemBufPtr~          |        | * file memory buffe pointer                                             |
-| 0x17f8 | .l                | ~mem_SMUSimportSrcLen~       |        | SMUS import: source length                                              |
-| 0x17fc | .l                | ~mem_SMUSimportSrcEnd~       |        | SMUS import: source end                                                 |
-| 0x1800 | .b × ~sco_SizeOf~ | ~mem_teLocalScore~           |        | track editor: local score structure                                     |
-| 0x1832 | .w                |                              |        | { relates to 0x184a }                                                   |
-| 0x1834 | .b                |                              |        | track editor: cursor position in edit window?                           |
-| 0x1835 | .b                | ~mem_teInsertBelow~          |        | track editor: insert mode, set when line inserted below current line    |
-| 0x1836 | .w                |                              |        | track editor: cliboard buffer length                                    |
-| 0x1838 | .w                |                              |        | track editor: linekill buffer                                           |
-| 0x183a | .w                |                              |        |                                                                         |
-| 0x183c | .w                |                              |        | { relates to 0x1858 }                                                   |
-| 0x183e | .w                |                              |        | track editor: trace mode view ?                                         |
-| 0x1840 | .w                |                              |        | track editor:                                                           |
-| 0x1842 | .l                |                              |        | * track editor: clipboard insert buffer                                 |
-| 0x1846 | .w                |                              |        | track editor: track data size in bytes                                  |
-| 0x1848 | .w                | ~mem_teLineScrapBuf~         |        | track editor: scrap buffer for single line inserts                      |
-| 0x184a | .w                |                              |        |                                                                         |
-| 0x184c | .l                | ~mem_SPatTrkEdit~            |        | * SP at Track Editor entry                                              |
-| 0x1850 | .l                |                              |        | * track editor: selected track                                          |
-| 0x1854 | .w                | ~mem_teSelTrkNum~            |        | track editor: selected track number                                     |
-| 0x1855 | .b                | ~mem_teSelTrkNumL~           |        |                                                                         |
-| 0x1858 | .w                |                              |        |                                                                         |
-| 0x185a | .w                |                              |        |                                                                         |
-| 0x185c | .b                |                              |        | track editor: editing mode                                              |
-| 0x185d | .b                |                              |        | { instrument editor }                                                   |
-| 0x185e | .w                | ~mem_seChannelCounter~       |        | score editor: channel counter, channel column drawing                   |
-| 0x1860 | .b × 5            | ~mem_MeterBuffer~            |        | "Imploder meter buffer"                                                 |
-| 0x186a | .l                |                              |        | * "wave", "track", "score", "instrument"                                |
-| 0x186e | .w                | ~mem_seChanColumn~           |        | score editor: x coordinate for channel column                           |
-| 0x1870 |                   |                              |        |                                                                         |
-| 0x1878 | .w                | ~mem_seSelChanColumn~        |        | score editor: x coordinate of selected channel column                   |
-| 0x187a | .w                |                              |        | score editor: selected score number                                     |
-| 0x187c | .w                | ~mem_seCh1Column~            | 0x0008 | score editor: x coordinate, channel 1                                   |
-| 0x187e | .w                | ~mem_seCh2Column~            | 0x00ac | score editor: x coordinate, channel 2                                   |
-| 0x1880 | .w                | ~mem_seCh3Column~            | 0x0148 | score editor: x coordinate, channel 3                                   |
-| 0x1882 | .w                | ~mem_seCh4Column~            | 0x01e4 | score editor: x coordinate, channel 4                                   |
-| 0x1884 | .l                |                              |        | * SP stored at Score Editor entry                                       |
-| 0x1888 | .l                | ~mem_ScoEdSelScore~          |        | * score editor: selected score                                          |
-| 0x188c | .w                | ~mem_seSelectedChan~         |        | score editor: selected channel                                          |
-| 0x188d | .b                | ~mem_seSelectedChanB~        |        | score editor: selected channel, lower byte                              |
-| 0x188e | .l                |                              |        | * instrument editor: selected MG                                        |
-| 0x1892 | .w                | ~mem_InstEdSelMgNum~         |        | instrument editor: selected MG number                                   |
-| 0x1894 | .l                |                              |        | * SP stored at Instrument Editor entry                                  |
-| 0x1898 | .l                |                              |        |                                                                         |
-| 0x189c | .w                |                              |        |                                                                         |
-| 0x189e | .l                | ~mem_InstEdSelInst~          |        | * instrument editor: selected instrument                                |
-| 0x18a2 | .w                | ~mem_InstEdSelInstNum~       |        | instrument editor: selected instrument number                           |
-| 0x18a4 | .w                | ~mem_ieColumn1~              | 0x001a | instrument editor: x coordinate, column 1                               |
-| 0x18a6 | .w                | ~mem_ieColumn2~              | 0x005e | instrument editor: x coordinate, column 2                               |
-| 0x18a8 |                   |                              |        | instrument editor: default instrument when none selected ?              |
-| 0x18e8 | .w                | ~mem_ieColumn3~              | 0x0078 | instrument editor: x coordinate, column 3                               |
-| 0x18ea | .w                | ~mem_ieColumn4~              | 0x0150 | instrument editor: x coordinate, column 4                               |
-| 0x18ec | .l                |                              |        | *                                                                       |
-| 0x1952 | .l                |                              |        | * handle, Supervisor window                                             |
-| 0x1956 | .l                |                              |        | *                                                                       |
-| 0x19d0 | .b × ?            |                              |        | (buffer)                                                                |
-| 0x19d4 | .l                |                              |        | *                                                                       |
-| 0x19d8 | .l                |                              |        | *                                                                       |
-| 0x19dc | .b × 0x10         | ~mem_AsmExportProjectPrefix~ |        | AsmExport: Project prefix (remnant from Future Player)                  |
-| 0x19ec | .b                | ~mem_AsmExportFullTables~    |        | AsmExport flag, full tables (=0)                                        |
-| 0x19ed | .b                | ~mem_AsmExportReqIndex~      |        | AsmExport: requester line selection index                               |
-| 0x19ee | .w                |                              |        |                                                                         |
-| 0x19f0 | .l × 0x10         | ~mem_AsmExportCommentPrefix~ |        | AsmExport: Comment prefix (remanant from Future Player)                 |
-| 0x1a00 | .b                | ~mem_AsmExportStrinNames~    |        | AsmExport flag, strip names (=0)                                        |
-| 0x1a01 | .b                | ~mem_AsmExportLastReqIndex~  |        | AsmExoirt: last requester line (reference for 0x19ed)                   |
-| 0x1a02 | .b                |                              |        | AsmExport flag, absolute code (=0) (remnant from Future Player)         |
-| 0x1a03 | .b                | ~mem_UnchordTargetScoreNum~  |        | unchord: target score number                                            |
-| 0x1a04 |                   |                              |        | AsmExport                                                               |
-| 0x1a54 | .b × ?            | ~mem_AsmExportReqStrBuffer~  |        | AsmExport: flag requester string buffer                                 |
-| 0x2224 | .l                |                              |        | track data line buffer                                                  |
-| 0x2242 | .l                | ~mem_ItemTable~              |        | * item changer: pointer to list                                         |
-| 0x2246 | .w                |                              |        | (unchord)                                                               |
-| 0x2248 | .l                | ~mem_UnchordTargetScore~     |        | * unchord: target score                                                 |
-| 0x224c | .w × ?            |                              |        | (unchord note data buffer?)                                             |
-| 0x225e |                   |                              |        | (function 0x14 subroutines)                                             |
-| 0x2260 | .l                | ~mem_SPatUnchordStart~       |        | * SP stored at start of unchord                                         |
-| 0x226e | .b                |                              |        | (function 0x14 subroutines)                                             |
-| 0x2276 | .l/b              |                              |        | (function 0x14 subroutines)                                             |
-|--------+-------------------+------------------------------+--------+-------------------------------------------------------------------------|
+|--------+-------------------+------------------------------+--------+----------------------------------------------------------------------|
+| offset | size              | name                         |   init | description                                                          |
+|--------+-------------------+------------------------------+--------+----------------------------------------------------------------------|
+|    0x0 | .l                |                              |        | * function pointer for exit subroutine                               |
+|    0x4 | .l                | ~mem_IntuitionBase~          |        | * base address of intuition.library                                  |
+|    0x8 | .l                | ~mem_GraphicsBase~           |        | * base address of graphics.library                                   |
+|    0xc | .l                |                              |        |                                                                      |
+|   0x10 | .l                |                              |        | * handle for output                                                  |
+|   0x14 | .l                | ~mem_xPtrFormatString~       |        | * function pointer for xFormatString (initialised at program start)  |
+|   0x18 | .l                | ~mem_dosCmdBuf~              |        | * dosCmdBuf                                                          |
+|   0x1c | .l                | ~mem_dosCmdLen~              |        | dosCmdLen                                                            |
+|   0x20 | .l                |                              |        | * handle for input                                                   |
+|   0x24 | .l                |                              |        | { DOS argument stuff }                                               |
+|   0x28 | .l                | ~mem_DosBase~                |        | * base address of dos.library                                        |
+|   0x2c | .l                | ~mem_SPatInit2~              |        | stack pointer at end of main init                                    |
+|--------+-------------------+------------------------------+--------+----------------------------------------------------------------------|
+|   0x30 | .b                |                              |        | window title status                                                  |
+|   0x32 | .l                | ~mem_SPatMainMenu~           |        | stack pointer at start of main menu                                  |
+|   0x36 | .l                |                              |        | * window title                                                       |
+|   0x3a | .w                | ~mem_weSelWaveNum~           |        | wave editor: selected wave number                                    |
+|   0x3c | .l × 0x100        |                              |        | wave table (pointers to waves)                                       |
+|  0x43c | .l × 0x100        |                              |        | track table (pointers to tracks)                                     |
+|  0x83c | .l × 0x100        |                              |        | instrument table (pointers to instruments)                           |
+|  0xc3c | .l                | ~mem_wePlayWavePtr~          |        | * wave editor: pointer to wave being player                          |
+|  0xc40 | .l                | ~mem_SPatWaveEd~             |        | stack pointer at start of Wave Editor                                |
+|  0xc44 | .l                |                              |        | * wave, sample editor buffer, Source A                               |
+|  0xc48 | .b × 0x10         | ~mem_weOperations~           |        | wave editor [[mm_weops][operations]]                                               |
+|  0xc54 | .l                |                              |        | * wave, sample editor buffer, Undo                                   |
+|  0xc70 | .l                |                              |        | * wave, sample editor buffer, Result                                 |
+|  0xc8c | .l                |                              |        | * wave, sample editor buffer, Source B                               |
+|  0xca8 | .l                |                              |        | *                                                                    |
+|  0xcac | .l                |                              |        | *                                                                    |
+|  0xcb0 | .l                |                              |        | *                                                                    |
+|  0xd14 | .l × 0xc8 (200)   |                              |        | string buffer (function 0x14)                                        |
+|  0xddc | .l × 0x100        | ~mem_ScoTable~               |        | score table (pointers to scores)                                     |
+|  0xde0 | .l                | ~mem_ScoTable1~              |        | score table, pointer to score #1                                     |
+| 0x11dc | .w                |                              |        | scratch buffer (optimisation functions)                              |
+| 0x11de | .w                |                              |        | scratch buffer (optimisation functions)                              |
+| 0x11e0 | .l × 0x10         | ~mem_LabelBuffer~            |        | str                                                                  |
+| 0x11f1 | .b                | ~mem_PrevPenCol~             |        | gfx: Previous pen colour                                             |
+| 0x11f2 | .w                | ~mem_gfxCoordRoot1~          |   0x63 | gfx: Coordinate root                                                 |
+| 0x11f4 | .w                | ~mem_gfxCoordRoot2~          |   0x1e | gfx: Coordinate root                                                 |
+| 0x11f6 | .w                | ~mem_gfxCoordRoot3~          |   0xb4 | gfx: Coordinate root                                                 |
+| 0x11f8 | .w                | ~mem_gfxCoordRoot4~          |  0x14a | gfx: Coordinate root                                                 |
+| 0x11fa | .w                | ~mem_gfxCoordRoot5~          |  0x1e0 | gfx: Coordinate root                                                 |
+| 0x11fc | .w                | ~mem_gfxCoordRoot6~          |   0x66 | gfx: Coordinate root                                                 |
+| 0x11fe | .w                | ~mem_gfxCoordRoot7~          |   0x16 | gfx: Coordinate root                                                 |
+| 0x1200 | .b                |                              |        | flag                                                                 |
+| 0x1201 | .b                |                              |        | flag                                                                 |
+| 0x1202 | .w                |                              |        |                                                                      |
+| 0x1204 | .b × 0x4c         | ~mem_CurWinTitle~            |        | str, window title                                                    |
+| 0x125e | .l                |                              |        | * interrupt pointer ?                                                |
+| 0x1262 | .w                |                              |        |                                                                      |
+| 0x1264 | .l                |                              |        | * memory                                                             |
+| 0x1268 | .b                | ~mem_CurPenCol~              |        | gfx: Current pen colour                                              |
+| 0x1269 | .b                |                              |        | SMUS import: track counter                                           |
+| 0x126a | .w                |                              |        |                                                                      |
+| 0x126c | .l                |                              |        | * handle of main window (Exec, Intuition)                            |
+| 0x1270 | .l                |                              |        | * handle of main window (Graphics)                                   |
+| 0x1272 |                   |                              |        |                                                                      |
+| 0x1274 | .w                | ~mem_fmPVMSloaderHdrLen~     |        | PVMS loader, header length                                           |
+| 0x1276 | .l                | ~mem_SMUStargetScore~        |        | * SMUS import: target score                                          |
+| 0x127a | .b                | ~mem_ProjectModified~        |        | Flag: project modified                                               |
+| 0x127b | .b                |                              |        | { SMUS track import, flag of some sort }                             |
+| 0x127c | .w                |                              |        | file menu: PVMS section loader, index counter                        |
+| 0x1280 | .b × 0x100        | ~mem_ScratchBuf1~            |        | scratch buffer, waves                                                |
+| 0x1380 | .b × 0x100        | ~mem_ScratchBuf3~            |        | scratch buffer, tracks                                               |
+| 0x1480 | .b × 0x100        | ~mem_ScratchBuf4~            |        | scratch buffer, scores                                               |
+| 0x1580 | .b × 0x52         | ~mem_StringReqBuffer~        |        | string requester buffer                                              |
+| 0x15d2 | .w                | ~mem_fmWaveCount~            |        | file menu: loaded sample/wave count                                  |
+| 0x15d4 | .b × 0x100        | ~mem_ScratchBuf2~            |        | scratch buffer, instruments                                          |
+| 0x16d4 | .b × 0x100        | ~mem_ScratchBuf5~            |        | scratch buffer                                                       |
+|--------+-------------------+------------------------------+--------+----------------------------------------------------------------------|
+| 0x17d4 | .b                | ~mem_SMUSDurOverflow~        |        | SMUS import: duration overflow flag                                  |
+| 0x17d5 | .b                | ~mem_ProjectLoaded~          |        | Flag: project wipe req on quit/clear                                 |
+| 0x17d6 | .b                | ~mem_ImportSkip~             |        | PVMS import: skip                                                    |
+| 0x17d7 | .b                | ~mem_fmLoadImportMode~       |        | PVMS loader flag (set: import; clear: load, merge)                   |
+| 0x17d8 | .w                |                              |        | file menu: loaded track count                                        |
+| 0x17da | .w                |                              |        | file menu: loaded score count                                        |
+| 0x17dc | .w                |                              |        | file menu: loaded instrument count                                   |
+| 0x17de | .b                | ~mem_ImportESC~              |        | PVMS import: cancel                                                  |
+| 0x17df | .b                | ~mem_ImportAll~              |        | PVMS import: all                                                     |
+| 0x17e0 | .l                | ~mem_SPatFileMenu~           |        | * SP at File Menu entry                                              |
+| 0x17e4 | .l                |                              |        | * string                                                             |
+| 0x17e8 | .l                |                              |        |                                                                      |
+| 0x17ec | .l                | ~mem_PtrStringReqBuffer~     |        | * string requester buffer, eg. filename                              |
+| 0x17f0 | .l                |                              |        | * * function pointer                                                 |
+| 0x17f4 | .l                | ~mem_FileMemBufPtr~          |        | * file memory buffe pointer                                          |
+| 0x17f8 | .l                | ~mem_SMUSimportSrcLen~       |        | SMUS import: source length                                           |
+| 0x17fc | .l                | ~mem_SMUSimportSrcEnd~       |        | SMUS import: source end                                              |
+| 0x1800 | .b × ~sco_SizeOf~ | ~mem_teLocalScore~           |        | track editor: local score structure                                  |
+| 0x1832 | .w                |                              |        | { relates to 0x184a }                                                |
+| 0x1834 | .b                |                              |        | track editor: cursor position in edit window?                        |
+| 0x1835 | .b                | ~mem_teInsertBelow~          |        | track editor: insert mode, set when line inserted below current line |
+| 0x1836 | .w                |                              |        | track editor: cliboard buffer length                                 |
+| 0x1838 | .w                |                              |        | track editor: linekill buffer                                        |
+| 0x183a | .w                |                              |        |                                                                      |
+| 0x183c | .w                |                              |        | { relates to 0x1858 }                                                |
+| 0x183e | .w                |                              |        | track editor: trace mode view ?                                      |
+| 0x1840 | .w                |                              |        | track editor:                                                        |
+| 0x1842 | .l                |                              |        | * track editor: clipboard insert buffer                              |
+| 0x1846 | .w                |                              |        | track editor: track data size in bytes                               |
+| 0x1848 | .w                | ~mem_teLineScrapBuf~         |        | track editor: scrap buffer for single line inserts                   |
+| 0x184a | .w                |                              |        |                                                                      |
+| 0x184c | .l                | ~mem_SPatTrkEdit~            |        | * SP at Track Editor entry                                           |
+| 0x1850 | .l                |                              |        | * track editor: selected track                                       |
+| 0x1854 | .w                | ~mem_teSelTrkNum~            |        | track editor: selected track number                                  |
+| 0x1855 | .b                | ~mem_teSelTrkNumL~           |        |                                                                      |
+| 0x1858 | .w                |                              |        |                                                                      |
+| 0x185a | .w                |                              |        |                                                                      |
+| 0x185c | .b                |                              |        | track editor: editing mode                                           |
+| 0x185d | .b                |                              |        | { instrument editor }                                                |
+| 0x185e | .w                | ~mem_seChannelCounter~       |        | score editor: channel counter, channel column drawing                |
+| 0x1860 | .b × 5            | ~mem_MeterBuffer~            |        | "Imploder meter buffer"                                              |
+| 0x186a | .l                |                              |        | * "wave", "track", "score", "instrument"                             |
+| 0x186e | .w                | ~mem_seChanColumn~           |        | score editor: x coordinate for channel column                        |
+| 0x1870 |                   |                              |        |                                                                      |
+| 0x1878 | .w                | ~mem_seSelChanColumn~        |        | score editor: x coordinate of selected channel column                |
+| 0x187a | .w                |                              |        | score editor: selected score number                                  |
+| 0x187c | .w                | ~mem_seCh1Column~            | 0x0008 | score editor: x coordinate, channel 1                                |
+| 0x187e | .w                | ~mem_seCh2Column~            | 0x00ac | score editor: x coordinate, channel 2                                |
+| 0x1880 | .w                | ~mem_seCh3Column~            | 0x0148 | score editor: x coordinate, channel 3                                |
+| 0x1882 | .w                | ~mem_seCh4Column~            | 0x01e4 | score editor: x coordinate, channel 4                                |
+| 0x1884 | .l                |                              |        | * SP stored at Score Editor entry                                    |
+| 0x1888 | .l                | ~mem_ScoEdSelScore~          |        | * score editor: selected score                                       |
+| 0x188c | .w                | ~mem_seSelectedChan~         |        | score editor: selected channel                                       |
+| 0x188d | .b                | ~mem_seSelectedChanB~        |        | score editor: selected channel, lower byte                           |
+| 0x188e | .l                |                              |        | * instrument editor: selected MG                                     |
+| 0x1892 | .w                | ~mem_InstEdSelMgNum~         |        | instrument editor: selected MG number                                |
+| 0x1894 | .l                |                              |        | * SP stored at Instrument Editor entry                               |
+| 0x1898 | .l                |                              |        |                                                                      |
+| 0x189c | .w                |                              |        |                                                                      |
+| 0x189e | .l                | ~mem_InstEdSelInst~          |        | * instrument editor: selected instrument                             |
+| 0x18a2 | .w                | ~mem_InstEdSelInstNum~       |        | instrument editor: selected instrument number                        |
+| 0x18a4 | .w                | ~mem_ieColumn1~              | 0x001a | instrument editor: x coordinate, column 1                            |
+| 0x18a6 | .w                | ~mem_ieColumn2~              | 0x005e | instrument editor: x coordinate, column 2                            |
+| 0x18a8 |                   |                              |        | instrument editor: default instrument when none selected ?           |
+| 0x18e8 | .w                | ~mem_ieColumn3~              | 0x0078 | instrument editor: x coordinate, column 3                            |
+| 0x18ea | .w                | ~mem_ieColumn4~              | 0x0150 | instrument editor: x coordinate, column 4                            |
+| 0x18ec | .l                |                              |        | *                                                                    |
+| 0x1952 | .l                |                              |        | * handle, Supervisor window                                          |
+| 0x1956 | .l                |                              |        | *                                                                    |
+| 0x19d0 | .b × ?            |                              |        | (buffer)                                                             |
+| 0x19d4 | .l                |                              |        | *                                                                    |
+| 0x19d8 | .l                |                              |        | *                                                                    |
+| 0x19dc | .b × 0x10         | ~mem_AsmExportProjectPrefix~ |        | AsmExport: Project prefix (remnant from Future Player)               |
+| 0x19ec | .b                | ~mem_AsmExportFullTables~    |        | AsmExport flag, full tables (=0)                                     |
+| 0x19ed | .b                | ~mem_AsmExportReqIndex~      |        | AsmExport: requester line selection index                            |
+| 0x19ee | .w                |                              |        |                                                                      |
+| 0x19f0 | .l × 0x10         | ~mem_AsmExportCommentPrefix~ |        | AsmExport: Comment prefix (remanant from Future Player)              |
+| 0x1a00 | .b                | ~mem_AsmExportStrinNames~    |        | AsmExport flag, strip names (=0)                                     |
+| 0x1a01 | .b                | ~mem_AsmExportLastReqIndex~  |        | AsmExoirt: last requester line (reference for 0x19ed)                |
+| 0x1a02 | .b                |                              |        | AsmExport flag, absolute code (=0) (remnant from Future Player)      |
+| 0x1a03 | .b                | ~mem_UnchordTargetScoreNum~  |        | unchord: target score number                                         |
+| 0x1a04 |                   |                              |        | AsmExport                                                            |
+| 0x1a54 | .b × ?            | ~mem_AsmExportReqStrBuffer~  |        | AsmExport: flag requester string buffer                              |
+| 0x2224 | .l                |                              |        | track data line buffer                                               |
+| 0x2242 | .l                | ~mem_ItemTable~              |        | * item changer: pointer to list                                      |
+| 0x2246 | .w                |                              |        | (unchord)                                                            |
+| 0x2248 | .l                | ~mem_UnchordTargetScore~     |        | * unchord: target score                                              |
+| 0x224c | .w × ?            |                              |        | (unchord note data buffer?)                                          |
+| 0x225e |                   |                              |        | (function 0x14 subroutines)                                          |
+| 0x2260 | .l                | ~mem_SPatUnchordStart~       |        | * SP stored at start of unchord                                      |
+| 0x226e | .b                |                              |        | (function 0x14 subroutines)                                          |
+| 0x2276 | .l/b              |                              |        | (function 0x14 subroutines)                                          |
+|--------+-------------------+------------------------------+--------+----------------------------------------------------------------------|
 
 
 *** <<mm_weops>>Wave editor operations
@@ -1880,29 +1882,19 @@ instruction only if the byte value (note or SCODE) at A0 is higher.
 
 ** Supervisor: optimise scores
 
-The score optimiser is completely broken and must not be used. The
-following patch will disable the feature.
+The score optimiser has a bug which may cause the score table scan to
+end prematurely.
 
-Replace
+To make sure the whole score table is scanned, replace
 
-: 68f4 : b0 3c 00 73        cmp.b   #'s',D0b
-: 68f8 : 67 00 01 e0        beq.w   $1e0
-: 68fc : 60 00 fd 00        bra.w   -$300
+: 6ade : 70 00              moveq      #0x0,D0
 
-with
+with 
 
-: 68f4 : 4e 71              nop
-: 68f6 : 4e 71              nop
-: 68f8 : 4e 71              nop
-: 68fa : 4e 71              nop
-: 68fc : 60 00 fd 00        bra.w   -$300
+: 6ade : 74 00              moveq      #0x0,D2
 
-The patch above will basically skip the comparation and branch
-operations to run score optimiser and branch straight to the "bad
-command" routine. The comparation operation alone could be replaced
-with
 
-: 68f4 : 60 00 fc 08        bra.w   -$2f8
-
-but using a series of NOPs makes it clear that some code has been
-bypassed here.
+The patch above initialises the register D2 used as a counter instead
+of the scratch buffer register D0.  The pointers loaded to D0 will
+replace all the bits in each case, which means that initial clearing
+of the register isn't required.

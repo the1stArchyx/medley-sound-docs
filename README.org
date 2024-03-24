@@ -3,13 +3,24 @@
 This is an attempt to document Paul van der Valk's Medley Sound.
 
 Medley Sound is the successor of Future Player and probably the most
-known application it was used for was the background music of Imploder
-V4.0.
+known (if not the only) application it was used for was the background
+music of Imploder V4.0.
+
+A sound sample of what Medley Sound can do in the hands of someone who
+has been reverse engineering it for about two years can be heard here:
+https://odysee.com/@Archyx:f/medley_sound_jam_1:5
+
+The documentation is very technical in its current state.  At some
+point I may create a tutorial that'll explain the features in a way
+that's more accessible to people not familiar with bits, nybbles, and
+bytes, and how they relate to each other.
 
 In addition to plain documentation, some programs are supplied:
 
 - tools/add_sample_header.py – an ugly hack to make raw unsigned 8-bit
-  samples loadable into Medley Sound editor.
+  samples loadable into Medley Sound editor.  This tool adds a
+  HUNK_UNIT header and any padding to fill the last longword, if
+  needed.
 
 - tools/msodecode.py – a program to display Medley Sound Object flags
   and names of scores, tracks, instruments, and waves.
@@ -19,4 +30,11 @@ In addition to plain documentation, some programs are supplied:
   (msed).
 
 - tools/pvms2mso.py – a program to convert a "PVMS" file into an
-  optimised Medley Sound Object.  This is currently work-in-progress.
+  optimised Medley Sound Object.  +This is currently
+  work-in-progress.+ This concept is scrapped.  Both converters are to
+  be replaced with a tool that loads and saves both formats in
+  addition to performing optimisations.
+
+The above tools are written to run with a recent version of Python and
+may require tweaking to work on the versions supplied on "stable"
+distros like Linux Mint.

@@ -1898,3 +1898,75 @@ The patch above initialises the register D2 used as a counter instead
 of the scratch buffer register D0.  The pointers loaded to D0 will
 replace all the bits in each case, which means that initial clearing
 of the register isn't required.
+
+
+* msplay internals
+
+** Memory map
+
+This memory block is dynamically allocated at program start and the
+pointer is kept in register A5.
+
+mem_SizeOf = 0x41c
+
+| offset | size      | name                  | description                                 |
+|--------+-----------+-----------------------+---------------------------------------------|
+|    0x0 | .l        | mem_pCleanUp          | * function, cleanup routine                 |
+|    0x4 | .b        | mem_Instrument        | Instrument                                  |
+|    0x5 | .b        | mem_FlangAlgo         | FlangAlgo                                   |
+|    0x6 | .b        | mem_Transpose         | Transpose                                   |
+|    0x7 | .b        | mem_FlangRate         | FlangRate                                   |
+|    0x8 | .l        |                       |                                             |
+|    0xc | .l        | mem_hOutput           | handle: output (dos.library)                |
+|   0x10 | .l        |                       |                                             |
+|   0x14 | .l        | mem_MessageString     | * message string                            |
+|   0x18 | .l        | mem_pFuncFormatString | * function: string formatter                |
+|   0x1c | .l        | mem_pSong             | * song data, points after magic word "MSOB" |
+|   0x20 | .l        |                       | argc/argv                                   |
+|   0x24 | .l        |                       | argc/argv                                   |
+|   0x28 | .l        | mem_hInput            | handle: input (dos.library)                 |
+|   0x2c | .l        | mem_spAtMainLoop      | stack pointer at start of main_loop()       |
+|   0x30 | .l        |                       |                                             |
+|   0x34 | .l        | mem_DosBase           | base address of dos.library                 |
+|   0x38 | .w        | mem_Tempo             | TAHI & TALO                                 |
+|   0x3a | .b        | mem_KeyBuffer         | keyboard read buffer, single byte           |
+|  0x23c | .b × 0x78 | mem_InputBuffer       | keyboard read buffer, string                |
+|  0x2b8 | .l        |                       |                                             |
+|  0x2bc | .l        |                       |                                             |
+|  0x2c4 |           |                       |                                             |
+|  0x3f0 | .l        |                       | * function                                  |
+|  0x3f4 | .l        |                       | * function                                  |
+|  0x402 |           |                       |                                             |
+|  0x40a |           |                       | string buffer (IntToStr())                  |
+
+
+** File Operation Structure
+
+This one is dynamically allocated and the pointer is kept in register
+A2 during use.  Initial values from 0xc to 0x27 are produced
+mathematically.
+
+foStruc_SizeOf = 0x19a
+
+| offset | size      | name          | description                 |
+|--------+-----------+---------------+-----------------------------|
+|    0x0 |           |               |                             |
+|    0xc |           |               |                             |
+|   0x60 | .l        |               | fib_DiskKey                 |
+|   0x64 | .l        |               | fib_DiskEntryType           |
+|   0x68 | .b × 0x6c |               | fib_FileName[108]           |
+|   0xd4 | .l        |               | fib_Protection              |
+|   0xd8 | .l        |               | fib_EntryType               |
+|   0xdc | .l        | fo_fib_Size   | fib_Size                    |
+|   0xe0 | .l        |               | fib_NumBlocks               |
+|   0xe4 |           |               | fib_Date (struct DateStamp) |
+|        | .b × 0x50 |               | fib_Comment[80]             |
+|        | .w        |               | fib_OwnerUID                |
+|        | .w        |               | fib_OwnerGID                |
+|        | .b × 0x20 |               | fib_Reserved                |
+|  0x184 | .l        | fo_FileLock   | file lock                   |
+|  0x188 | .l        | fo_FileHandle | * file handle               |
+|  0x18c | .l        | fo_           | file size                   |
+|  0x190 | .l        |               |                             |
+|  0x198 | .b        |               | flag                        |
+|  0x199 | .b        |               | flag: File open/closed ?    |

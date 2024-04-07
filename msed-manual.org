@@ -1508,21 +1508,20 @@ pre-calculated to simplify the player routine.
 |    0x1 | .b        | ~sch_LogNote~       |                                                                                                          |
 |    0x2 | .b        | ~sch_Gate~          | When false, triggers ADSR release.                                                                       |
 |    0x3 | .b        | ~sch_Trig~          | Set true at every note unless the note is tied. Triggers ADSR and MGs. Set false at the end of UpdSCH(). |
-|    0x4 | .l        | ~sch_PaulaPtr~      | *                                                                                                        |
+|    0x4 | .l        | ~sch_PaulaPtr~      | * Paula hardware register                                                                                |
 |    0x8 | .w        | ~sch_DmaMask0~      | bitmask to write to DMACON to turn audio channel DMA off                                                 |
 |    0xa | .w        | ~sch_DmaMask1~      | bitmask to write to DMACON to turn audio channel DMA on                                                  |
 |    0xc | .l        | ~sch_Instrument~    | * pointer to current instrument                                                                          |
 |   0x10 | .w        | ~sch_EnvLevel~      |                                                                                                          |
 |   0x12 | .w        | ~sch_Period~        |                                                                                                          |
-|   0x14 | .b        | ~sch_Amplitude~     |                                                                                                          |
-|   0x15 | .b        |                     |                                                                                                          |
+|   0x14 | .w (.b)   | ~sch_Amplitude~     | Amplitude is calculated as a word but only most significant byte is used as hardware volume level.       |
 |   0x16 | .w        | ~sch_BShift~        | "Base Shift"                                                                                             |
 |   0x18 | .w        | ~sch_DShift~        | "Dynamic Shift"                                                                                          |
 |   0x1a | .l × 0x4  | ~sch_MgPars~        | MG parameters, "WORD Level BYTE DelayTime, status (u/d)"                                                 |
 |   0x2a | .b        | ~sch_EnvStatus~     | Set true when ADSR TLevel reached. (attack -> decay)                                                     |
 |   0x2b | .b        | ~sch_Duration~      |                                                                                                          |
 |   0x2c | .l        | ~sch_TrackPtr~      | * play position at track                                                                                 |
-|   0x30 | .b        | ~sch_TrackMode~     |                                                                                                          |
+|   0x30 | .b        | ~sch_TrackMode~     | 0 = track not playing; non-zero = track playing                                                        |
 |        |           |                     |                                                                                                          |
 |   0x36 | .l        | ~sch_OutWavePtr~    | *                                                                                                        |
 |   0x3a | .w        | ~sch_OutWaveLen~    |                                                                                                          |
@@ -1562,6 +1561,19 @@ pre-calculated to simplify the player routine.
 |   0xce | .l × 0x8  | ~sch_LoopPtrTbl~    |                                                                                                          |
 |   0xee | .l × 0x8  | ~sch_LoopTable~     |                                                                                                          |
 |--------+-----------+---------------------+----------------------------------------------------------------------------------------------------------|
+
+
+*** Modulation generator status variables (sch_MgPars)
+
+Four of these are at sch_MgPars, one for each MG of a channel.
+
+|--------+------+-----------------+------------------------|
+| offset | size | name            | description            |
+|--------+------+-----------------+------------------------|
+|    0x0 | .w   | mgPar_Level     | current MG level       |
+|    0x2 | .b   | mgPar_DelayTime | delay countdown        |
+|    0x3 | .b   | mgPar_StatusUD  | 0x00 = up; 0xff = down |
+|--------+------+-----------------+------------------------|
 
 
 ** Instrument structure
@@ -1608,7 +1620,7 @@ This is also the data structure used in MSOB and PVMS files.
 | offset | size | name              | description                                                                                   |
 |--------+------+-------------------+-----------------------------------------------------------------------------------------------|
 |    0x0 | .b   | ~mg_Destination~  | parameter to be modulated: 0 = off; 1..7 = FM/AM/Bshift/Dshift/FM+/FM-/Dfreq                  |
-|    0x1 | .b   | ~mg_Shape~        | boolean; modulaton waveform shape: 0 = triangle, non-zero = square                            |
+|    0x1 | .b   | ~mg_Shape~        | boolean; modulation waveform shape: 0 = triangle, non-zero = square                           |
 |    0x2 | .b   | ~mg_TrigMode~     | boolean; trigger mode: 0 = retrigger at every note-on, non-zero = do not retrigger            |
 |    0x3 | .b   | ~mg_SingleShot~   | boolean; single-shot mode: 0 = run generator continuously, non-zero = run cycle once and stop |
 |    0x4 | .b   |                   | "Sg", not used                                                                                |
@@ -1970,3 +1982,83 @@ foStruc_SizeOf = 0x19a
 |  0x190 | .l        |               |                             |
 |  0x198 | .b        |               | flag                        |
 |  0x199 | .b        |               | flag: File open/closed ?    |
+
+
+** Player logic
+
+*** Update channel a.k.a. UpdSCH()
+
+- Test sch_IsActive
+  - If zero, channel isn't playing a track.  Update Fx instead.
+- Test sch_TrackMode
+  - If zero, skip update track.
+- Subtract 1 from sch_Duration.
+  - If still non-zero, skip update track.
+- Update track (loop):
+  - Read next rest/note/SCode.
+    - If rest or note (0x00 .. 0x7f), read duration.
+      - If duration is zero, ignore note and read next.
+      - If duration has sign bit set, do not retrigger. (Tied note!)
+      - Track update done.
+    - If sign bit is set (0x00 .. 0xff), this is an SCode.
+      - Read SCode operand.
+      - Process SCode.
+      - Read next.
+- Subtract 1 from sch_UpdRate.
+  - If positive, end Update channel.
+- Reset sch_UpdRate from score settings.
+- Test sch_MustFetchWave
+  - If set:
+    - Clear sch_MustFetchWave
+    - Read sch_LogNote and apply transposition values from score
+      settings, sch_Transpose (set by track data), and ins_Transpose.
+    - Check instrument sound mode.
+      - If dynamic (mode 2), recalculate wave if necessary.
+      - For other modes, fetch wave from octave table.
+    - Recalculate octave and set sch_PrePeriod.
+- sch_PrePeriod -> sch_Period
+- Update volume envelope (ADSR).
+  - If sch_Trig is set:
+    - Set EnvLevel 0.
+    - Clear sch_EnvStatus.
+  - If sch_Gate is clear:
+    - Process envelope release.
+  - Else:
+    - If sch_EnvStatus is clear:
+      - Process envelope attack.
+    - Else:
+      - Process envelope decay/sustain.
+- Update MGs.
+  - Clear sch_BShift, sch_DShift, and sch_DynFreq.
+  - Iterate through each Mg.
+    - If mg_Destination is not zero:
+      - If sch_Trig is set:
+	- Initialise MG delay time.
+	- If mg_TrigMode is zero:
+	  - Clear up/down status to "up".
+	  - Check mg_HalfShift and mg_QuarterShift - apply according
+            to flags of current channel.  Quarter shift has higher
+            priority and is forced with delayed frequency modulation.
+      - If mgPar_DelayTime > 0:
+	- Subtract 1.
+      - Else:
+	- Calculate new MG Level.
+	- Stop calculation after one up/down cycle, if mg_SingleShot
+          set.
+      - If mg_Shape is set:
+	- force full level or zero according to mgPar_StatusUD.
+      - If mg_RvsOut is set:
+	- Negate a copy of new MG level and add mg_Level to it.
+      - Apply MG according to mg_Destination:
+	- AM: subtract modulation value from sch_Amplitude.
+	- BShift/DShift/DFreq: bitshift modulation value right
+          logically by eight bits and add to
+          sch_Bshift/sch_DShift/sch_DynFreq.
+	- FM+: bitshift modulation value right logically by five bits
+          and add to sch_Period.
+	- FM-: bitshift modulation value right logically by five bits
+          and subract from sch_Period.
+	- FM: bitshift MG level value right logically by one bit,
+          subtract modulation value from it, and bit shift the result
+          right arithmetically by eight bits.  Add the result of
+          previous operation to sch_Period.

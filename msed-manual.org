@@ -1120,9 +1120,9 @@ Press ~s~ to copy the precalculated sine wave to Source A.
 
 ** (l)oad, (m)erge, and (i)mport
 
-Medley Sound editor is able to load its own project format "PVMS" as
+Medley Sound editor is able to load its own project format PVMS as
 well as SMUS/IFF song data. The third supported format is raw sample
-data encapsulated in a HUNK_UNIT file.
+data encapsulated in a =HUNK_UNIT= file.
 
 *Warning!* Loading will destroy your current project, even if you're
 loading just a sample!  Use Merge or Import to load a sample into your
@@ -1145,7 +1145,7 @@ This function is used to export the current project in memory into an
 assembly source code which can be assembled into a Medley Sound
 Object, and then linked into an executable.
 
-The option menu navigated with numpad arrow keys and options can be
+The option menu is navigated with numpad arrow keys and options can be
 changed by pressing return.  To produce the smallest possible MSOB,
 set options to strip names and partial tables.
 
@@ -1159,7 +1159,7 @@ Keep in mind that the implementation of UDATA is broken in msplay!
 
 ** (C)lear
 
-This functions frees all working memory.
+This functions frees all allocated working memory.
 
 
 * msed patches
@@ -1168,7 +1168,7 @@ In addition to missing features msed does have plenty of bugs in it.
 This section describes patches to fix functionality that may corrupt
 memory.
 
-In the following sections you'll see quotes like this
+In the following sections you'll see quote blocks like this
 
 : xxyy : 00 11 22 33
 

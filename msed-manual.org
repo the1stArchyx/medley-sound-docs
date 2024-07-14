@@ -1040,6 +1040,36 @@ These mathematical operations allow editing and mixing of sample data
 to create complex waveforms from simple waveforms generated with the
 [[we_preset][Preset]] function.
 
+The operations are performed in the following order:
+
+1. adjust Result buffer length
+2. offset Source A wave data
+3. mix Source A and Source B
+4. adjust amplitude
+5. recalculate octave number
+
+The octave number is calculated from the final length of the waveform.
+Do note that the calculation routine can count down below zero to
+"negative" octaves which will mess up the sample replay.
+
+The octave number is calculated by taking the resulting buffer length
+and shifting the bits right until the result is 2 or less, counting
+down from 7 at each bitshift.  By this logic the buffer length
+boundaries are as follows:
+
+| octave | max. buffer length | in hexadecimal |
+|--------+--------------------+----------------|
+|      / |                 <> |             <> |
+|      7 |                  2 |            0x2 |
+|      6 |                  5 |            0x5 |
+|      5 |                 10 |            0xa |
+|      4 |                 22 |           0x16 |
+|      3 |                 46 |           0x2e |
+|      2 |                 94 |           0x5e |
+|      1 |                190 |           0xbe |
+|      0 |                382 |          0x17e |
+
+
 *** a:SX – shift source A left in samples
 
 This operation offsets the Source A waveform in a way that makes it

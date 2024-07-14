@@ -213,7 +213,7 @@ to produce sounds from plain samples to complex dynamic synthesis.
 ** (w) Wave Editor
 
 The Wave Editor is also known as the Sample Editor.  The Wave Editor
-has facilities to generate pulse and trinagle/saw waves, or a
+has facilities to generate pulse and triangle/saw waves, or a
 precalculated sine wave, and an operation mode to edit and mix waves
 together.
 
@@ -278,7 +278,7 @@ $3f.
 | Shift + ~I~ | Go to Instrument Editor, edit instrument set on selected channel |
 | Shift + ~K~ | Delete score                                                     |
 | ~l~         | Set Tempo Lo                                                     |
-| ~m~         | Meter test                                                       |
+| ~m~         | Meter test (nothing to see unless a song is playing)             |
 | ~n~         | Set FxRnd, see [[se_fx][Sound effects]]                                     |
 | Shift + ~N~ | Allocate new score                                               |
 | ~o~         | Set Transpose                                                    |
@@ -305,6 +305,10 @@ Notes:
   score editor.  The drum instrument numbers are hardcoded against
   preset meter deflections.  Other meter modes calculate deflection
   dynamically from a combination of note and note duration.
+
+  The two meters on the left are channels 1 and 4, the middle meter is
+  a combined "level" meter, and the two meters on the right are
+  channels 2 and 3.
 
 
 ** Flanger

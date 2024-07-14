@@ -365,7 +365,8 @@ naturally is support for the sound effects in the music player.
 FxBase ("effect time base") and FxRnd (channel stealing time
 randomisation) are used to select sound channels for sound effects as
 well as randomising the "channel stealing" and how long a channel is
-kept "stolen".
+kept "stolen".  In Future Player the single sound effect channel was
+fixed and required constructing the music around this limitation.
 
 This feature requires more research.  For plain music playing the Fx
 parameters should be set to 0.

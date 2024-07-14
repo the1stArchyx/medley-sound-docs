@@ -815,7 +815,7 @@ will also be the sustain level.
 *** e:Sl - Sustain level
 
 This parameter specifies the Sustain level.  The note volume will
-decay to and stay at this level until note-off (rest, "----").
+decay to and stay at this level until note-off (rest, ~----~).
 
 
 *** f:Rt - Release Time
@@ -825,7 +825,8 @@ This value together with Sustain Level is used to calculate RSlope
 (Release Slope), which is the value used by the player internally.
 
 Release time of $ff represents infinity, ie. the sound will never
-stop after a note-off.
+stop, even after a note-off, until a new note is played or the player
+routine is stopped.
 
 
 ** <<ie_mg>>MG - Modulation Generator

@@ -669,6 +669,12 @@ The transposition is defined in semitones.
 | ~<~        | Replace current instrument with data from another instrument |
 |------------+--------------------------------------------------------------|
 
+Known issue: When changing the test note the period and other data
+presented on the top of the window are the previous note's!  If you
+absolutely need to know the values for the current test note, exit the
+test note selection and enter it again to view the data for the
+current test note.
+
 
 ** <<ie_snd>>SND
 
